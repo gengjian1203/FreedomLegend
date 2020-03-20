@@ -14,8 +14,8 @@ cc.Class({
     extends: cc.Component,
 
     ctor() {
-        // 数据库
-        this.db = null;
+        // 游戏概况信息
+        this.objGameDetail = null;
     },
 
     properties: {
@@ -54,24 +54,44 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-
+        console.log('onLoad....');
     },
 
     start () {
+        console.log('start');
         // 初始化微信云函数
         if (cc.sys.platform === cc.sys.WECHAT_GAME) {
             wx.cloud.init({env:'develop-8ouxt'});
-            this.db = wx.cloud.database()
         }
 
         // 自定义初始化函数
         this.init();
+    
     },
 
     // update (dt) {},
 
     init: function() {
+        // 获取游戏的公告等信息
+        webapi.queryGameDetail().then((res) => {
+            // 游戏概括信息转义
+            console.log('init success.', res);
+            if (res && res.result && res.result.result && res.result.result.data && res.result.result.data[0]) {
+                this.objGameDetail = res.result.result.data[0]
+            }
+            console.log('queryGameDetail', this.objGameDetail);
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }).then((res)=> {
+            // 通过转义后的信息，对页面进行渲染
+            console.log('转义后的信息', this.objGameDetail);
 
+            this.m_labelVersion.getComponent(cc.Label).string = this.objGameDetail.version;
+        }).catch((err) => {
+            console.log('init fail.', err);
+
+        });
     },
 
     //////////////////////////////////////////////////
@@ -79,76 +99,26 @@ cc.Class({
     //////////////////////////////////////////////////
     // 测试点击函数
     onBtnClick: function(e, param) {
-        const urlTmp = 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoMozqsT4wlY5mr2UdVia9dS7SWwy8uawQVPdphqAF8ybLg7FKaTZsrCpn8I6AunCAbgCeygO18ticg/132';
-        // 更新头像
-        cc.loader.load({url: urlTmp, type: 'png'}, (err, img) => {
-            console.log('getUserInfo', img);
-            this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
-        });
+        console.log('onBtnClick');
     },
 
-    // 点击测试按钮消息事件
-    onBtnTestClick: function(e, param) {
-        let self = this;
-        console.log('console. onBtnTestClick', e, param);
-        // console.log('onBtnTestClick', self, this);
-        // 下面为微信API的操作
-        if (cc.sys.platform === cc.sys.WECHAT_GAME) {
-            // console.log('onBtnTestClick', self, this);
-            // 获取用户信息
-            wx.getSetting({
-                success: (res) => {
-                    console.log(res);
-                    // console.log('onBtnTestClick', self, this);
-                    if (res.authSetting['scope.userInfo'] === false) {
-                        // 拒绝授权，引导进入设置页码
-                        wx.openSetting({
-                            success: (res2) => {
-                              console.log(res2.authSetting);
-                            }
-                        });
-                    } else if (res.authSetting['scope.userInfo'] === true) {
-                        // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                        // console.log('onBtnTestClick', self, this);
-                        this.getUserInfo();
-                    } else {
-                        // 从未操作过，询问是否授权。
-                        wx.authorize({
-                            scope: 'scope.userInfo',
-                            success: (res2) => {
-                                // 刚授权，可以直接调用 getUserInfo 获取头像昵称
-                                this.getUserInfo();
-                            }
-                        });
-                    }
-                },
-                fail: (err) => {
-                    console.error('wx.getSetting err', err);
-                }
-            });
-
-            // 获取后台信息
-            this.getDatabase();
-        }
-    },
+    // 点击公告按钮消息事件
+    onBtnNoticeClick: function(e, param) {
+        // 获取用户信息
+        console.log('onBtnNoticeClick');
+    },    
 
     // 点击登录按钮消息事件
     onBtnLoginClick: function(e, param) {
+        console.log('onBtnLoginClick');
         // 获取用户信息
-        this.getUserInfo();
-        // 发起请求
-        webapi.login().then((res) => {
-            console.log('onBtnLoginClick', res);
-        }).catch((err) => {
-            console.log('onBtnLoginClick', err);
-        });
-    
+        this.getUserInfo();    
     },
 
     //////////////////////////////////////////////////
     // 自定义函数
     //////////////////////////////////////////////////
-    // 获取用户信息
+    // 获取用户信息授权流程
     getUserInfo: function() {
         console.log('getUserInfo');
         wx.getSetting({
@@ -195,6 +165,7 @@ cc.Class({
         });
     },
 
+    // 渲染用户信息
     setMemberInfo: function(res) {
         console.log(res.userInfo);
         // 更新头像
@@ -206,34 +177,5 @@ cc.Class({
         this.m_labelName.getComponent(cc.Label).string = `${res.userInfo.nickName}，欢迎你回来~`;
     },
 
-    // // 从云函数获取数据库数据
-    // getDatabase: function() {
-    //     console.log('getDatabase');
-    //     // 获取 openid
-    //     wx.cloud.callFunction({
-    //         name: 'login',
-    //         success: (res) => {
-    //             this.openid = res.result.openid
-    //             // this.getDatabaseScore(openid);
-    //         },
-    //         fail: (err) => {
-    //             console.error('get openid failed with error', err)
-    //         }
-    //     });
-    // },
-
-    // // 从云数据库取历史最高分
-    // getDatabaseScore: function(openid) {
-    //     if (this.db) {
-    //         console.log('getDatabaseScore2');
-    //         this.db.collection('score').doc(`${openid}-score`).get()
-    //         .then(res => {
-    //             console.log('getDatabaseScore3', res);
-    //             this.m_labelScore.getComponent(cc.Label).string = res.data.max;
-    //         })
-    //         .catch(err => {
-    //             console.error('db get score catch error', err);
-    //         })
-    //     }
-    // }
 });
+
