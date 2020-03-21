@@ -130,6 +130,7 @@ cc.Class({
       console.log('Login init success.', res);
       if (res && res.result && res.result.result && res.result.result.data && res.result.result.data[0]) {
         this.objGameDetail = res.result.result.data[0]
+        this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
       }
       console.log('Login queryGameDetail', this.objGameDetail);
       return new Promise((resolve, reject) => {
@@ -158,7 +159,7 @@ cc.Class({
       // 渲染用户信息
       this.setMemberInfo(res);
       this.m_memberInfo.active = true;
-      
+
     }).catch((err) => {
       // 报错
       console.log('Login init fail.', err);
@@ -181,7 +182,7 @@ cc.Class({
   // 显示公告对话框 
   showNocticeDlg: function() {
     this.m_dlgNotice = cc.instantiate(this.m_prefabDlg);
-    this.m_dlgNotice.getComponent('ModuleDialog').setNoticeContent(this.objGameDetail.notice);
+    this.m_dlgNotice.getComponent('ModuleDialog').setNoticeContent(this.objGameDetail.strNotice);
     this.m_canvas.addChild(this.m_dlgNotice);
   }
 
