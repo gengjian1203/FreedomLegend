@@ -17,7 +17,7 @@
         "__id__": 2
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_opacity": 255,
@@ -508,7 +508,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        350,
+        290,
         0,
         0,
         0,
@@ -579,7 +579,7 @@
     "_alignFlags": 17,
     "_left": 0,
     "_right": 0,
-    "_top": 100,
+    "_top": 160,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -608,7 +608,7 @@
         "__id__": 20
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 23
@@ -1094,7 +1094,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -120,
+        -80,
         0,
         0,
         0,
@@ -1163,7 +1163,7 @@
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
-    "_verticalCenter": -120,
+    "_verticalCenter": -80,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -2217,12 +2217,20 @@
       "__id__": 2
     },
     "_enabled": true,
-    "m_btnTest": null,
+    "m_canvas": {
+      "__id__": 2
+    },
+    "m_prefabDlg": {
+      "__uuid__": "ab95021e-bbee-43be-b80b-cb00ba5254de"
+    },
     "m_btnLogin": {
       "__id__": 27
     },
     "m_btnNotice": {
       "__id__": 37
+    },
+    "m_memberInfo": {
+      "__id__": 13
     },
     "m_sprAvatar": {
       "__id__": 15
