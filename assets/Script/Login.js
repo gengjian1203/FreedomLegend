@@ -8,6 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
 let AuthApi = require("../Kits/AuthApi");
 
@@ -22,6 +23,10 @@ cc.Class({
       strNotice: '',
       version: '',
     };
+    // 账号信息
+    this.objMember = undefined,
+    // 登录锁
+    this.bLockLogin = false;
   },
 
   properties: {
@@ -72,8 +77,9 @@ cc.Class({
   // onLoad () {},
 
   start () {
-    console.log('start');
+    console.log('Login start');
 
+    Common.AdapterScreen(this.node);
     // 注册函数
     this.registerInit();
     
@@ -108,9 +114,24 @@ cc.Class({
 
   // 点击登录按钮消息事件
   onBtnLoginClick: function(e, param) {
-    console.log('Login onBtnLoginClick');
-    // 获取用户信息
-    this.getUserInfo();    
+    if (!this.bLockLogin) {
+      this.bLockLogin = true;
+      console.log('Login onBtnLoginClick');
+      // 获取用户信息
+      this.getUserInfo();
+  
+      setTimeout(() => {
+        console.log('Login onBtnLoginClick', this.objMember);
+        if (this.objMember) {
+          // 跳转正常游戏
+          cc.director.loadScene('helloworld');
+        } else {
+          // 跳转新手引导页
+          cc.director.loadScene('Preface');
+        }
+        this.bLockLogin = false;
+      }, 1000);
+    }
   },
 
   //////////////////////////////////////////////////
@@ -127,25 +148,29 @@ cc.Class({
   init: function() {
     // 获取游戏的公告等信息
     WebApi.queryGameDetail().then((res) => {
-      // 1.接口读取到的信息转义
-      console.log('Login init success.', res);
-      if (res && res.result && res.result.result && res.result.result.data && res.result.result.data[0]) {
-        this.objGameDetail = res.result.result.data[0]
-        this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
-      }
-      console.log('Login queryGameDetail', this.objGameDetail);
       return new Promise((resolve, reject) => {
-        resolve();
+        // 1.接口读取到的信息转义
+        if (res) {
+          console.log('Login queryGameDetail', res);
+          // 一定要获取到游戏信息
+          if (res && res.result && res.result.data && res.result.data.data && res.result.data.data[0]) {
+            this.objGameDetail = res.result.data.data[0];
+            this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
+          }
+          // 有可能查不到用户信息
+          if (res && res.result && res.result.member && res.result.member.data) {
+            this.objMember = res.result.member.data[0];
+          }
+          resolve();
+        } else {
+          reject();
+        }
       });
     }).then((res)=> {
       // 2.通过转义后的信息，对页面进行渲染
       console.log('Login 转义后的信息', this.objGameDetail);
-
-      // 渲染
+      // 渲染版本号
       this.m_labelVersion.getComponent(cc.Label).string = this.objGameDetail.version;
-
-      // 打开公告栏
-      this.showNocticeDlg();
       
     }).catch((err) => {
       // 报错

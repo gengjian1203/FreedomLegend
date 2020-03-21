@@ -1,7 +1,8 @@
 //////////////////////////////////////////////////
 // mylog
 // 测试打印
-// param:
+// param: str
+// return: log
 //////////////////////////////////////////////////
 function mylog(str) {
   console.log('WebApi.mylog', str);
@@ -11,6 +12,8 @@ function mylog(str) {
 // queryGameDetail
 // 查询游戏的全局信息
 // param:
+// return: 
+// 
 //////////////////////////////////////////////////
 function queryGameDetail() {
   return new Promise((resolve, reject) => {
@@ -32,7 +35,33 @@ function queryGameDetail() {
   });
 }
 
+//////////////////////////////////////////////////
+// updateMemeber
+// 查询游戏的全局信息
+// param:
+//////////////////////////////////////////////////
+function updateMemeber() {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.callFunction({
+        name: 'updateMemeber',
+        success: (res) => {
+          console.log('WebApi.updateMemeber', res);
+          resolve(res);
+        },
+        fail: (err) => {
+          console.log('WebApi.updateMemeber', err);
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   mylog,
-  queryGameDetail
+  queryGameDetail,
+  updateMemeber,
 }
