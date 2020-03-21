@@ -14,4 +14,4 @@
 3. 待开发。
 
 # 预览：  
-![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result.jpg 
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result.jpg "Result")
