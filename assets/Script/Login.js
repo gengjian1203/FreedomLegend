@@ -80,19 +80,19 @@ cc.Class({
     console.log('Login start');
 
     Common.AdapterScreen(this.node);
-    // 注册函数
-    this.registerInit();
-    
+
     // 自定义初始化函数
     this.init();
   },
 
   onEnable () {
     console.log('Login onEnable');
+    this.registerEvent();
   },
 
   onDisable () {
     console.log('Login onDisEnable');
+    this.CancelEvent();
   },
 
   // update (dt) {},
@@ -100,6 +100,21 @@ cc.Class({
   //////////////////////////////////////////////////
   // 交互事件
   //////////////////////////////////////////////////
+  // 注册事件
+  registerEvent: function() {
+    console.log('Login registerEvent');
+    // 初始化微信云函数
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.init({env:'develop-8ouxt'});
+    }
+  },
+
+  // 注销事件
+  CancelEvent: function() {
+    console.log('Login CancelEvent');
+    
+  },
+  
   // 测试点击函数
   onBtnClick: function(e, param) {
     console.log('Login onBtnClick');
@@ -114,37 +129,33 @@ cc.Class({
 
   // 点击登录按钮消息事件
   onBtnLoginClick: function(e, param) {
+    console.log('Login onBtnLoginClick', this.bLockLogin);
     if (!this.bLockLogin) {
       this.bLockLogin = true;
-      console.log('Login onBtnLoginClick');
       // 获取用户信息
-      this.getUserInfo();
-  
-      setTimeout(() => {
-        console.log('Login onBtnLoginClick', this.objMember);
-        if (this.objMember) {
-          // 跳转正常游戏
-          cc.director.loadScene('helloworld');
-        } else {
-          // 跳转新手引导页
-          cc.director.loadScene('Preface');
-        }
+      this.getUserInfo().then((res) => {
+        setTimeout(() => {
+          console.log('Login onBtnLoginClick', this.objMember);
+          if (this.objMember) {
+            // 跳转正常游戏
+            cc.director.loadScene('Main');
+          } else {
+            // 跳转新手引导页
+            cc.director.loadScene('Preface');
+          }
+          console.log('Login setTimeout', this.bLockLogin);
+          this.bLockLogin = false;
+        }, 1000);
+      }).catch((err) => {
+        console.log('Login setTimeout', this.bLockLogin);
         this.bLockLogin = false;
-      }, 1000);
+      });
     }
   },
 
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 注册初始化
-  registerInit: function() {
-    // 初始化微信云函数
-    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
-      wx.cloud.init({env:'develop-8ouxt'});
-    }
-  },
-
   init: function() {
     // 获取游戏的公告等信息
     WebApi.queryGameDetail().then((res) => {
@@ -153,8 +164,8 @@ cc.Class({
         if (res) {
           console.log('Login queryGameDetail', res);
           // 一定要获取到游戏信息
-          if (res && res.result && res.result.data && res.result.data.data && res.result.data.data[0]) {
-            this.objGameDetail = res.result.data.data[0];
+          if (res && res.result && res.result.game && res.result.game.data && res.result.game.data[0]) {
+            this.objGameDetail = res.result.game.data[0];
             this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
           }
           // 有可能查不到用户信息
@@ -180,28 +191,35 @@ cc.Class({
 
   // 获取用户信息授权流程
   getUserInfo: function() {
-    console.log('Login getUserInfo');
-    AuthApi.authUserInfo().then((res) => {
-      // 渲染用户信息
-      this.setMemberInfo(res);
-      this.m_memberInfo.active = true;
-
-    }).catch((err) => {
-      // 报错
-      console.log('Login init fail.', err);
-    })
+    return new Promise((resolve, reject) => {
+      console.log('Login getUserInfo');
+      AuthApi.authUserInfo().then((res) => {
+        // 渲染用户信息
+        if (res) {
+          this.setMemberInfo(res);
+          this.m_memberInfo.active = true;
+        }
+        resolve();
+      }).catch((err) => {
+        // 报错
+        console.log('Login init fail.', err);
+        reject();
+      });
+    });
   },
 
   // 渲染用户信息
   setMemberInfo: function(res) {
-    console.log(res.userInfo);
-    // 更新头像
-    cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
-      console.log('Login getUserInfo', img);
-      this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
-    });
-    // 更新昵称
-    this.m_labelName.getComponent(cc.Label).string = `${res.userInfo.nickName}，欢迎你回来~`;
+    if (res) {
+      console.log(res.userInfo);
+      // 更新头像
+      cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
+        console.log('Login getUserInfo', img);
+        this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
+      });
+      // 更新昵称
+      this.m_labelName.getComponent(cc.Label).string = `${res.userInfo.nickName}，欢迎你回来~`;
+    }
   },
 
 

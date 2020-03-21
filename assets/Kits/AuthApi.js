@@ -27,6 +27,7 @@ function authUserInfo() {
             wx.openSetting({
               success: (res) => {
                 console.log('AuthApi wx.openSetting', res);
+                reject(res);
               },
               fail: (err) => {
                 console.log('AuthApi wx.openSetting', err);
@@ -39,7 +40,17 @@ function authUserInfo() {
               scope: 'scope.userInfo',
               success: (res) => {
                 console.log('AuthApi wx.authorize', res);
-                resolve(res);
+                // 授权后直接读取用户信息
+                wx.getUserInfo({
+                  success: (res) => {
+                    console.log('AuthApi wx.getUserInfo', res);
+                    resolve(res);
+                  },
+                  fail: (err) => {
+                    console.log('AuthApi wx.getUserInfo', err);
+                    reject(err);
+                  }
+                });
               },
               fail: (err) => {
                 console.log('AuthApi wx.authorize', err);

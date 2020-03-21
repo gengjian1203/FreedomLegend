@@ -12,7 +12,7 @@ function mylog(str) {
 // queryGameDetail
 // 查询游戏的全局信息
 // param:
-// return: 
+// return: member/game
 // 
 //////////////////////////////////////////////////
 function queryGameDetail() {
