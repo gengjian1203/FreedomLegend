@@ -19,6 +19,7 @@ cc.Class({
     this.objGameDetail = {
       name: '',
       notice: '',
+      strNotice: '',
       version: '',
     };
   },
