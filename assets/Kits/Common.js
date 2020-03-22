@@ -14,11 +14,13 @@ function AdapterScreen(root) {
 
   // 重新计算根节点的宽高
   console.log('Common.AdapterScreen', root.width, root.height);
+
   if(root.height / root.width > fHW) {
     root.height = parseInt(root.width * fHW);
   } else {
     root.width = parseInt(root.height / fHW);
   }
+  
   console.log('Common.AdapterScreen', root.width, root.height);
 
 }

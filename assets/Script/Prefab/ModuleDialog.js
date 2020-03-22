@@ -12,10 +12,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-      m_self: {
-        type: cc.Node,
-        default: null
-      },
       m_mask: {
         type: cc.Node,
         default: null
@@ -51,8 +47,9 @@ cc.Class({
     //////////////////////////////////////////////////
     onBtnOKClick: function() {
       console.log('ModuleDialog onBtnOKClick.');
-      this.m_self.active = false;
-      this.m_self.removeFromParent();
+      this.node.dispatchEvent( new cc.Event.EventCustom('hide-noctice-dlg', true) );
+      this.node.active = false;
+      this.node.removeFromParent();
     },
 
     //////////////////////////////////////////////////

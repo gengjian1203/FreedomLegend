@@ -27,6 +27,8 @@ cc.Class({
     this.objMember = undefined,
     // 登录锁
     this.bLockLogin = false;
+    // 登录按钮
+    this.btnLogin = null;
   },
 
   properties: {
@@ -43,11 +45,6 @@ cc.Class({
     // 预制体-对话框
     m_prefabDlg: {
       type: cc.Prefab,
-      default: null
-    },
-    // 登录按钮
-    m_btnLogin: {
-      type: cc.Node,
       default: null
     },
     // 公告按钮
@@ -100,6 +97,10 @@ cc.Class({
     this.CancelEvent();
   },
 
+  onDestroy() {
+    console.log('Login onDestroy');
+  },
+
   // update (dt) {},
 
   //////////////////////////////////////////////////
@@ -112,12 +113,32 @@ cc.Class({
     if (cc.sys.platform === cc.sys.WECHAT_GAME) {
       wx.cloud.init({env:'develop-8ouxt'});
     }
+
+    // 生成登录授权按钮
+    this.btnLogin = AuthApi.createUserInfoButton();
+    if (this.btnLogin) {
+      this.btnLogin.show();
+      this.btnLogin.onTap((res) => {
+        this.onBtnLoginClick(res);
+      });
+    }
+
+    // 注册公告栏消失事件
+    this.node.on('hide-noctice-dlg', this.hideNoticeDlg, this);
   },
 
   // 注销事件
   CancelEvent: function() {
     console.log('Login CancelEvent');
-    
+    if (this.btnLogin) {
+      this.btnLogin.offTap((res) => {
+        this.onBtnLoginClick(res);
+      });
+      this.btnLogin.destroy();
+    }
+
+    // 注销公告栏消失事件
+    this.node.off('hide-noctice-dlg', this.hideNoticeDlg, this);
   },
   
   // 测试点击函数
@@ -133,12 +154,15 @@ cc.Class({
   },
 
   // 点击登录按钮消息事件
-  onBtnLoginClick: function(e, param) {
-    console.log('Login onBtnLoginClick', this.bLockLogin);
+  onBtnLoginClick: function(res) {
+    console.log('Login onBtnLoginClick', this.bLockLogin, res);
     if (!this.bLockLogin) {
       this.bLockLogin = true;
       // 获取用户信息
-      this.getUserInfo().then((res) => {
+      this.getUserInfoNew(res).then((res) => {
+        // 更新/创建用户信息
+        this.updateMember();
+
         setTimeout(() => {
           console.log('Login onBtnLoginClick', this.objMember);
           if (this.objMember) {
@@ -152,7 +176,7 @@ cc.Class({
           this.bLockLogin = false;
         }, 1000);
       }).catch((err) => {
-        console.log('Login setTimeout', this.bLockLogin);
+        console.log('Login getUserInfo', this.bLockLogin, err);
         this.bLockLogin = false;
       });
     }
@@ -194,7 +218,7 @@ cc.Class({
     });
   },
 
-  // 获取用户信息授权流程
+  // 获取用户信息授权流程(旧方法，备用做兼容)
   getUserInfo: function() {
     return new Promise((resolve, reject) => {
       console.log('Login getUserInfo');
@@ -213,10 +237,25 @@ cc.Class({
     });
   },
 
+  // 获取用户信息授权流程（新方法：createUserInfoButton）
+  getUserInfoNew: function(res) {
+    return new Promise((resolve, reject) => {
+      console.log('Login getUserInfoNew', res);
+      // 渲染用户信息
+      if (res && res.userInfo) {
+        this.setMemberInfo(res);
+        this.m_memberInfo.active = true;
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  },
+
   // 渲染用户信息
   setMemberInfo: function(res) {
     if (res) {
-      console.log(res.userInfo);
+      // 用户信息存全局变量中
       g_objUserInfo = res.userInfo;
       // 更新头像
       cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
@@ -228,12 +267,32 @@ cc.Class({
     }
   },
 
-
   // 显示公告对话框 
   showNocticeDlg: function() {
+    if (this.btnLogin) {
+      this.btnLogin.hide();
+    }
     this.m_dlgNotice = cc.instantiate(this.m_prefabDlg);
     this.m_dlgNotice.getComponent('ModuleDialog').setNoticeContent(this.objGameDetail.strNotice);
     this.m_canvas.addChild(this.m_dlgNotice);
+  },
+
+  // 隐藏公告对话框
+  hideNoticeDlg: function() {
+    console.log('Login hideNoticeDlg');
+    if (this.btnLogin) {
+      this.btnLogin.show();
+    }
+  },
+
+  // 创建角色信息
+  updateMember: function() {
+    const isLogin = true;
+    WebApi.updateMemeber(g_objUserInfo, isLogin).then((res) => {
+      console.log('Login updateMember.success.', res);
+    }).catch((err) => {
+      console.log('Login updateMember.fail.', err);
+    });
   }
 
 });

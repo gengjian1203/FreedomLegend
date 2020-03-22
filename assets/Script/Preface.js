@@ -68,7 +68,7 @@ cc.Class({
     this.run();
 
     // 注册账号
-    this.createMember();
+    // this.createMember();
 
   },
 
@@ -137,7 +137,7 @@ cc.Class({
 
   // 创建角色信息
   createMember: function() {
-    WebApi.updateMemeber().then((res) => {
+    WebApi.updateMemeber(g_objUserInfo).then((res) => {
       console.log('Preface createMember.success.', res);
     }).catch((err) => {
       console.log('Preface createMember.fail.', err);

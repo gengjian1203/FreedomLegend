@@ -69,6 +69,47 @@ function authUserInfo() {
   });
 }
 
+//////////////////////////////////////////////////
+// createUserInfoButton
+// 渲染一个登录按钮
+// param:
+//////////////////////////////////////////////////
+function createUserInfoButton() {
+  let button = null;
+
+  if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+    // let frameSize = cc.view.getFrameSize();
+    // let winSize = cc.director.getWinSize();
+    const fHW = 667 / 375;
+    g_nTopOffset = (wx.getSystemInfoSync().windowHeight - wx.getSystemInfoSync().windowWidth * fHW) / 2;
+    console.log('AuthApi createUserInfoButton', g_nTopOffset);
+    const width = 200;
+    const height = 40;
+    const left = wx.getSystemInfoSync().windowWidth / 2 - width / 2;
+    const top = 550 + g_nTopOffset;
+
+    button = wx.createUserInfoButton({
+      type: 'text',
+      text: '登录',
+      style: {
+        left: left,
+        top: top,
+        width: width,
+        height: height,
+        lineHeight: 40,
+        backgroundColor: '#3333ff',
+        color: '#ffffff',
+        textAlign: 'center',
+        fontSize: 16,
+        borderRadius: 4
+      }
+    });
+  }
+
+  return button;
+}
+
 export default {
   authUserInfo,
+  createUserInfoButton,
 }
