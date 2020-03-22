@@ -34,6 +34,11 @@ cc.Class({
   },
 
   properties: {
+    // 根节点
+    m_root: {
+      type: cc.Node,
+      default: null
+    },
     // 引言文字
     m_content: {
       type: cc.Node,
@@ -57,7 +62,7 @@ cc.Class({
 
   start () {
     console.log('Preface start');
-    Common.AdapterScreen(this.node);
+    Common.AdapterScreen(this.m_root);
     
     // 文字引导
     this.run();

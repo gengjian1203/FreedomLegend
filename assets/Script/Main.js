@@ -19,7 +19,24 @@ cc.Class({
   },
 
   properties: {
-
+    // 根节点
+    m_root: {
+      type: cc.Node,
+      default: null
+    },
+    m_avatar: {
+      type: cc.Node,
+      default: null
+    },
+    m_name: {
+      type: cc.Node,
+      default: null
+    },
+    // 测试文字标签
+    m_label: {
+      type: cc.Node,
+      default: null
+    }
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -28,9 +45,8 @@ cc.Class({
 
   start () {
     console.log('Main start');
-    Common.AdapterScreen(this.node);
+    Common.AdapterScreen(this.m_root);
     
-    // 文字引导
     this.run();
 
   },
@@ -65,6 +81,12 @@ cc.Class({
   //////////////////////////////////////////////////
   // 开始执行
   run: function() {
+    // 更新头像
+    cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
+      this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
+    });
+    this.m_label.getComponent(cc.Label).string = `${g_objUserInfo.nickName}，欢迎来到《醉梦坛说》`;
+    this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
   },
 
 });

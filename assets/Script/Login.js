@@ -35,6 +35,11 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // 根节点
+    m_root: {
+      type: cc.Node,
+      default: null
+    },
     // 预制体-对话框
     m_prefabDlg: {
       type: cc.Prefab,
@@ -79,7 +84,7 @@ cc.Class({
   start () {
     console.log('Login start');
 
-    Common.AdapterScreen(this.node);
+    Common.AdapterScreen(this.m_root);
 
     // 自定义初始化函数
     this.init();
@@ -212,6 +217,7 @@ cc.Class({
   setMemberInfo: function(res) {
     if (res) {
       console.log(res.userInfo);
+      g_objUserInfo = res.userInfo;
       // 更新头像
       cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
         console.log('Login getUserInfo', img);
