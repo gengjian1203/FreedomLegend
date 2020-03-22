@@ -29,6 +29,8 @@ cc.Class({
     this.bLockLogin = false;
     // 登录按钮
     this.btnLogin = null;
+    // 公告对话框
+    this.m_dlgNotice = null;
   },
 
   properties: {
@@ -156,30 +158,78 @@ cc.Class({
   // 点击登录按钮消息事件
   onBtnLoginClick: function(res) {
     console.log('Login onBtnLoginClick', this.bLockLogin, res);
-    if (!this.bLockLogin) {
-      this.bLockLogin = true;
-      // 获取用户信息
-      this.getUserInfoNew(res).then((res) => {
-        // 更新/创建用户信息
-        this.updateMember();
-
-        setTimeout(() => {
-          console.log('Login onBtnLoginClick', this.objMember);
-          if (this.objMember) {
-            // 跳转正常游戏
-            cc.director.loadScene('Main');
-          } else {
-            // 跳转新手引导页
-            cc.director.loadScene('Preface');
-          }
-          console.log('Login setTimeout', this.bLockLogin);
-          this.bLockLogin = false;
-        }, 1000);
-      }).catch((err) => {
-        console.log('Login getUserInfo', this.bLockLogin, err);
-        this.bLockLogin = false;
-      });
+    if (this.bLockLogin) {
+      return;
     }
+    this.bLockLogin = true;
+    // 获取用户信息
+    this.getUserInfoNew(res).then((res) => {
+      // 更新/创建用户信息
+      this.updateMember();
+
+      setTimeout(() => {
+        console.log('Login onBtnLoginClick', this.objMember);
+        if (this.objMember) {
+          // 跳转正常游戏
+          cc.director.loadScene('Main');
+        } else {
+          // 跳转新手引导页
+          cc.director.loadScene('Preface');
+        }
+        console.log('Login setTimeout', this.bLockLogin);
+        this.bLockLogin = false;
+      }, 1000);
+    }).catch((err) => {
+      console.log('Login getUserInfo', this.bLockLogin, err);
+      this.bLockLogin = false;
+    });
+  },
+
+  //////////////////////////////////////////////////
+  // 接口函数
+  //////////////////////////////////////////////////
+  // 获取用户信息授权流程(旧方法，备用做兼容)
+  getUserInfo: function() {
+    return new Promise((resolve, reject) => {
+      console.log('Login getUserInfo');
+      AuthApi.authUserInfo().then((res) => {
+        // 渲染用户信息
+        if (res) {
+          this.setMemberInfo(res);
+          this.m_memberInfo.active = true;
+        }
+        resolve();
+      }).catch((err) => {
+        // 报错
+        console.log('Login init fail.', err);
+        reject();
+      });
+    });
+  },
+
+  // 获取用户信息授权流程（新方法：createUserInfoButton）
+  getUserInfoNew: function(res) {
+    return new Promise((resolve, reject) => {
+      console.log('Login getUserInfoNew', res);
+      // 渲染用户信息
+      if (res && res.userInfo) {
+        this.setMemberInfo(res);
+        this.m_memberInfo.active = true;
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  },
+
+  // 创建角色信息
+  updateMember: function() {
+    const isLogin = true;
+    WebApi.updateMemeber(g_objUserInfo, isLogin).then((res) => {
+      console.log('Login updateMember.success.', res);
+    }).catch((err) => {
+      console.log('Login updateMember.fail.', err);
+    });
   },
 
   //////////////////////////////////////////////////
@@ -218,40 +268,6 @@ cc.Class({
     });
   },
 
-  // 获取用户信息授权流程(旧方法，备用做兼容)
-  getUserInfo: function() {
-    return new Promise((resolve, reject) => {
-      console.log('Login getUserInfo');
-      AuthApi.authUserInfo().then((res) => {
-        // 渲染用户信息
-        if (res) {
-          this.setMemberInfo(res);
-          this.m_memberInfo.active = true;
-        }
-        resolve();
-      }).catch((err) => {
-        // 报错
-        console.log('Login init fail.', err);
-        reject();
-      });
-    });
-  },
-
-  // 获取用户信息授权流程（新方法：createUserInfoButton）
-  getUserInfoNew: function(res) {
-    return new Promise((resolve, reject) => {
-      console.log('Login getUserInfoNew', res);
-      // 渲染用户信息
-      if (res && res.userInfo) {
-        this.setMemberInfo(res);
-        this.m_memberInfo.active = true;
-        resolve();
-      } else {
-        reject();
-      }
-    });
-  },
-
   // 渲染用户信息
   setMemberInfo: function(res) {
     if (res) {
@@ -283,16 +299,6 @@ cc.Class({
     if (this.btnLogin) {
       this.btnLogin.show();
     }
-  },
-
-  // 创建角色信息
-  updateMember: function() {
-    const isLogin = true;
-    WebApi.updateMemeber(g_objUserInfo, isLogin).then((res) => {
-      console.log('Login updateMember.success.', res);
-    }).catch((err) => {
-      console.log('Login updateMember.fail.', err);
-    });
   }
 
 });

@@ -41,6 +41,40 @@ function queryGameDetail() {
 }
 
 //////////////////////////////////////////////////
+// queryMember
+// 查询成员信息
+// param: openid,  // 成员openid 如果为空则查询自己信息
+// return: member: Object,  // 该成员信息
+// 
+//////////////////////////////////////////////////
+function queryMember(openid) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.callFunction({
+        name: 'queryMember',
+        data: {
+          openid
+        },
+        success: (res) => {
+          if (res.result.result) {
+            console.log('WebApi.queryGameDetail', res);
+            resolve(res);
+          } else {
+            reject(res);
+          }
+        },
+        fail: (err) => {
+          console.log('WebApi.queryGameDetail', err);
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
+//////////////////////////////////////////////////
 // updateMemeber
 // 更新的成员信息
 // param: objMemberInfo : Object, // 待更新的成员信息
@@ -77,5 +111,6 @@ function updateMemeber(memberInfo, isLogin) {
 export default {
   mylog,
   queryGameDetail,
+  queryMember,
   updateMemeber,
 }

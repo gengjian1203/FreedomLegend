@@ -15,7 +15,12 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
-
+    // 个人信息
+    this.memberInfo = {}
+    // 公告对话框
+    this.m_dlgToast = null;
+    // 按钮锁头
+    this.bLockButton = false;
   },
 
   properties: {
@@ -24,16 +29,44 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    m_prefabToast: {
+      type: cc.Prefab,
+      default: null
+    },
+    // ===== 展示 =====
+    // 头像
     m_avatar: {
       type: cc.Node,
       default: null
     },
+    // 昵称
     m_name: {
       type: cc.Node,
       default: null
     },
-    // 测试文字标签
-    m_label: {
+    // 等级
+    m_level: {
+      type: cc.Node,
+      default: null
+    },
+    // 铜钱
+    m_money: {
+      type: cc.Node,
+      default: null
+    },
+    // 元宝
+    m_gold: {
+      type: cc.Node,
+      default: null
+    },
+    // ===== 交互 =====
+    // 强化
+    m_pannelTabber: {
+      type: cc.Node,
+      default: null
+    },
+    // 切换
+    m_btnSwitch: {
       type: cc.Node,
       default: null
     }
@@ -69,6 +102,7 @@ cc.Class({
   // 注册事件
   registerEvent: function() {
     console.log('Main registerEvent.');
+
   },
 
   // 注销事件
@@ -76,17 +110,105 @@ cc.Class({
     console.log('Main registerEvent.');
   },
 
+  // 点击测试功能
+  onBtnTestClick: function() {
+    console.log('Main onBtnTestClick');
+    const strMsg = '抱歉，该功能尚未开放';
+    this.showToastDlg(strMsg);
+  },
+
+  // 强化
+  onBtnQianghuaClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    console.log('Main onBtnQianghuaClick');
+    this.memberInfo.money += 100;
+    const objMemberInfo = {
+      money: this.memberInfo.money
+    };
+    WebApi.updateMemeber(objMemberInfo).then((res) => {
+      const strMsg = '铜钱 +100';
+      this.showToastDlg(strMsg);
+      this.m_money.getComponent(cc.Label).string = this.memberInfo.money;
+      console.log('Main onBtnQianghuaClick success', res);
+      this.bLockButton = false;
+    }).catch((err) => {
+      console.log('Main onBtnQianghuaClick fail', err);
+      this.bLockButton = false;
+    });
+  },
+
+  // 金矿
+  onBtnJinkuangClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    console.log('Main onBtnJinkuangClick');
+    this.memberInfo.gold += 1;
+    const objMemberInfo = {
+      gold: this.memberInfo.gold
+    };
+    WebApi.updateMemeber(objMemberInfo).then((res) => {
+      const strMsg = '元宝 +1';
+      this.showToastDlg(strMsg);
+      this.m_gold.getComponent(cc.Label).string = this.memberInfo.gold;
+      console.log('Main onBtnJinkuangClick success', res);
+      this.bLockButton = false;
+    }).catch((err) => {
+      console.log('Main onBtnJinkuangClick fail', err);
+      this.bLockButton = false;
+    });
+  },
+
+  //////////////////////////////////////////////////
+  // 接口函数
+  //////////////////////////////////////////////////
+  // 查询成员信息
+  queryMember: function(openid) {
+    return new Promise((resolve, reject) => {
+      WebApi.queryMember(openid).then((res) => {
+        console.log('Main queryMember success', res);
+        this.setMemberInfo(res);
+        resolve(res);
+      }).catch((err) => {
+        console.log('Main queryMember fail', err);
+        reject(err);
+      });
+    });
+  },
+
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
   // 开始执行
   run: function() {
-    // 更新头像
-    cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
-      this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
-    });
-    this.m_label.getComponent(cc.Label).string = `${g_objUserInfo.nickName}，欢迎来到《醉梦坛说》`;
-    this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
+    this.queryMember();
+
   },
 
+  // 渲染个人信息
+  setMemberInfo: function(res) {
+    if (res && res.result.member.data[0]) {
+      this.memberInfo = res.result.member.data[0];
+      // 更新头像
+      cc.loader.load({url: this.memberInfo.avatarUrl, type: 'png'}, (err, img) => {
+        this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
+      });
+      // 更新
+      this.m_name.getComponent(cc.Label).string = this.memberInfo.nickName;
+      this.m_level.getComponent(cc.Label).string = this.memberInfo.level;
+      this.m_money.getComponent(cc.Label).string = this.memberInfo.money;
+      this.m_gold.getComponent(cc.Label).string = this.memberInfo.gold;
+    }
+  },
+
+  // 显示气泡对话框 
+  showToastDlg: function(strMsg) {
+    this.m_dlgToast = cc.instantiate(this.m_prefabToast);
+    this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
+    this.node.addChild(this.m_dlgToast);
+  },
 });

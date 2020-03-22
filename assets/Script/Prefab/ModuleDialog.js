@@ -43,7 +43,7 @@ cc.Class({
     // update (dt) {},
 
     //////////////////////////////////////////////////
-    // 交互事件绑定函数
+    // 交互事件
     //////////////////////////////////////////////////
     onBtnOKClick: function() {
       console.log('ModuleDialog onBtnOKClick.');
@@ -51,10 +51,7 @@ cc.Class({
       this.node.active = false;
       this.node.removeFromParent();
     },
-
-    //////////////////////////////////////////////////
-    // 自定义函数
-    //////////////////////////////////////////////////
+    
     // 注册事件
     registerEvent: function() {
       this.m_mask.on('touchstart', (event) => {
@@ -75,6 +72,9 @@ cc.Class({
       });
     },
 
+    //////////////////////////////////////////////////
+    // 自定义函数
+    //////////////////////////////////////////////////
     // 设置公告内容
     setNoticeContent: function(strNotice) {
       console.log('ModuleDialog setNoticeContent.', strNotice);

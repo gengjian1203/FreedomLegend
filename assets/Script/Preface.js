@@ -115,6 +115,18 @@ cc.Class({
   },
 
   //////////////////////////////////////////////////
+  // 接口函数
+  //////////////////////////////////////////////////
+  // 创建角色信息
+  createMember: function() {
+    WebApi.updateMemeber(g_objUserInfo).then((res) => {
+      console.log('Preface createMember.success.', res);
+    }).catch((err) => {
+      console.log('Preface createMember.fail.', err);
+    });
+  },
+
+  //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
   // 打字机模式显示文字
@@ -133,14 +145,6 @@ cc.Class({
   run: function() {
     this.m_content.getComponent(cc.Label).string = '';
     this.schedule(this.showContent, 0.2);
-  },
-
-  // 创建角色信息
-  createMember: function() {
-    WebApi.updateMemeber(g_objUserInfo).then((res) => {
-      console.log('Preface createMember.success.', res);
-    }).catch((err) => {
-      console.log('Preface createMember.fail.', err);
-    });
   }
+
 });
