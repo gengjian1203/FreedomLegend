@@ -126,7 +126,7 @@ cc.Class({
     }
 
     // 注册公告栏消失事件
-    this.node.on('hide-notice-dlg', this.hideNoticeDlg, this);
+    this.node.on('hide-notice-dlg', this.onHideNoticeDlg, this);
   },
 
   // 注销事件
@@ -158,11 +158,9 @@ cc.Class({
 
   // 点击公告按钮消息事件
   onBtnNoticeClick: function(e, param) {
-    Common.LazyButtonCallBack(() => {
-      // 获取用户信息
-      console.log('Login onBtnNoticeClick');
-      this.showNocticeDlg();
-    })
+    // 获取用户信息
+    console.log('Login onBtnNoticeClick');
+    this.showNocticeDlg();
   },
 
   // 点击登录按钮消息事件
@@ -252,13 +250,13 @@ cc.Class({
         if (res) {
           console.log('Login queryGameDetail', res);
           // 一定要获取到游戏信息
-          if (res && res.result && res.result.game && res.result.game.data && res.result.game.data[0]) {
-            this.objGameDetail = res.result.game.data[0];
+          if (res && res.game) {
+            this.objGameDetail = res.game.data[0];
             this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
           }
           // 有可能查不到用户信息
-          if (res && res.result && res.result.member && res.result.member.data) {
-            this.objMember = res.result.member.data[0];
+          if (res && res.member) {
+            this.objMember = res.member;
           }
           resolve();
         } else {

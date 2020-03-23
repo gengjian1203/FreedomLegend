@@ -202,8 +202,8 @@ cc.Class({
 
   // 渲染个人信息
   setMemberInfo: function(res) {
-    if (res && res.result.member.data[0]) {
-      this.memberInfo = res.result.member.data[0];
+    if (res && res.member && res.member.data) {
+      this.memberInfo = res.member.data;
       // 更新头像
       cc.loader.load({url: this.memberInfo.avatarUrl, type: 'png'}, (err, img) => {
         this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);

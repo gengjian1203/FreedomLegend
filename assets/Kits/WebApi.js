@@ -22,15 +22,16 @@ function queryGameDetail() {
       wx.cloud.callFunction({
         name: 'queryGameDetail',
         success: (res) => {
-          if (res.result.result) {
-            console.log('WebApi.queryGameDetail', res);
-            resolve(res);
+          console.log('WebApi.queryGameDetail res', res);
+          if (res.result) {
+            console.log('WebApi.queryGameDetail Success', res.result);
+            resolve(res.result);
           } else {
             reject(res);
           }
         },
         fail: (err) => {
-          console.log('WebApi.queryGameDetail', err);
+          console.log('WebApi.queryGameDetail Fail', err);
           reject(err);
         }
       });
@@ -56,15 +57,16 @@ function queryMember(openid) {
           openid
         },
         success: (res) => {
-          if (res.result.result) {
-            console.log('WebApi.queryGameDetail', res);
-            resolve(res);
+          console.log('WebApi.queryMember res', res);
+          if (res.result) {
+            console.log('WebApi.queryMember Success', res.result);
+            resolve(res.result);
           } else {
             reject(res);
           }
         },
         fail: (err) => {
-          console.log('WebApi.queryGameDetail', err);
+          console.log('WebApi.queryMember Fail', err);
           reject(err);
         }
       });
@@ -90,15 +92,16 @@ function updateMemeber(memberInfo, isLogin) {
           isLogin
         },
         success: (res) => {
-          if (res.result.result) {
-            console.log('WebApi.updateMemeber', res);
+          console.log('WebApi.updateMemeber', res);
+          if (res.result) {
+            console.log('WebApi.updateMemeber Success', res.result);
             resolve(res);
           } else {
             reject(res);
           }
         },
         fail: (err) => {
-          console.log('WebApi.updateMemeber', err);
+          console.log('WebApi.updateMemeber Fail', err);
           reject(err);
         }
       });
