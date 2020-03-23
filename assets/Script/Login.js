@@ -126,7 +126,7 @@ cc.Class({
     }
 
     // 注册公告栏消失事件
-    this.node.on('hide-noctice-dlg', this.hideNoticeDlg, this);
+    this.node.on('hide-notice-dlg', this.hideNoticeDlg, this);
   },
 
   // 注销事件
@@ -140,7 +140,15 @@ cc.Class({
     }
 
     // 注销公告栏消失事件
-    this.node.off('hide-noctice-dlg', this.hideNoticeDlg, this);
+    this.node.off('hide-notice-dlg', this.onHideNoticeDlg, this);
+  },
+
+  // 隐藏公告对话框
+  onHideNoticeDlg: function() {
+    console.log('Login onHideNoticeDlg');
+    if (this.btnLogin) {
+      this.btnLogin.show();
+    }
   },
   
   // 测试点击函数
@@ -150,17 +158,19 @@ cc.Class({
 
   // 点击公告按钮消息事件
   onBtnNoticeClick: function(e, param) {
-    // 获取用户信息
-    console.log('Login onBtnNoticeClick');
-    this.showNocticeDlg();
+    Common.LazyButtonCallBack(() => {
+      // 获取用户信息
+      console.log('Login onBtnNoticeClick');
+      this.showNocticeDlg();
+    })
   },
 
   // 点击登录按钮消息事件
   onBtnLoginClick: function(res) {
-    console.log('Login onBtnLoginClick', this.bLockLogin, res);
     if (this.bLockLogin) {
       return;
     }
+    console.log('Login onBtnLoginClick', this.bLockLogin, res);
     this.bLockLogin = true;
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
@@ -177,7 +187,6 @@ cc.Class({
           cc.director.loadScene('Preface');
         }
         console.log('Login setTimeout', this.bLockLogin);
-        this.bLockLogin = false;
       }, 1000);
     }).catch((err) => {
       console.log('Login getUserInfo', this.bLockLogin, err);
@@ -291,14 +300,6 @@ cc.Class({
     this.m_dlgNotice = cc.instantiate(this.m_prefabDlg);
     this.m_dlgNotice.getComponent('ModuleDialog').setNoticeContent(this.objGameDetail.strNotice);
     this.m_canvas.addChild(this.m_dlgNotice);
-  },
-
-  // 隐藏公告对话框
-  hideNoticeDlg: function() {
-    console.log('Login hideNoticeDlg');
-    if (this.btnLogin) {
-      this.btnLogin.show();
-    }
   }
 
 });

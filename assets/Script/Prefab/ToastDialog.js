@@ -78,6 +78,7 @@ cc.Class({
   // 关闭对话框
   destoryToastDialog: function() {
     console.log('ToastDialog onBtnOKClick.');
+    this.node.dispatchEvent( new cc.Event.EventCustom('hide-toast-dlg', true) );
     this.node.active = false;
     this.node.removeFromParent();
   }

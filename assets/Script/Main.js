@@ -19,7 +19,7 @@ cc.Class({
     this.memberInfo = {}
     // 公告对话框
     this.m_dlgToast = null;
-    // 按钮锁头
+    // 按钮锁
     this.bLockButton = false;
   },
 
@@ -103,15 +103,30 @@ cc.Class({
   registerEvent: function() {
     console.log('Main registerEvent.');
 
+    // 注册公告栏消失事件
+    this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
   },
 
   // 注销事件
   CancelEvent: function() {
     console.log('Main registerEvent.');
+
+    // 注销公告栏消失事件
+    this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
+  },
+
+  // 隐藏气泡弹窗
+  onHideToastDlg: function() {
+    console.log('Main onHideToastDlg');
+    this.bLockButton = false;
   },
 
   // 点击测试功能
   onBtnTestClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
     console.log('Main onBtnTestClick');
     const strMsg = '抱歉，该功能尚未开放';
     this.showToastDlg(strMsg);
@@ -133,10 +148,8 @@ cc.Class({
       this.showToastDlg(strMsg);
       this.m_money.getComponent(cc.Label).string = this.memberInfo.money;
       console.log('Main onBtnQianghuaClick success', res);
-      this.bLockButton = false;
     }).catch((err) => {
       console.log('Main onBtnQianghuaClick fail', err);
-      this.bLockButton = false;
     });
   },
 
@@ -156,10 +169,8 @@ cc.Class({
       this.showToastDlg(strMsg);
       this.m_gold.getComponent(cc.Label).string = this.memberInfo.gold;
       console.log('Main onBtnJinkuangClick success', res);
-      this.bLockButton = false;
     }).catch((err) => {
       console.log('Main onBtnJinkuangClick fail', err);
-      this.bLockButton = false;
     });
   },
 

@@ -47,7 +47,7 @@ cc.Class({
     //////////////////////////////////////////////////
     onBtnOKClick: function() {
       console.log('ModuleDialog onBtnOKClick.');
-      this.node.dispatchEvent( new cc.Event.EventCustom('hide-noctice-dlg', true) );
+      this.node.dispatchEvent( new cc.Event.EventCustom('hide-notice-dlg', true) );
       this.node.active = false;
       this.node.removeFromParent();
     },
