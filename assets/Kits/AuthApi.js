@@ -81,7 +81,7 @@ function createUserInfoButton() {
     // let frameSize = cc.view.getFrameSize();
     // let winSize = cc.director.getWinSize();
     const fHW = 667 / 375;
-    const nTopOffset = wx.getSystemInfoSync().windowHeight - wx.getSystemInfoSync().windowWidth * fHW;
+    const nTopOffset = (wx.getSystemInfoSync().windowHeight - wx.getSystemInfoSync().windowWidth * fHW) / 2;
     console.log('AuthApi createUserInfoButton', nTopOffset);
     const width = 200;
     const height = 40;

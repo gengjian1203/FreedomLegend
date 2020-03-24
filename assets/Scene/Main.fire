@@ -17,7 +17,7 @@
         "__id__": 2
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_opacity": 255,
@@ -1677,7 +1677,7 @@
     },
     "component": "",
     "_componentId": "47483PB0cJMGJAFMpbVIoEi",
-    "handler": "onBtnTestClick",
+    "handler": "onBtnJuyitangClick",
     "customEventData": ""
   },
   {
@@ -4794,7 +4794,7 @@
     },
     "component": "",
     "_componentId": "47483PB0cJMGJAFMpbVIoEi",
-    "handler": "onBtnTestClick",
+    "handler": "onBtnBeibaoClick",
     "customEventData": ""
   },
   {
@@ -5869,6 +5869,9 @@
     },
     "m_prefabToast": {
       "__uuid__": "979be6ee-d07d-4584-8d25-2f74b3dc3e35"
+    },
+    "m_prefabRanking": {
+      "__uuid__": "9c8468ec-3e86-4155-8954-06ec81c1fe57"
     },
     "m_avatar": {
       "__id__": 55

@@ -95,6 +95,9 @@ function updateMemeber(memberInfo, isLogin) {
           console.log('WebApi.updateMemeber', res);
           if (res.result) {
             console.log('WebApi.updateMemeber Success', res.result);
+            // 结算
+            // wx.postMessage({level : memberInfo.level, type : 'level'});
+
             resolve(res);
           } else {
             reject(res);

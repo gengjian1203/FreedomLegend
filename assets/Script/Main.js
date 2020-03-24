@@ -33,6 +33,10 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
+    m_prefabRanking: {
+      type: cc.Prefab,
+      default: null
+    },
     // ===== 展示 =====
     // 头像
     m_avatar: {
@@ -105,6 +109,7 @@ cc.Class({
 
     // 注册公告栏消失事件
     this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
+    this.node.on('hide-ranking-dlg', this.onHideRankingDlg, this);
   },
 
   // 注销事件
@@ -113,11 +118,18 @@ cc.Class({
 
     // 注销公告栏消失事件
     this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
+    this.node.off('hide-ranking-dlg', this.onHideRankingDlg, this);
   },
 
   // 隐藏气泡弹窗
   onHideToastDlg: function() {
     console.log('Main onHideToastDlg');
+    this.bLockButton = false;
+  },
+
+  // 隐藏排行榜
+  onHideRankingDlg: function() {
+    console.log('Main onHideRankingDlg');
     this.bLockButton = false;
   },
 
@@ -132,6 +144,16 @@ cc.Class({
     this.showToastDlg(strMsg);
   },
 
+  // 聚义堂
+  onBtnJuyitangClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    console.log('Main onBtnJuyitangClick');
+    this.showRankingDlg();
+  },
+
   // 强化
   onBtnQianghuaClick: function() {
     if (this.bLockButton) {
@@ -139,6 +161,28 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnQianghuaClick');
+    this.memberInfo.level += 1;
+    const objMemberInfo = {
+      level: this.memberInfo.level
+    };
+    WebApi.updateMemeber(objMemberInfo).then((res) => {
+      const strMsg = '等级 +1';
+      this.showToastDlg(strMsg);
+      this.m_level.getComponent(cc.Label).string = this.memberInfo.level;
+      console.log('Main onBtnQianghuaClick success', res);
+    }).catch((err) => {
+      console.log('Main onBtnQianghuaClick fail', err);
+      this.bLockButton = false;
+    });
+  },
+
+  // 背包
+  onBtnBeibaoClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    console.log('Main onBtnBeibaoClick');
     this.memberInfo.money += 100;
     const objMemberInfo = {
       money: this.memberInfo.money
@@ -147,9 +191,10 @@ cc.Class({
       const strMsg = '铜钱 +100';
       this.showToastDlg(strMsg);
       this.m_money.getComponent(cc.Label).string = this.memberInfo.money;
-      console.log('Main onBtnQianghuaClick success', res);
+      console.log('Main onBtnBeibaoClick success', res);
     }).catch((err) => {
-      console.log('Main onBtnQianghuaClick fail', err);
+      console.log('Main onBtnBeibaoClick fail', err);
+      this.bLockButton = false;
     });
   },
 
@@ -160,17 +205,18 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnJinkuangClick');
-    this.memberInfo.gold += 1;
+    this.memberInfo.gold += 50;
     const objMemberInfo = {
       gold: this.memberInfo.gold
     };
     WebApi.updateMemeber(objMemberInfo).then((res) => {
-      const strMsg = '元宝 +1';
+      const strMsg = '元宝 +50';
       this.showToastDlg(strMsg);
       this.m_gold.getComponent(cc.Label).string = this.memberInfo.gold;
       console.log('Main onBtnJinkuangClick success', res);
     }).catch((err) => {
       console.log('Main onBtnJinkuangClick fail', err);
+      this.bLockButton = false;
     });
   },
 
@@ -188,6 +234,8 @@ cc.Class({
         console.log('Main queryMember fail', err);
         reject(err);
       });
+    }).catch((err) => {
+      console.log('Main queryMember', err);
     });
   },
 
@@ -222,4 +270,10 @@ cc.Class({
     this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
     this.node.addChild(this.m_dlgToast);
   },
+
+  // 显示分享对话框
+  showRankingDlg: function() {
+    this.m_dlgRanking = cc.instantiate(this.m_prefabRanking);
+    this.node.addChild(this.m_dlgRanking);
+  }
 });
