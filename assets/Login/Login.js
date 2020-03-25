@@ -175,17 +175,23 @@ cc.Class({
       // 更新/创建用户信息
       this.updateMember();
 
-      setTimeout(() => {
-        console.log('Login onBtnLoginClick', this.objMember);
-        if (this.objMember) {
-          // 跳转正常游戏
-          cc.director.loadScene('Main');
+      cc.loader.downloader.loadSubpackage('Main', (err) => {
+        if (err) {
+          console.log('loadSubpackage Error', err);
         } else {
-          // 跳转新手引导页
-          cc.director.loadScene('Preface');
+          setTimeout(() => {
+            console.log('Login onBtnLoginClick', this.objMember);
+            if (this.objMember && JSON.stringify(this.objMember) !== '{}') {
+              // 跳转正常游戏
+              cc.director.loadScene('Main');
+            } else {
+              // 跳转新手引导页
+              cc.director.loadScene('Preface');
+            }
+            console.log('Login setTimeout', this.bLockLogin);
+          }, 1000);
         }
-        console.log('Login setTimeout', this.bLockLogin);
-      }, 1000);
+      });
     }).catch((err) => {
       console.log('Login getUserInfo', this.bLockLogin, err);
       this.bLockLogin = false;

@@ -4,7 +4,24 @@
       true
     ]
   ],
-  "excluded-modules": [],
+  "excluded-modules": [
+    "Audio",
+    "AudioSource",
+    "Intersection",
+    "Mesh",
+    "MotionStreak",
+    "NodePool",
+    "Physics",
+    "ParticleSystem",
+    "Spine Skeleton",
+    "StudioComponent",
+    "Toggle",
+    "TiledMap",
+    "VideoPlayer",
+    "WebView",
+    "3D",
+    "3D Primitive"
+  ],
   "group-list": [
     "default"
   ],

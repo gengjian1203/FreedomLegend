@@ -76,6 +76,43 @@ function queryMember(openid) {
   });
 }
 
+// 微信云端托管数据
+function setUserCloudStorage(memberInfo) {
+  let arrData = new Array();
+  let objTmp = {};
+  objTmp = {
+    'wxgame': {
+      'level': memberInfo.level,
+      'update_time': Date.parse(new Date())
+    }
+  }
+  arrData.push({ key: 'level', value: JSON.stringify(objTmp) });
+  objTmp = {
+    'wxgame': {
+      'gold': memberInfo.gold,
+      'update_time': Date.parse(new Date())
+    }
+  }
+  arrData.push({ key: 'gold', value: JSON.stringify(objTmp) });
+  objTmp = {
+    'wxgame': {
+      'money': memberInfo.money,
+      'update_time': Date.parse(new Date())
+    },
+  }
+  arrData.push({ key: 'money', value: JSON.stringify(objTmp) });
+
+  wx.setUserCloudStorage({
+    KVDataList: arrData,
+    success: (res) => {
+        console.log('setUserCloudStorage 存储记录成功', res);
+    },
+    fail: (err) => {
+        console.log(err);
+    }
+  });
+}
+
 //////////////////////////////////////////////////
 // updateMemeber
 // 更新的成员信息
@@ -92,11 +129,14 @@ function updateMemeber(memberInfo, isLogin) {
           isLogin
         },
         success: (res) => {
-          console.log('WebApi.updateMemeber', res);
+          console.log('WebApi.updateMemeber', res, memberInfo);
           if (res.result) {
             console.log('WebApi.updateMemeber Success', res.result);
             // 结算
             // wx.postMessage({level : memberInfo.level, type : 'level'});
+            if (!isLogin) {
+              setUserCloudStorage(memberInfo);
+            }
 
             resolve(res);
           } else {

@@ -109,7 +109,27 @@ function createUserInfoButton() {
   return button;
 }
 
+//////////////////////////////////////////////////
+// postMessageRanking
+// 向子域发送消息
+// param: 
+//////////////////////////////////////////////////
+function postMessageRanking(nType) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.getOpenDataContext().postMessage({
+        message: "getRanking",
+        type: nType
+      });
+      resolve();
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   authUserInfo,
   createUserInfoButton,
+  postMessageRanking,
 }

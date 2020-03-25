@@ -10,6 +10,7 @@
 
 let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
+let AuthApi = require("../Kits/AuthApi");
 
 cc.Class({
   extends: cc.Component,
@@ -151,7 +152,14 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnJuyitangClick');
-    this.showRankingDlg();
+    AuthApi.postMessageRanking(0).then((res) => {
+      console.log('Main postMessageRanking Success', res);
+      this.showRankingDlg();
+    }).catch((err) => {
+      console.log('Main postMessageRanking Fail', err);
+      this.bLockButton = false;
+    });
+    
   },
 
   // 强化
@@ -163,8 +171,10 @@ cc.Class({
     console.log('Main onBtnQianghuaClick');
     this.memberInfo.level += 1;
     const objMemberInfo = {
-      level: this.memberInfo.level
-    };
+      level: this.memberInfo.level,
+      money: this.memberInfo.money,
+      gold: this.memberInfo.gold
+    }
     WebApi.updateMemeber(objMemberInfo).then((res) => {
       const strMsg = '等级 +1';
       this.showToastDlg(strMsg);
@@ -185,8 +195,10 @@ cc.Class({
     console.log('Main onBtnBeibaoClick');
     this.memberInfo.money += 100;
     const objMemberInfo = {
-      money: this.memberInfo.money
-    };
+      level: this.memberInfo.level,
+      money: this.memberInfo.money,
+      gold: this.memberInfo.gold
+    }
     WebApi.updateMemeber(objMemberInfo).then((res) => {
       const strMsg = '铜钱 +100';
       this.showToastDlg(strMsg);
@@ -207,6 +219,8 @@ cc.Class({
     console.log('Main onBtnJinkuangClick');
     this.memberInfo.gold += 50;
     const objMemberInfo = {
+      level: this.memberInfo.level,
+      money: this.memberInfo.money,
       gold: this.memberInfo.gold
     };
     WebApi.updateMemeber(objMemberInfo).then((res) => {

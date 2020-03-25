@@ -8,6 +8,8 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+let AuthApi = require("../../Kits/AuthApi");
+
 cc.Class({
   extends: cc.Component,
 
@@ -41,11 +43,18 @@ cc.Class({
   //////////////////////////////////////////////////
   // 交互事件
   //////////////////////////////////////////////////
+  // 关闭对话框
   onBtnOKClick: function() {
     console.log('onHideRankingDlg onBtnOKClick.');
     this.node.dispatchEvent( new cc.Event.EventCustom('hide-ranking-dlg', true) );
     this.node.active = false;
     this.node.removeFromParent();
+  },
+
+  // 切换排行榜
+  onBtnSwitchRanking: function(e, param) {
+    console.log('onBtnSwitchRanking', param);
+    AuthApi.postMessageRanking(parseInt(param));
   },
   
   // 注册事件
