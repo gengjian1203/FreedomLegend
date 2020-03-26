@@ -266,6 +266,7 @@ cc.Class({
   setMemberInfo: function(res) {
     if (res && res.member && res.member.data) {
       this.memberInfo = res.member.data;
+      g_objUserInfo.openid = this.memberInfo._openid;
       // 更新头像
       cc.loader.load({url: this.memberInfo.avatarUrl, type: 'png'}, (err, img) => {
         this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);

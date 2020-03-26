@@ -112,14 +112,16 @@ function createUserInfoButton() {
 //////////////////////////////////////////////////
 // postMessageRanking
 // 向子域发送消息
-// param: 
+// param: type 类型 0-  1-  2-
+//        openid 
 //////////////////////////////////////////////////
-function postMessageRanking(nType) {
+function postMessageRanking(type, openid) {
   return new Promise((resolve, reject) => {
     if (cc.sys.platform === cc.sys.WECHAT_GAME) {
       wx.getOpenDataContext().postMessage({
         message: "getRanking",
-        type: nType
+        type,
+        openid
       });
       resolve();
     } else {

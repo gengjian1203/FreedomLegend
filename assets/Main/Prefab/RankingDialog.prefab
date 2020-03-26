@@ -525,7 +525,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -285,
+        -245,
         451.8,
         0,
         0,
@@ -591,7 +591,7 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 50,
+    "_left": 90,
     "_right": 0,
     "_top": 190,
     "_bottom": 0,
@@ -1336,8 +1336,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 80
+      "width": 180,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1407,8 +1407,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 80
+      "width": 180,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1758,9 +1758,9 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 50,
+    "_left": 60,
     "_right": 0,
-    "_top": 110,
+    "_top": 115,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -1819,8 +1819,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 80
+      "width": 180,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1890,8 +1890,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 80
+      "width": 180,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2243,7 +2243,7 @@
     "_alignFlags": 17,
     "_left": 50,
     "_right": 0,
-    "_top": 110,
+    "_top": 115,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -2302,8 +2302,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 80
+      "width": 180,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2373,8 +2373,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 80
+      "width": 180,
+      "height": 70
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2725,8 +2725,8 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": 275,
-    "_right": 50,
-    "_top": 110,
+    "_right": 60,
+    "_top": 115,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -2942,6 +2942,18 @@
     "_enabled": true,
     "m_mask": {
       "__id__": 2
+    },
+    "m_subContextView": {
+      "__id__": 74
+    },
+    "m_labelLevel": {
+      "__id__": 37
+    },
+    "m_labelGold": {
+      "__id__": 50
+    },
+    "m_labelMoney": {
+      "__id__": 63
     },
     "_id": ""
   },

@@ -288,7 +288,7 @@ cc.Class({
       g_objUserInfo = res.userInfo;
       // 更新头像
       cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
-        console.log('Login getUserInfo', img);
+        console.log('Login setMemberInfo', img);
         this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
       });
       // 更新昵称
