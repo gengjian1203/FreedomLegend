@@ -661,7 +661,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "MemberInfo",
+    "_name": "UserInfoPanel",
     "_objFlags": 0,
     "_parent": {
       "__id__": 10
@@ -2322,7 +2322,7 @@
     "m_btnNotice": {
       "__id__": 38
     },
-    "m_memberInfo": {
+    "m_UserInfo": {
       "__id__": 14
     },
     "m_sprAvatar": {

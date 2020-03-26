@@ -55,7 +55,7 @@ cc.Class({
       default: null
     },
     // 用户信息组件
-    m_memberInfo: {
+    m_UserInfo: {
       type: cc.Node,
       default: null
     },
@@ -82,6 +82,7 @@ cc.Class({
 
   start () {
     console.log('Login start');
+    this.bLockLogin = false;
 
     Common.AdapterScreen(this.m_root);
 
@@ -172,23 +173,27 @@ cc.Class({
     this.bLockLogin = true;
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
-      // 更新/创建用户信息
-      this.updateMember();
+      // 更新/创建玩家信息
+      this.updateMemberInfo();
 
       cc.loader.downloader.loadSubpackage('Main', (err) => {
         if (err) {
           console.log('loadSubpackage Error', err);
         } else {
           setTimeout(() => {
-            console.log('Login onBtnLoginClick', this.objMember);
-            if (this.objMember && JSON.stringify(this.objMember) !== '{}') {
-              // 跳转正常游戏
-              cc.director.loadScene('Main');
-            } else {
-              // 跳转新手引导页
-              cc.director.loadScene('Preface');
-            }
-            console.log('Login setTimeout', this.bLockLogin);
+            this.queryMemberInfo().then((res) => {
+              console.log('Login onBtnLoginClick', this.objMember);
+              if (this.objMember && JSON.stringify(this.objMember) !== '{}') {
+                // 跳转正常游戏
+                cc.director.loadScene('Main');
+              } else {
+                // 跳转新手引导页
+                cc.director.loadScene('Preface');
+              }
+              console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
+            }).catch((err) => {
+              console.log('Login queryMemberInfo Fail.', this.bLockLogin);
+            });
           }, 1000);
         }
       });
@@ -208,8 +213,8 @@ cc.Class({
       AuthApi.authUserInfo().then((res) => {
         // 渲染用户信息
         if (res) {
-          this.setMemberInfo(res);
-          this.m_memberInfo.active = true;
+          this.setUserInfo(res);
+          this.m_UserInfo.active = true;
         }
         resolve();
       }).catch((err) => {
@@ -226,22 +231,39 @@ cc.Class({
       console.log('Login getUserInfoNew', res);
       // 渲染用户信息
       if (res && res.userInfo) {
-        this.setMemberInfo(res);
-        this.m_memberInfo.active = true;
-        resolve();
+        this.setUserInfo(res).then((res) => {
+          this.m_UserInfo.active = true;
+          resolve();
+        }).catch((err) => {
+          reject();
+        });
       } else {
         reject();
       }
     });
   },
 
-  // 创建角色信息
-  updateMember: function() {
+  // 获取玩家信息
+  queryMemberInfo: function() {
+    return new Promise((resolve, reject) => {
+      WebApi.queryMemberInfo().then((res) => {
+        g_objMemberInfo = res.member.data;
+        console.log('Login queryMemberInfo Success', g_objMemberInfo);
+        resolve(res);
+      }).catch((err) => {
+        console.log('Login queryMemberInfo fail', err);
+        reject(err);
+      });
+    });
+  },
+
+  // 创建玩家角色信息
+  updateMemberInfo: function() {
     const isLogin = true;
-    WebApi.updateMemeber(g_objUserInfo, isLogin).then((res) => {
-      console.log('Login updateMember.success.', res);
+    WebApi.updateMemberInfo(g_objUserInfo, isLogin).then((res) => {
+      console.log('Login updateMemberInfo.success.', res);
     }).catch((err) => {
-      console.log('Login updateMember.fail.', err);
+      console.log('Login updateMemberInfo.fail.', err);
     });
   },
 
@@ -260,7 +282,7 @@ cc.Class({
             this.objGameDetail = res.game.data[0];
             this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
           }
-          // 有可能查不到用户信息
+          // 有可能查不到玩家信息
           if (res && res.member) {
             this.objMember = res.member;
           }
@@ -282,17 +304,23 @@ cc.Class({
   },
 
   // 渲染用户信息
-  setMemberInfo: function(res) {
+  setUserInfo: function(res) {
     if (res) {
-      // 用户信息存全局变量中
-      g_objUserInfo = res.userInfo;
-      // 更新头像
-      cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
-        console.log('Login setMemberInfo', img);
-        this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
+      return new Promise((resolve, reject) => {
+        // 用户信息存全局变量中
+        g_objUserInfo = res.userInfo;
+        // 更新昵称
+        this.m_labelName.getComponent(cc.Label).string = `${res.userInfo.nickName}，欢迎你回来~`;
+        // 更新头像
+        cc.loader.load({url: res.userInfo.avatarUrl, type: 'png'}, (err, img) => {
+          if (err) {
+            reject();
+          }
+          console.log('Login setUserInfo', img);
+          this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
+          resolve();
+        });
       });
-      // 更新昵称
-      this.m_labelName.getComponent(cc.Label).string = `${res.userInfo.nickName}，欢迎你回来~`;
     }
   },
 

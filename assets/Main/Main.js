@@ -16,8 +16,6 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
-    // 个人信息
-    this.memberInfo = {}
     // 公告对话框
     this.m_dlgToast = null;
     // 按钮锁
@@ -151,15 +149,8 @@ cc.Class({
       return;
     }
     this.bLockButton = true;
-    console.log('Main onBtnJuyitangClick');
-    AuthApi.postMessageRanking(0).then((res) => {
-      console.log('Main postMessageRanking Success', res);
-      this.showRankingDlg();
-    }).catch((err) => {
-      console.log('Main postMessageRanking Fail', err);
-      this.bLockButton = false;
-    });
-    
+    this.showRankingDlg();
+    console.log('Main onBtnJuyitangClick');    
   },
 
   // 强化
@@ -169,16 +160,14 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnQianghuaClick');
-    this.memberInfo.level += 1;
+    g_objMemberInfo.level += 1;
     const objMemberInfo = {
-      level: this.memberInfo.level,
-      money: this.memberInfo.money,
-      gold: this.memberInfo.gold
+      level: g_objMemberInfo.level
     }
-    WebApi.updateMemeber(objMemberInfo).then((res) => {
+    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '等级 +1';
       this.showToastDlg(strMsg);
-      this.m_level.getComponent(cc.Label).string = this.memberInfo.level;
+      this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
       console.log('Main onBtnQianghuaClick success', res);
     }).catch((err) => {
       console.log('Main onBtnQianghuaClick fail', err);
@@ -193,16 +182,14 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnBeibaoClick');
-    this.memberInfo.money += 100;
+    g_objMemberInfo.money += 100;
     const objMemberInfo = {
-      level: this.memberInfo.level,
-      money: this.memberInfo.money,
-      gold: this.memberInfo.gold
+      money: g_objMemberInfo.money
     }
-    WebApi.updateMemeber(objMemberInfo).then((res) => {
+    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '铜钱 +100';
       this.showToastDlg(strMsg);
-      this.m_money.getComponent(cc.Label).string = this.memberInfo.money;
+      this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
       console.log('Main onBtnBeibaoClick success', res);
     }).catch((err) => {
       console.log('Main onBtnBeibaoClick fail', err);
@@ -217,16 +204,14 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnJinkuangClick');
-    this.memberInfo.gold += 50;
+    g_objMemberInfo.gold += 50;
     const objMemberInfo = {
-      level: this.memberInfo.level,
-      money: this.memberInfo.money,
-      gold: this.memberInfo.gold
+      gold: g_objMemberInfo.gold
     };
-    WebApi.updateMemeber(objMemberInfo).then((res) => {
+    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '元宝 +50';
       this.showToastDlg(strMsg);
-      this.m_gold.getComponent(cc.Label).string = this.memberInfo.gold;
+      this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
       console.log('Main onBtnJinkuangClick success', res);
     }).catch((err) => {
       console.log('Main onBtnJinkuangClick fail', err);
@@ -237,45 +222,28 @@ cc.Class({
   //////////////////////////////////////////////////
   // 接口函数
   //////////////////////////////////////////////////
-  // 查询成员信息
-  queryMember: function(openid) {
-    return new Promise((resolve, reject) => {
-      WebApi.queryMember(openid).then((res) => {
-        console.log('Main queryMember success', res);
-        this.setMemberInfo(res);
-        resolve(res);
-      }).catch((err) => {
-        console.log('Main queryMember fail', err);
-        reject(err);
-      });
-    }).catch((err) => {
-      console.log('Main queryMember', err);
-    });
-  },
 
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
   // 开始执行
   run: function() {
-    this.queryMember();
-
+    this.setMemberInfo();
   },
 
   // 渲染个人信息
-  setMemberInfo: function(res) {
-    if (res && res.member && res.member.data) {
-      this.memberInfo = res.member.data;
-      g_objUserInfo.openid = this.memberInfo._openid;
+  setMemberInfo: function() {
+    if (g_objUserInfo && g_objMemberInfo) {
+      console.log('', g_objUserInfo, g_objMemberInfo);
       // 更新头像
-      cc.loader.load({url: this.memberInfo.avatarUrl, type: 'png'}, (err, img) => {
+      cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
         this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
       });
       // 更新
-      this.m_name.getComponent(cc.Label).string = this.memberInfo.nickName;
-      this.m_level.getComponent(cc.Label).string = this.memberInfo.level;
-      this.m_money.getComponent(cc.Label).string = this.memberInfo.money;
-      this.m_gold.getComponent(cc.Label).string = this.memberInfo.gold;
+      this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
+      this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
+      this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
+      this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
     }
   },
 

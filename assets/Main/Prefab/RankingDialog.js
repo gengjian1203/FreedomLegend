@@ -118,7 +118,7 @@ cc.Class({
     // 改变按钮颜色
     this.switchButtonColor(type);
     // 向子域发消息获取数据
-    AuthApi.postMessageRanking(type, g_objUserInfo.openid);
+    AuthApi.postMessageRanking(type, g_objMemberInfo._openid);
     // 刷新子域页面
     setTimeout(() => {
       this.m_subContextView.getComponent(cc.WXSubContextView).update();

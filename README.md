@@ -14,5 +14,11 @@
 2. 收集功法、收集装备。
 3. 待开发。
 
+# 命名规范
+#### UserInfo
+用户信息 - 微信纬度
+#### MemberInfo
+玩家信息 - 游戏纬度
+
 # 预览：  
 ![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result.jpg "Result")

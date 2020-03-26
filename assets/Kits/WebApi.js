@@ -42,31 +42,31 @@ function queryGameDetail() {
 }
 
 //////////////////////////////////////////////////
-// queryMember
-// 查询成员信息
-// param: openid,  // 成员openid 如果为空则查询自己信息
+// queryMemberInfo
+// 查询玩家信息
+// param: openid,           // 成员openid 如果为空则查询自己信息
 // return: member: Object,  // 该成员信息
 // 
 //////////////////////////////////////////////////
-function queryMember(openid) {
+function queryMemberInfo(openid) {
   return new Promise((resolve, reject) => {
     if (cc.sys.platform === cc.sys.WECHAT_GAME) {
       wx.cloud.callFunction({
-        name: 'queryMember',
+        name: 'queryMemberInfo',
         data: {
           openid
         },
         success: (res) => {
-          console.log('WebApi.queryMember res', res);
+          console.log('WebApi.queryMemberInfo res', res);
           if (res.result) {
-            console.log('WebApi.queryMember Success', res.result);
+            console.log('WebApi.queryMemberInfo Success', res.result);
             resolve(res.result);
           } else {
             reject(res);
           }
         },
         fail: (err) => {
-          console.log('WebApi.queryMember Fail', err);
+          console.log('WebApi.queryMemberInfo Fail', err);
           reject(err);
         }
       });
@@ -80,27 +80,33 @@ function queryMember(openid) {
 function setUserCloudStorage(memberInfo) {
   let arrData = new Array();
   let objTmp = {};
-  objTmp = {
-    'wxgame': {
-      'level': memberInfo.level,
-      'update_time': Date.parse(new Date())
+  if (memberInfo.level) {
+    objTmp = {
+      'wxgame': {
+        'level': memberInfo.level,
+        'update_time': Date.parse(new Date())
+      }
     }
+    arrData.push({ key: 'level', value: JSON.stringify(objTmp) });
   }
-  arrData.push({ key: 'level', value: JSON.stringify(objTmp) });
-  objTmp = {
-    'wxgame': {
-      'gold': memberInfo.gold,
-      'update_time': Date.parse(new Date())
+  if (memberInfo.gold) {
+    objTmp = {
+      'wxgame': {
+        'gold': memberInfo.gold,
+        'update_time': Date.parse(new Date())
+      }
     }
+    arrData.push({ key: 'gold', value: JSON.stringify(objTmp) });
   }
-  arrData.push({ key: 'gold', value: JSON.stringify(objTmp) });
-  objTmp = {
-    'wxgame': {
-      'money': memberInfo.money,
-      'update_time': Date.parse(new Date())
-    },
+  if (memberInfo.money) {
+    objTmp = {
+      'wxgame': {
+        'money': memberInfo.money,
+        'update_time': Date.parse(new Date())
+      },
+    }
+    arrData.push({ key: 'money', value: JSON.stringify(objTmp) });
   }
-  arrData.push({ key: 'money', value: JSON.stringify(objTmp) });
 
   wx.setUserCloudStorage({
     KVDataList: arrData,
@@ -114,37 +120,35 @@ function setUserCloudStorage(memberInfo) {
 }
 
 //////////////////////////////////////////////////
-// updateMemeber
-// 更新的成员信息
+// updateMemberInfo
+// 更新玩家信息
 // param: objMemberInfo : Object, // 待更新的成员信息
 //        isLogin : Boolean,      // 是否是登录
 //////////////////////////////////////////////////
-function updateMemeber(memberInfo, isLogin) {
+function updateMemberInfo(memberInfo, isLogin) {
   return new Promise((resolve, reject) => {
     if (cc.sys.platform === cc.sys.WECHAT_GAME) {
       wx.cloud.callFunction({
-        name: 'updateMemeber',
+        name: 'updateMemberInfo',
         data: {
           memberInfo,
           isLogin
         },
         success: (res) => {
-          console.log('WebApi.updateMemeber', res, memberInfo);
+          console.log('WebApi.updateMemberInfo', res, memberInfo);
           if (res.result) {
-            console.log('WebApi.updateMemeber Success', res.result);
-            // 结算
-            // wx.postMessage({level : memberInfo.level, type : 'level'});
+            console.log('WebApi.updateMemberInfo Success', res.result);
+            // 登录则不会存储排行榜信息
             if (!isLogin) {
               setUserCloudStorage(memberInfo);
             }
-
             resolve(res);
           } else {
             reject(res);
           }
         },
         fail: (err) => {
-          console.log('WebApi.updateMemeber Fail', err);
+          console.log('WebApi.updateMemberInfo Fail', err);
           reject(err);
         }
       });
@@ -157,6 +161,6 @@ function updateMemeber(memberInfo, isLogin) {
 export default {
   mylog,
   queryGameDetail,
-  queryMember,
-  updateMemeber,
+  queryMemberInfo,
+  updateMemberInfo,
 }

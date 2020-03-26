@@ -119,7 +119,7 @@ cc.Class({
   //////////////////////////////////////////////////
   // 创建角色信息
   createMember: function() {
-    WebApi.updateMemeber(g_objUserInfo).then((res) => {
+    WebApi.updateMemberInfo(g_objUserInfo).then((res) => {
       console.log('Preface createMember.success.', res);
     }).catch((err) => {
       console.log('Preface createMember.fail.', err);
