@@ -123,6 +123,9 @@ cc.Class({
     setTimeout(() => {
       this.m_subContextView.getComponent(cc.WXSubContextView).update();
     }, 500);
+    setTimeout(() => {
+      this.m_subContextView.getComponent(cc.WXSubContextView).update();
+    }, 1000);
   },
 
   // 切换按钮颜色
