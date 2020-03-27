@@ -174,13 +174,13 @@ cc.Class({
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
       // 更新/创建玩家信息
-      this.updateMemberInfo();
-
-      cc.loader.downloader.loadSubpackage('Main', (err) => {
-        if (err) {
-          console.log('loadSubpackage Error', err);
-        } else {
-          setTimeout(() => {
+      this.updateMemberInfo().then((res) => {
+        cc.loader.downloader.loadSubpackage('Main', (err) => {
+          if (err) {
+            console.log('loadSubpackage Error', err);
+            this.bLockLogin = false;
+          } else {
+            // 查询玩家信息
             this.queryMemberInfo().then((res) => {
               console.log('Login onBtnLoginClick', this.objMember);
               if (this.objMember && JSON.stringify(this.objMember) !== '{}') {
@@ -192,13 +192,16 @@ cc.Class({
               }
               console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
             }).catch((err) => {
-              console.log('Login queryMemberInfo Fail.', this.bLockLogin);
+              console.log('Login queryMemberInfo Fail.', err);
+              this.bLockLogin = false;
             });
-          }, 1000);
-        }
+          }
+        });
+      }).catch((err) => {
+        console.log('Login updateMemberInfo Fail.', err);
       });
     }).catch((err) => {
-      console.log('Login getUserInfo', this.bLockLogin, err);
+      console.log('Login getUserInfo Fail.', err);
       this.bLockLogin = false;
     });
   },
@@ -259,11 +262,15 @@ cc.Class({
 
   // 创建玩家角色信息
   updateMemberInfo: function() {
-    const isLogin = true;
-    WebApi.updateMemberInfo(g_objUserInfo, isLogin).then((res) => {
-      console.log('Login updateMemberInfo.success.', res);
-    }).catch((err) => {
-      console.log('Login updateMemberInfo.fail.', err);
+    return new Promise((resolve, reject) => {
+      const isLogin = true;
+      WebApi.updateMemberInfo(g_objUserInfo, isLogin).then((res) => {
+        console.log('Login updateMemberInfo.success.', res);
+        resolve();
+      }).catch((err) => {
+        console.log('Login updateMemberInfo.fail.', err);
+        reject();
+      });
     });
   },
 

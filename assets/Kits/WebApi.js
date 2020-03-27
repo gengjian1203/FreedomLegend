@@ -135,11 +135,17 @@ function updateMemberInfo(memberInfo, isLogin) {
           isLogin
         },
         success: (res) => {
-          console.log('WebApi.updateMemberInfo', res, memberInfo);
+          console.log('WebApi.updateMemberInfo', res, memberInfo, isLogin);
           if (res.result) {
-            console.log('WebApi.updateMemberInfo Success', res.result);
-            // 登录则不会存储排行榜信息
-            if (!isLogin) {
+            console.log('WebApi.updateMemberInfo Success', res.result, res.result.timeHook);
+            if (isLogin) {
+              // 是登录则记录挂机时间
+              if (res.result.timeHook) {
+                g_nTimeHook = res.result.timeHook;
+              }
+            }
+            else {
+              // 不是登录，则存储排行榜信息
               setUserCloudStorage(memberInfo);
             }
             resolve(res);

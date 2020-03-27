@@ -83,7 +83,8 @@ cc.Class({
     console.log('Main start');
     Common.AdapterScreen(this.m_root);
     
-    this.run();
+    this.preRun();
+    this.Run();
 
   },
 
@@ -226,9 +227,19 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 开始执行
-  run: function() {
+  preRun: function() {
+    // 计算挂机奖励
+    if (g_nTimeHook > 0) {
+      this.funComputedHook();
+      g_nTimeHook = 0;
+    }
+    // 渲染个人信息
     this.setMemberInfo();
+  },
+  
+  // 正式开始执行
+  Run: function() {
+    
   },
 
   // 渲染个人信息
@@ -245,6 +256,39 @@ cc.Class({
       this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
       this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
     }
+  },
+
+  // 计算挂机奖励
+  funComputedHook: function() {
+    const fRand = 1 + (Math.random() / 10);
+    const nMeasure = g_nTimeHook / 1000;
+    const tmpExp = parseInt(nMeasure * fRand);
+    const tmpMoney = parseInt(nMeasure * fRand / 10);
+    const tmpGold = parseInt(nMeasure * fRand / 100)
+    
+    g_objMemberInfo.exp += tmpExp;
+    g_objMemberInfo.money += tmpMoney;
+    g_objMemberInfo.gold += tmpGold;
+
+    const objMemberInfo = {
+      exp: g_objMemberInfo.exp,
+      money: g_objMemberInfo.money,
+      gold: g_objMemberInfo.gold
+    };
+
+    console.log('Main funComputedHook', g_nTimeHook, nMeasure, objMemberInfo);
+
+    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+      console.log('Main funComputedHook Success.', res);
+      const strMsg = `经验+${tmpExp} 铜钱+${tmpMoney} 元宝+${tmpGold}`;
+      this.showToastDlg(strMsg);
+      this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
+      this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
+      console.log('Main onBtnJinkuangClick success', res);
+    }).catch((err) => {
+      console.log('Main funComputedHook fail', err);
+      this.bLockButton = false;
+    });
   },
 
   // 显示气泡对话框 
