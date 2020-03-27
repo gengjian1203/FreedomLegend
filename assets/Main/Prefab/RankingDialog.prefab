@@ -250,8 +250,8 @@
         0,
         0,
         1,
-        0.7,
-        0.7,
+        0.8,
+        0.8,
         1
       ]
     },
@@ -1006,15 +1006,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        342.5,
-        640.75,
+        350,
+        629.5,
         0,
         0,
         0,
         0,
         1,
-        1.5,
-        1.5,
+        1,
+        1,
         1
       ]
     },
@@ -1276,8 +1276,8 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": 0,
-    "_right": -50,
-    "_top": -60,
+    "_right": -30,
+    "_top": -20,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
