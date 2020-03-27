@@ -137,7 +137,7 @@
             <key>Notice_title.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{958,2},{75,37}}</string>
+                <string>{{958,160},{75,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -146,6 +146,84 @@
                 <string>{{0,0},{75,37}}</string>
                 <key>sourceSize</key>
                 <string>{75,37}</string>
+            </dict>
+            <key>Run_01.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{958,2},{78,61}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{78,61}}</string>
+                <key>sourceSize</key>
+                <string>{78,61}</string>
+            </dict>
+            <key>Run_02.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{856,758},{73,67}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{73,67}}</string>
+                <key>sourceSize</key>
+                <string>{73,67}</string>
+            </dict>
+            <key>Run_03.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{856,605},{76,68}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{76,68}}</string>
+                <key>sourceSize</key>
+                <string>{76,68}</string>
+            </dict>
+            <key>Run_04.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{958,82},{76,63}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{76,63}}</string>
+                <key>sourceSize</key>
+                <string>{76,63}</string>
+            </dict>
+            <key>Run_05.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{164,802},{70,71}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{70,71}}</string>
+                <key>sourceSize</key>
+                <string>{70,71}</string>
+            </dict>
+            <key>Run_06.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{856,683},{73,70}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{73,70}}</string>
+                <key>sourceSize</key>
+                <string>{73,70}</string>
             </dict>
             <key>Title.png</key>
             <dict>
@@ -183,7 +261,7 @@
             <key>size</key>
             <string>{1024,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:15c6b0fbd94437a33c4386e88997c3c5:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:e52123e421b113864cefec286e66fa55:1/1$</string>
             <key>textureFileName</key>
             <string>Main.png</string>
         </dict>

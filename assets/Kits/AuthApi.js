@@ -112,7 +112,7 @@ function createUserInfoButton() {
 //////////////////////////////////////////////////
 // postMessageRanking
 // 向子域发送消息
-// param: type 类型 0-  1-  2-
+// param: type 类型 0- 等级榜 1- 元宝榜 2- 铜钱榜
 //        openid 
 //////////////////////////////////////////////////
 function postMessageRanking(type, openid) {

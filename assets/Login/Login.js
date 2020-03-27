@@ -30,7 +30,9 @@ cc.Class({
     // 登录按钮
     this.btnLogin = null;
     // 公告对话框
-    this.m_dlgNotice = null;
+    this.dlgNotice = null;
+    // 登录进度条
+    this.lineLoading = null;
   },
 
   properties: {
@@ -46,6 +48,11 @@ cc.Class({
     },
     // 预制体-对话框
     m_prefabDlg: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体-读取进度条
+    m_prefabLoading: {
       type: cc.Prefab,
       default: null
     },
@@ -154,7 +161,7 @@ cc.Class({
   
   // 测试点击函数
   onBtnClick: function(e, param) {
-    console.log('Login onBtnClick');
+    console.log('Login onBtnClick', param);
   },
 
   // 点击公告按钮消息事件
@@ -171,17 +178,23 @@ cc.Class({
     }
     console.log('Login onBtnLoginClick', this.bLockLogin, res);
     this.bLockLogin = true;
+    this.showLineLoading();
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
+      this.setLineLoading(25);
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
+        this.setLineLoading(50);
         cc.loader.downloader.loadSubpackage('Main', (err) => {
           if (err) {
             console.log('loadSubpackage Error', err);
+            this.hideLineLoading();
             this.bLockLogin = false;
           } else {
+            this.setLineLoading(75);
             // 查询玩家信息
             this.queryMemberInfo().then((res) => {
+              this.setLineLoading(100);
               console.log('Login onBtnLoginClick', this.objMember);
               if (this.objMember && JSON.stringify(this.objMember) !== '{}') {
                 // 跳转正常游戏
@@ -193,15 +206,19 @@ cc.Class({
               console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
             }).catch((err) => {
               console.log('Login queryMemberInfo Fail.', err);
+              this.hideLineLoading();
               this.bLockLogin = false;
             });
           }
         });
       }).catch((err) => {
         console.log('Login updateMemberInfo Fail.', err);
+        this.hideLineLoading();
+        this.bLockLogin = false;
       });
     }).catch((err) => {
       console.log('Login getUserInfo Fail.', err);
+      this.hideLineLoading();
       this.bLockLogin = false;
     });
   },
@@ -336,10 +353,28 @@ cc.Class({
     if (this.btnLogin) {
       this.btnLogin.hide();
     }
-    this.m_dlgNotice = cc.instantiate(this.m_prefabDlg);
-    this.m_dlgNotice.getComponent('ModuleDialog').setNoticeContent(this.objGameDetail.strNotice);
-    this.m_canvas.addChild(this.m_dlgNotice);
-  }
+    this.dlgNotice = cc.instantiate(this.m_prefabDlg);
+    this.dlgNotice.getComponent('ModuleDialog').setNoticeContent(this.objGameDetail.strNotice);
+    this.m_canvas.addChild(this.dlgNotice);
+  },
 
+  // 显示登录进度条
+  showLineLoading: function() {
+    this.lineLoading = cc.instantiate(this.m_prefabLoading);
+    this.lineLoading.getComponent('LineLoading').setProgressPer(0);
+    this.m_canvas.addChild(this.lineLoading);
+  },
+
+  // 设置登录进度条
+  setLineLoading: function(nPer) {
+    if (this.lineLoading) {
+      this.lineLoading.getComponent('LineLoading').setProgressPer(nPer);
+    }
+  },
+
+  // 隐藏登录进度条
+  hideLineLoading: function() {
+    this.lineLoading.destroy();
+  },
 });
 

@@ -81,10 +81,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 52
+        "__id__": 54
       },
       {
-        "__id__": 53
+        "__id__": 55
       }
     ],
     "_prefab": null,
@@ -174,7 +174,7 @@
       "array": [
         0,
         0,
-        676.3658403556466,
+        641.7248242042691,
         0,
         0,
         0,
@@ -477,12 +477,15 @@
       },
       {
         "__id__": 48
+      },
+      {
+        "__id__": 51
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 51
+        "__id__": 53
       }
     ],
     "_prefab": null,
@@ -2259,6 +2262,77 @@
     "_id": "79uK5C2NdN6LIanVxtLq9y"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "LineLoading",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 10
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": {
+      "__id__": 52
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "78CVeIwulPGLWhDrexjJKk"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 51
+    },
+    "asset": {
+      "__uuid__": "8edfde30-462a-4990-bef8-8c96e3739b7f"
+    },
+    "fileId": "78CVeIwulPGLWhDrexjJKk",
+    "sync": false
+  },
+  {
     "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
@@ -2318,6 +2392,9 @@
     },
     "m_prefabDlg": {
       "__uuid__": "ab95021e-bbee-43be-b80b-cb00ba5254de"
+    },
+    "m_prefabLoading": {
+      "__uuid__": "8edfde30-462a-4990-bef8-8c96e3739b7f"
     },
     "m_btnNotice": {
       "__id__": 38
