@@ -19,7 +19,7 @@ cc.Class({
   },
 
   properties: {
-    // 模态对话框模板
+    // 模态对话框蒙板
     m_mask: {
       type: cc.Node,
       default: null

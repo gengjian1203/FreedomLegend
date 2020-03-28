@@ -10,14 +10,17 @@
 
 let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
-let AuthApi = require("../Kits/AuthApi");
 
 cc.Class({
   extends: cc.Component,
 
   ctor() {
-    // 公告对话框
+    // 气泡对话框
     this.m_dlgToast = null;
+    // 排行榜对话框
+    this.m_dlgRanking = null;
+    // 属性对话框
+    this.m_dlgMember = null;
     // 按钮锁
     this.bLockButton = false;
   },
@@ -28,11 +31,19 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // ===== 预制体 =====
+    // 预制体 - 气泡弹窗
     m_prefabToast: {
       type: cc.Prefab,
       default: null
     },
+    // 预制体 - 排行榜弹窗
     m_prefabRanking: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 属性弹窗
+    m_prefabMember: {
       type: cc.Prefab,
       default: null
     },
@@ -110,6 +121,7 @@ cc.Class({
     // 注册公告栏消失事件
     this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
     this.node.on('hide-ranking-dlg', this.onHideRankingDlg, this);
+    this.node.on('hide-member-dlg', this.onHideRankingDlg, this);
   },
 
   // 注销事件
@@ -119,6 +131,7 @@ cc.Class({
     // 注销公告栏消失事件
     this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
     this.node.off('hide-ranking-dlg', this.onHideRankingDlg, this);
+    this.node.off('hide-member-dlg', this.onHideMemberDlg, this);
   },
 
   // 隐藏气泡弹窗
@@ -130,6 +143,12 @@ cc.Class({
   // 隐藏排行榜
   onHideRankingDlg: function() {
     console.log('Main onHideRankingDlg');
+    this.bLockButton = false;
+  },
+
+  // 隐藏属性对话框
+  onHideMemberDlg: function() {
+    console.log('Main onHideMemberDlg');
     this.bLockButton = false;
   },
 
@@ -152,6 +171,16 @@ cc.Class({
     this.bLockButton = true;
     this.showRankingDlg();
     console.log('Main onBtnJuyitangClick');    
+  },
+
+  // 武将
+  onBtnWujiangClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    this.showMemberDlg();
+    console.log('Main onBtnWujiangClick');  
   },
 
   // 强化
@@ -244,7 +273,7 @@ cc.Class({
 
   // 渲染个人信息
   setMemberInfo: function() {
-    if (g_objUserInfo && g_objMemberInfo) {
+    if (!Common.isObjectEmpty(g_objUserInfo) && !Common.isObjectEmpty(g_objMemberInfo)) {
       console.log('', g_objUserInfo, g_objMemberInfo);
       // 更新头像
       cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
@@ -295,12 +324,18 @@ cc.Class({
   showToastDlg: function(strMsg) {
     this.m_dlgToast = cc.instantiate(this.m_prefabToast);
     this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
-    this.node.addChild(this.m_dlgToast);
+    this.m_root.addChild(this.m_dlgToast);
   },
 
-  // 显示分享对话框
+  // 显示排行对话框
   showRankingDlg: function() {
     this.m_dlgRanking = cc.instantiate(this.m_prefabRanking);
-    this.node.addChild(this.m_dlgRanking);
+    this.m_root.addChild(this.m_dlgRanking);
+  },
+
+  // 显示属性对话框
+  showMemberDlg: function() {
+    this.m_dlgMember = cc.instantiate(this.m_prefabMember);
+    this.m_root.addChild(this.m_dlgMember);
   }
 });

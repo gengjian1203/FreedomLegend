@@ -196,7 +196,7 @@ cc.Class({
             this.queryMemberInfo().then((res) => {
               this.setLineLoading(100);
               console.log('Login onBtnLoginClick', this.objMember);
-              if (this.objMember && JSON.stringify(this.objMember) !== '{}') {
+              if (this.objMember && !Common.isObjectEmpty(this.objMember)) {
                 // 跳转正常游戏
                 cc.director.loadScene('Main');
               } else {

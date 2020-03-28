@@ -13,7 +13,7 @@ function AdapterScreen(root) {
   root.removeComponent(widget);
 
   // 重新计算根节点的宽高
-  console.log('Common.AdapterScreen', root.width, root.height);
+  console.log('Common.AdapterScreen before', root.width, root.height);
 
   if(root.height / root.width > fHW) {
     root.height = parseInt(root.width * fHW);
@@ -21,10 +21,18 @@ function AdapterScreen(root) {
     root.width = parseInt(root.height / fHW);
   }
   
-  console.log('Common.AdapterScreen', root.width, root.height);
+  console.log('Common.AdapterScreen after', root.width, root.height);
+}
 
+//////////////////////////////////////////////////
+// isObjectEmpty
+// 判断对象是否为空
+//////////////////////////////////////////////////
+function isObjectEmpty(obj) {
+  return (JSON.stringify(obj) === '{}');
 }
 
 export default {
   AdapterScreen,
+  isObjectEmpty,
 }
