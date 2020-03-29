@@ -119,10 +119,7 @@ cc.Class({
   // 注册事件
   registerEvent: function() {
     console.log('Login registerEvent');
-    // 初始化微信云函数
-    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
-      wx.cloud.init({env:'develop-8ouxt'});
-    }
+    WebApi.initWXCloud();
 
     // 生成登录授权按钮
     this.btnLogin = AuthApi.createUserInfoButton();
@@ -181,34 +178,37 @@ cc.Class({
     this.showLineLoading();
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
-      this.setLineLoading(25);
+      this.setLineLoading(20);
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
-        this.setLineLoading(50);
+        this.setLineLoading(40);
         cc.loader.downloader.loadSubpackage('Main', (err) => {
           if (err) {
             console.log('loadSubpackage Error', err);
             this.hideLineLoading();
             this.bLockLogin = false;
           } else {
-            this.setLineLoading(75);
-            // 查询玩家信息
-            this.queryMemberInfo().then((res) => {
-              this.setLineLoading(100);
-              console.log('Login onBtnLoginClick', this.objMember);
-              if (this.objMember && !Common.isObjectEmpty(this.objMember)) {
-                // 跳转正常游戏
-                cc.director.loadScene('Main');
-              } else {
-                // 跳转新手引导页
-                cc.director.loadScene('Preface');
-              }
-              console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
-            }).catch((err) => {
-              console.log('Login queryMemberInfo Fail.', err);
-              this.hideLineLoading();
-              this.bLockLogin = false;
-            });
+            this.setLineLoading(60);
+            setTimeout(() => {
+              this.setLineLoading(80);
+              // 查询玩家信息
+              this.queryMemberInfo().then((res) => {
+                this.setLineLoading(100);
+                console.log('Login onBtnLoginClick', this.objMember);
+                if (this.objMember && !Common.isObjectEmpty(this.objMember)) {
+                  // 跳转正常游戏
+                  cc.director.loadScene('Main');
+                } else {
+                  // 跳转新手引导页
+                  cc.director.loadScene('Preface');
+                }
+                console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
+              }).catch((err) => {
+                console.log('Login queryMemberInfo Fail.', err);
+                this.hideLineLoading();
+                this.bLockLogin = false;
+              });
+            }, 1000);
           }
         });
       }).catch((err) => {

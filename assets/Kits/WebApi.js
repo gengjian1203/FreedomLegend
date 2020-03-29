@@ -9,6 +9,19 @@ function mylog(str) {
 }
 
 //////////////////////////////////////////////////
+// initWXCloud
+// 初始化微信云函数
+//////////////////////////////////////////////////
+function initWXCloud() {
+  if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+    const env = g_production ? 'production-ojwyp' : 'develop-8ouxt';
+    wx.cloud.init({
+      env
+    });
+  }
+}
+
+//////////////////////////////////////////////////
 // queryGameDetail
 // 查询游戏的全局信息
 // param:
@@ -166,6 +179,7 @@ function updateMemberInfo(memberInfo, isLogin) {
 
 export default {
   mylog,
+  initWXCloud,
   queryGameDetail,
   queryMemberInfo,
   updateMemberInfo,
