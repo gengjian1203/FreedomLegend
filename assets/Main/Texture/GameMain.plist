@@ -137,7 +137,7 @@
             <key>header_money.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1000,352},{22,21}}</string>
+                <string>{{1000,383},{22,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -146,6 +146,19 @@
                 <string>{{0,0},{22,21}}</string>
                 <key>sourceSize</key>
                 <string>{22,21}</string>
+            </dict>
+            <key>level_up.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1000,352},{29,22}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{29,22}}</string>
+                <key>sourceSize</key>
+                <string>{29,22}</string>
             </dict>
             <key>mainIndex.jpg</key>
             <dict>
@@ -274,7 +287,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:e67c0c428802a6badb851e3d60622e97:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:5c327f0e2d952d122682e8982a15d46f:1/1$</string>
             <key>textureFileName</key>
             <string>GameMain.png</string>
         </dict>

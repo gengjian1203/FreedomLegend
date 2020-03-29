@@ -33,6 +33,18 @@ function isObjectEmpty(obj) {
 }
 
 //////////////////////////////////////////////////
+// destructuringAssignment
+// 解构赋值
+//////////////////////////////////////////////////
+function destructuringAssignment(objBase, objAdd) {
+  let objResult = objBase;
+  for (let key in objAdd){
+    objResult[key] = objAdd[key];
+  };
+  return objResult;
+}
+
+//////////////////////////////////////////////////
 // formatLargeNumber
 // 格式化数字，超过万则显示w为单位
 //////////////////////////////////////////////////
@@ -47,6 +59,26 @@ function formatLargeNumber(num) {
     result = `${number}`;
   }
   return result;
+}
+
+//////////////////////////////////////////////////
+// funComputedMemberInfoAD
+// 计算玩家的基础属性
+//////////////////////////////////////////////////
+function funComputedMemberInfoAD(level) {
+  const objMemberInfo = {
+    level: level,
+    hp: level * 20 + 100,
+    outerAttack: level * 10 + 20, // 外功
+    innerAttack: level * 10 + 10, // 内功
+    outerDefense: level * 10 + 10, // 外防
+    innerDefense: level * 10 + 0, // 内防
+    crit: 0, // 暴击率
+    dodge: 0, // 闪避率
+    block: 0, // 格挡率
+    lucky: 0, // 幸运值
+  };
+  return objMemberInfo;
 }
 
 //////////////////////////////////////////////////
@@ -65,7 +97,7 @@ function formatDate(seconds) {
 }
 
 //////////////////////////////////////////////////
-// getExpMax
+// getExpMaxString
 // 通过当前等级，计算升级所需的经验值
 //////////////////////////////////////////////////
 function getExpMaxString(level) {
@@ -77,7 +109,9 @@ function getExpMaxString(level) {
 export default {
   AdapterScreen,
   isObjectEmpty,
+  destructuringAssignment,
   formatLargeNumber,
+  funComputedMemberInfoAD,
   formatDate,
   getExpMaxString,
 }

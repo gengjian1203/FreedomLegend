@@ -447,8 +447,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 160,
-      "height": 100.8
+      "width": 100,
+      "height": 63
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -460,7 +460,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        635.5,
+        620.5,
         0,
         0,
         0,
@@ -500,8 +500,8 @@
     "_useOriginalSize": false,
     "_string": "属性",
     "_N$string": "属性",
-    "_fontSize": 80,
-    "_lineHeight": 80,
+    "_fontSize": 50,
+    "_lineHeight": 50,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -527,7 +527,7 @@
     "_alignFlags": 17,
     "_left": 0,
     "_right": 0,
-    "_top": -18.9,
+    "_top": 15,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,

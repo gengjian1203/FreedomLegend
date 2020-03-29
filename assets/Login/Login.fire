@@ -2167,7 +2167,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81.68,
+      "width": 0,
       "height": 63
     },
     "_anchorPoint": {
@@ -2218,8 +2218,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "Vx.x.x",
-    "_N$string": "Vx.x.x",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 30,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -2246,7 +2246,7 @@
     "_target": null,
     "_alignFlags": 36,
     "_left": 0,
-    "_right": 10,
+    "_right": 50.84,
     "_top": 0,
     "_bottom": 50,
     "_verticalCenter": 0,

@@ -19,6 +19,8 @@ cc.Class({
     this.m_dlgToast = null;
     // 离线奖励对话框
     this.m_dlgHook = null;
+    // 升级对话框
+    this.m_dlgLevelup = null;
     // 排行榜对话框
     this.m_dlgRanking = null;
     // 属性对话框
@@ -41,6 +43,11 @@ cc.Class({
     },
     // 预制体 - 离线奖励弹窗
     m_prefabHook: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 升级奖励弹窗
+    m_prefabLevelup: {
       type: cc.Prefab,
       default: null
     },
@@ -148,6 +155,7 @@ cc.Class({
     // 注册公告栏消失事件
     this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
     this.node.on('hide-hook-dlg', this.onHideHookDlg, this);
+    this.node.on('hide-levelup-dlg', this.onHideLevelupDlg, this);
     this.node.on('hide-ranking-dlg', this.onHideRankingDlg, this);
     this.node.on('hide-member-dlg', this.onHideRankingDlg, this);
   },
@@ -159,6 +167,7 @@ cc.Class({
     // 注销公告栏消失事件
     this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
     this.node.off('hide-hook-dlg', this.onHideHookDlg, this);
+    this.node.off('hide-levelup-dlg', this.onHideLevelupDlg, this);
     this.node.off('hide-ranking-dlg', this.onHideRankingDlg, this);
     this.node.off('hide-member-dlg', this.onHideMemberDlg, this);
   },
@@ -169,9 +178,15 @@ cc.Class({
     this.bLockButton = false;
   },
 
-  // 离线奖励弹窗
+  // 隐藏离线奖励弹窗
   onHideHookDlg: function() {
     console.log('Main onHideHookDlg');
+    this.bLockButton = false;
+  },
+
+  // 隐藏升级弹窗
+  onHideLevelupDlg: function() {
+    console.log('Main onHideLevelupDlg');
     this.bLockButton = false;
   },
 
@@ -225,13 +240,11 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnQianghuaClick');
-    g_objMemberInfo.level += 1;
-    const objMemberInfo = {
-      level: g_objMemberInfo.level
-    }
+    g_objMemberInfo.level++;
+    const objMemberInfo = Common.funComputedMemberInfoAD(g_objMemberInfo.level);
+    
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-      const strMsg = '等级 +1';
-      this.showToastDlg(strMsg);
+      this.showLevelupDlg();
       this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
       console.log('Main onBtnQianghuaClick success', res);
     }).catch((err) => {
@@ -292,13 +305,13 @@ cc.Class({
   // 自定义函数
   //////////////////////////////////////////////////
   preRun: function() {
+    // 渲染个人信息
+    this.setMemberInfo();
     // 计算挂机奖励
     if (g_nTimeHook > 0) {
       this.funComputedHook();
       g_nTimeHook = 0;
     }
-    // 渲染个人信息
-    this.setMemberInfo();
   },
   
   // 正式开始执行
@@ -360,15 +373,40 @@ cc.Class({
 
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       // 弹出离线奖励弹窗
-      this.showHookDlg(nMeasure, tmpExp, tmpMoney, tmpGold);
-      // 渲染页面
-      this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
-      this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
+      this.showHookDlg(nMeasure, tmpExp, tmpMoney, tmpGold);  
+      // 渲染个人信息
+      this.setMemberInfo();
       console.log('Main onBtnJinkuangClick success', res);
+
+      // 检验是否可以升级
+      this.checkoutLevelup();
     }).catch((err) => {
       console.log('Main funComputedHook fail', err);
       this.bLockButton = false;
     });
+  },
+
+  // 检验升级情况
+  checkoutLevelup: function() {
+    const nExpMax = parseInt(Common.getExpMaxString(g_objMemberInfo.level));
+    if (g_objMemberInfo.exp >= nExpMax) {
+      // 制造参数
+      g_objMemberInfo.level++;
+      const objMemberInfo = Common.funComputedMemberInfoAD(g_objMemberInfo.level);
+      objMemberInfo.exp = 0;
+      g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
+
+      console.log('Main checkoutLevelup', objMemberInfo);
+      WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+        // 弹出升级弹窗
+        this.showLevelupDlg();
+        // 渲染游戏信息
+        this.setMemberInfo();
+      }).catch((err) => {
+        console.log('Main checkoutLevelup fail', err);
+
+      })
+    }
   },
 
   // 显示气泡对话框 
@@ -383,6 +421,15 @@ cc.Class({
     this.m_dlgHook = cc.instantiate(this.m_prefabHook);
     this.m_dlgHook.getComponent('HookDialog').setHookAwardData(nMeasure, tmpExp, tmpMoney, tmpGold);
     this.m_root.addChild(this.m_dlgHook);
+  },
+
+  // 显示升级奖励对话框
+  showLevelupDlg: function() {
+    const objMemberInfoOld = Common.funComputedMemberInfoAD(g_objMemberInfo.level - 1);
+    const objMemberInfoNew = Common.funComputedMemberInfoAD(g_objMemberInfo.level);
+    this.m_dlgLevelup = cc.instantiate(this.m_prefabLevelup);
+    this.m_dlgLevelup.getComponent('LevelupDialog').setLevelupData(objMemberInfoOld, objMemberInfoNew);
+    this.m_root.addChild(this.m_dlgLevelup);
   },
 
   // 显示排行对话框
