@@ -10,6 +10,7 @@
 
 let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
+let GameApi = require("../Kits/GameApi");
 
 cc.Class({
   extends: cc.Component,
@@ -78,7 +79,7 @@ cc.Class({
       default: null
     },
     // 称号
-    m_title: {
+    m_taste: {
       type: cc.Node,
       default: null
     },
@@ -241,11 +242,11 @@ cc.Class({
     this.bLockButton = true;
     console.log('Main onBtnQianghuaClick');
     g_objMemberInfo.level++;
-    const objMemberInfo = Common.funComputedMemberInfoAD(g_objMemberInfo.level);
+    const objMemberInfo = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level);
     
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       this.showLevelupDlg();
-      this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
+      this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       console.log('Main onBtnQianghuaClick success', res);
     }).catch((err) => {
       console.log('Main onBtnQianghuaClick fail', err);
@@ -267,7 +268,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '铜钱 +100';
       this.showToastDlg(strMsg);
-      this.m_money.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.money);
+      this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
       console.log('Main onBtnBeibaoClick success', res);
     }).catch((err) => {
       console.log('Main onBtnBeibaoClick fail', err);
@@ -289,7 +290,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '元宝 +50';
       this.showToastDlg(strMsg);
-      this.m_gold.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.gold);
+      this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
       console.log('Main onBtnJinkuangClick success', res);
     }).catch((err) => {
       console.log('Main onBtnJinkuangClick fail', err);
@@ -332,16 +333,17 @@ cc.Class({
       // 更新Label信息
       this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
       this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
-      this.m_title.getComponent(cc.Label).string = g_objMemberInfo.title;
-      this.m_money.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.money);
-      this.m_gold.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.gold);
+      this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
+      this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
+      this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
+      this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
     }
   },
 
   // 渲染经验值信息
   setExpProgress: function(level, exp) {
     const rootWidth = this.m_sprExpRoot.width;
-    let fPer = exp / Common.getExpMaxString(level);  // 
+    let fPer = exp / GameApi.getExpMaxString(level);  // 
     fPer = fPer > 1 ? 1 : fPer;
     const fPerResult = (fPer * 100).toFixed(2); // 百分比制
     const nWidth = 5 + fPer * rootWidth;
@@ -388,11 +390,11 @@ cc.Class({
 
   // 检验升级情况
   checkoutLevelup: function() {
-    const nExpMax = parseInt(Common.getExpMaxString(g_objMemberInfo.level));
+    const nExpMax = parseInt(GameApi.getExpMaxString(g_objMemberInfo.level));
     if (g_objMemberInfo.exp >= nExpMax) {
       // 制造参数
       g_objMemberInfo.level++;
-      const objMemberInfo = Common.funComputedMemberInfoAD(g_objMemberInfo.level);
+      const objMemberInfo = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level);
       objMemberInfo.exp = 0;
       g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
 
@@ -425,8 +427,8 @@ cc.Class({
 
   // 显示升级奖励对话框
   showLevelupDlg: function() {
-    const objMemberInfoOld = Common.funComputedMemberInfoAD(g_objMemberInfo.level - 1);
-    const objMemberInfoNew = Common.funComputedMemberInfoAD(g_objMemberInfo.level);
+    const objMemberInfoOld = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level - 1);
+    const objMemberInfoNew = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level);
     this.m_dlgLevelup = cc.instantiate(this.m_prefabLevelup);
     this.m_dlgLevelup.getComponent('LevelupDialog').setLevelupData(objMemberInfoOld, objMemberInfoNew);
     this.m_root.addChild(this.m_dlgLevelup);

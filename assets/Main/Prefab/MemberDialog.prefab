@@ -705,9 +705,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -1034,8 +1032,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "昵称",
-    "_N$string": "昵称",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1304,8 +1302,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "称号",
-    "_N$string": "称号",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1360,7 +1358,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level",
+    "_name": "Taste",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -1439,8 +1437,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "等级",
-    "_N$string": "等级",
+    "_string": "境界",
+    "_N$string": "境界",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1495,7 +1493,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level_Value",
+    "_name": "Taste_Value",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -1523,7 +1521,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1574,8 +1572,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "等级",
-    "_N$string": "等级",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1844,8 +1842,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "经验",
-    "_N$string": "经验",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2064,7 +2062,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 530,
-      "height": 135.6
+      "height": 75.6
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2114,8 +2112,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "一二三四五六七八九十一二三一二三四五六七八九十一二三",
-    "_N$string": "一二三四五六七八九十一二三一二三四五六七八九十一二三",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2333,7 +2331,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2384,8 +2382,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "生命",
-    "_N$string": "生命",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2603,7 +2601,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2654,8 +2652,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "外功",
-    "_N$string": "外功",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2873,7 +2871,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2924,8 +2922,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "内功",
-    "_N$string": "内功",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -3143,7 +3141,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -3194,8 +3192,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "外防",
-    "_N$string": "外防",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -3413,7 +3411,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -3464,8 +3462,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "内防",
-    "_N$string": "内防",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -3683,7 +3681,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -3734,8 +3732,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "暴击",
-    "_N$string": "暴击",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -3953,7 +3951,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -4004,8 +4002,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "闪避",
-    "_N$string": "闪避",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -4223,7 +4221,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -4274,8 +4272,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "格挡",
-    "_N$string": "格挡",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -4493,7 +4491,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
+      "width": 0,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -4544,8 +4542,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "幸运",
-    "_N$string": "幸运",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -5585,7 +5583,7 @@
     "m_labelTitle": {
       "__id__": 31
     },
-    "m_labelLevel": {
+    "m_labelTaste": {
       "__id__": 39
     },
     "m_labelExp": {

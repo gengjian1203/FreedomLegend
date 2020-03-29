@@ -8,7 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let Common = require("../../Kits/Common");
+let GameApi = require("../Kits/GameApi");
 
 cc.Class({
   extends: cc.Component,
@@ -24,12 +24,12 @@ cc.Class({
       default: null
     },
     // 等级 - 旧
-    m_labelLevel_Old: {
+    m_labelTaste_Old: {
       type: cc.Node,
       default: null
     },
     // 等级 - 新
-    m_labelLevel_New: {
+    m_labelTaste_New: {
       type: cc.Node,
       default: null
     },
@@ -181,8 +181,8 @@ cc.Class({
   //////////////////////////////////////////////////
   // 渲染奖励信息
   setLevelupData(objOld, objNew) {
-    this.m_labelLevel_Old.getComponent(cc.Label).string = objOld.level;
-    this.m_labelLevel_New.getComponent(cc.Label).string = objNew.level;
+    this.m_labelTaste_Old.getComponent(cc.Label).string = GameApi.getTasteString(objOld.level);
+    this.m_labelTaste_New.getComponent(cc.Label).string = GameApi.getTasteString(objNew.level);
     this.m_labelHP_Old.getComponent(cc.Label).string = objOld.hp;
     this.m_labelHP_New.getComponent(cc.Label).string = objNew.hp;
     this.m_labelOuterAttack_Old.getComponent(cc.Label).string = objOld.outerAttack;

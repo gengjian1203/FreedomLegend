@@ -9,6 +9,7 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let Common = require("../Kits/Common");
+let GameApi = require("../Kits/GameApi");
 
 cc.Class({
   extends: cc.Component,
@@ -45,7 +46,7 @@ cc.Class({
       default: null
     },
     // 等级
-    m_labelLevel: {
+    m_labelTaste: {
       type: cc.Node,
       default: null
     },
@@ -233,9 +234,9 @@ cc.Class({
       // 称号
       this.m_labelTitle.getComponent(cc.Label).string = g_objMemberInfo.title;
       // 等级
-      this.m_labelLevel.getComponent(cc.Label).string = g_objMemberInfo.level;
+      this.m_labelTaste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       // 经验
-      this.m_labelExp.getComponent(cc.Label).string = `${g_objMemberInfo.exp} / ${Common.getExpMaxString(g_objMemberInfo.level)}`;
+      this.m_labelExp.getComponent(cc.Label).string = `${g_objMemberInfo.exp} / ${GameApi.getExpMaxString(g_objMemberInfo.level)}`;
       // 描述
       this.m_labelDescribe.getComponent(cc.Label).string = this.getDescribeString(g_objMemberInfo.describe);
       // 生命

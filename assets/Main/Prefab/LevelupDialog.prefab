@@ -562,7 +562,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level",
+    "_name": "Taste",
     "_objFlags": 0,
     "_parent": {
       "__id__": 11
@@ -778,7 +778,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level",
+    "_name": "Taste",
     "_objFlags": 0,
     "_parent": {
       "__id__": 12
@@ -913,7 +913,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level_old",
+    "_name": "Taste_old",
     "_objFlags": 0,
     "_parent": {
       "__id__": 12
@@ -1048,7 +1048,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level_new",
+    "_name": "Taste_new",
     "_objFlags": 0,
     "_parent": {
       "__id__": 12
@@ -7678,10 +7678,10 @@
     "m_mask": {
       "__id__": 2
     },
-    "m_labelLevel_Old": {
+    "m_labelTaste_Old": {
       "__id__": 21
     },
-    "m_labelLevel_New": {
+    "m_labelTaste_New": {
       "__id__": 25
     },
     "m_labelHP_Old": {
