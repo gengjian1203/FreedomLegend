@@ -32,7 +32,36 @@ function isObjectEmpty(obj) {
   return (JSON.stringify(obj) === '{}');
 }
 
+//////////////////////////////////////////////////
+// formatNumber
+// 格式化数字，超过万则显示w为单位
+//////////////////////////////////////////////////
+function formatNumber(num) {
+  let number = parseInt(num);
+  let result = '';
+
+  if (number >= 10000) {
+    number = number / 10000;
+    result = `${number.toFixed(1)}w`;
+  } else {
+    result = `${number}`;
+  }
+  return result;
+}
+
+//////////////////////////////////////////////////
+// getExpMax
+// 通过当前等级，计算升级所需的经验值
+//////////////////////////////////////////////////
+function getExpMaxString(level) {
+  const nExpMax = parseInt(Math.pow(level, 3) + 0.1 * Math.pow((level - 1), 3) + 100);
+  return String(nExpMax);
+}
+
+
 export default {
   AdapterScreen,
   isObjectEmpty,
+  formatNumber,
+  getExpMaxString,
 }

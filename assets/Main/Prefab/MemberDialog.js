@@ -175,14 +175,49 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 获取当前等级最大经验值
-  getExpMaxString: function() {
-    return '11111111';
-  },
-
   // 获取该角色的人物描述
-  getDescribeString: function() {
-    return '这位少侠双目有神，看来还是位精神小伙。';
+  getDescribeString: function(describe) {
+    let param = '';
+    let result = '';
+
+    if ( describe > 100 ) {
+      param = '美央绝伦，谪仙降世';
+    }
+    else if ( describe > 90 ) {
+      param = '风流俊雅，仪表堂堂';
+    }
+    else if ( describe > 80 ) {
+      param = '气宇轩昂，骨骼清奇';
+    }
+    else if ( describe > 70 ) {
+      param = '天庭饱满，双目有神';
+    }
+    else if ( describe > 60 ) {
+      param = '五官端正，身材均称';
+    }
+    else if ( describe > 50 ) {
+      param = '相貌平平，还过得去';
+    }
+    else if ( describe > 40 ) {
+      param = '一塌糊涂，不是人样';
+    }
+    else if ( describe > 30 ) {
+      param = '眼大嘴小，相貌简陋';
+    }
+    else if ( describe > 20 ) {
+      param = '小鼻小眼，一脸麻子';
+    }
+    else if ( describe > 10 ) {
+      param = '貌赛无盐，惨不忍睹';
+    }
+    else if ( describe > 0 ) {
+      param = '牛嘴马眼，面目狰狞';
+    }
+    else {
+      param = '鬼哭神嚎，天怒人怨';
+    }
+    result = `这位少侠生的是${param}。`;
+    return result;
   },
 
   // 渲染玩家属性值
@@ -200,9 +235,9 @@ cc.Class({
       // 等级
       this.m_labelLevel.getComponent(cc.Label).string = g_objMemberInfo.level;
       // 经验
-      this.m_labelExp.getComponent(cc.Label).string = `${g_objMemberInfo.exp} / ${this.getExpMaxString()}`;
+      this.m_labelExp.getComponent(cc.Label).string = `${g_objMemberInfo.exp} / ${Common.getExpMaxString(g_objMemberInfo.level)}`;
       // 描述
-      this.m_labelDescribe.getComponent(cc.Label).string = this.getDescribeString();
+      this.m_labelDescribe.getComponent(cc.Label).string = this.getDescribeString(g_objMemberInfo.describe);
       // 生命
       this.m_labelHP.getComponent(cc.Label).string = g_objMemberInfo.hp;
       // 外功

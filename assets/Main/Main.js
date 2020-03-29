@@ -63,6 +63,26 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // 称号
+    m_title: {
+      type: cc.Node,
+      default: null
+    },
+    // 经验进度条根部
+    m_sprExpRoot: {
+      type: cc.Node,
+      default: null
+    },
+    // 经验进度条
+    m_sprExp: {
+      type: cc.Node,
+      default: null
+    },
+    // 经验百分比
+    m_labelExp: {
+      type: cc.Node,
+      default: null
+    },
     // 铜钱
     m_money: {
       type: cc.Node,
@@ -219,7 +239,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '铜钱 +100';
       this.showToastDlg(strMsg);
-      this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
+      this.m_money.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.money);
       console.log('Main onBtnBeibaoClick success', res);
     }).catch((err) => {
       console.log('Main onBtnBeibaoClick fail', err);
@@ -241,7 +261,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '元宝 +50';
       this.showToastDlg(strMsg);
-      this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
+      this.m_gold.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.gold);
       console.log('Main onBtnJinkuangClick success', res);
     }).catch((err) => {
       console.log('Main onBtnJinkuangClick fail', err);
@@ -279,12 +299,28 @@ cc.Class({
       cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
         this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
       });
-      // 更新
+      // 更新经验条信息
+      this.setExpProgress(g_objMemberInfo.level, g_objMemberInfo.exp);
+      // 更新Label信息
       this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
       this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
-      this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
-      this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
+      this.m_title.getComponent(cc.Label).string = g_objMemberInfo.title;
+      this.m_money.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.money);
+      this.m_gold.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.gold);
     }
+  },
+
+  // 渲染经验值信息
+  setExpProgress: function(level, exp) {
+    const rootWidth = this.m_sprExpRoot.width;
+    let fPer = exp / Common.getExpMaxString(level);  // 
+    fPer = fPer > 1 ? 1 : fPer;
+    const fPerResult = (fPer * 100).toFixed(2); // 百分比制
+    const nWidth = 5 + fPer * rootWidth;
+    // 
+    this.m_sprExp.width = nWidth;
+    this.m_labelExp.getComponent(cc.Label).string = `${fPerResult}%`;
+    console.log('setExpProgress', rootWidth, nWidth, fPer, fPerResult);
   },
 
   // 计算挂机奖励
