@@ -17,6 +17,8 @@ cc.Class({
   ctor() {
     // 气泡对话框
     this.m_dlgToast = null;
+    // 离线奖励对话框
+    this.m_dlgHook = null;
     // 排行榜对话框
     this.m_dlgRanking = null;
     // 属性对话框
@@ -34,6 +36,11 @@ cc.Class({
     // ===== 预制体 =====
     // 预制体 - 气泡弹窗
     m_prefabToast: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 离线奖励弹窗
+    m_prefabHook: {
       type: cc.Prefab,
       default: null
     },
@@ -140,6 +147,7 @@ cc.Class({
 
     // 注册公告栏消失事件
     this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
+    this.node.on('hide-hook-dlg', this.onHideHookDlg, this);
     this.node.on('hide-ranking-dlg', this.onHideRankingDlg, this);
     this.node.on('hide-member-dlg', this.onHideRankingDlg, this);
   },
@@ -150,6 +158,7 @@ cc.Class({
 
     // 注销公告栏消失事件
     this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
+    this.node.off('hide-hook-dlg', this.onHideHookDlg, this);
     this.node.off('hide-ranking-dlg', this.onHideRankingDlg, this);
     this.node.off('hide-member-dlg', this.onHideMemberDlg, this);
   },
@@ -157,6 +166,12 @@ cc.Class({
   // 隐藏气泡弹窗
   onHideToastDlg: function() {
     console.log('Main onHideToastDlg');
+    this.bLockButton = false;
+  },
+
+  // 离线奖励弹窗
+  onHideHookDlg: function() {
+    console.log('Main onHideHookDlg');
     this.bLockButton = false;
   },
 
@@ -239,7 +254,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '铜钱 +100';
       this.showToastDlg(strMsg);
-      this.m_money.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.money);
+      this.m_money.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.money);
       console.log('Main onBtnBeibaoClick success', res);
     }).catch((err) => {
       console.log('Main onBtnBeibaoClick fail', err);
@@ -261,7 +276,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       const strMsg = '元宝 +50';
       this.showToastDlg(strMsg);
-      this.m_gold.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.gold);
+      this.m_gold.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.gold);
       console.log('Main onBtnJinkuangClick success', res);
     }).catch((err) => {
       console.log('Main onBtnJinkuangClick fail', err);
@@ -305,8 +320,8 @@ cc.Class({
       this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
       this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
       this.m_title.getComponent(cc.Label).string = g_objMemberInfo.title;
-      this.m_money.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.money);
-      this.m_gold.getComponent(cc.Label).string = Common.formatNumber(g_objMemberInfo.gold);
+      this.m_money.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.money);
+      this.m_gold.getComponent(cc.Label).string = Common.formatLargeNumber(g_objMemberInfo.gold);
     }
   },
 
@@ -325,7 +340,7 @@ cc.Class({
 
   // 计算挂机奖励
   funComputedHook: function() {
-    const fRand = 1 + (Math.random() / 10);
+    const fRand = 0.8 + (Math.random() / 2.5);
     const nMeasure = g_nTimeHook / 1000;
     const tmpExp = parseInt(nMeasure * fRand);
     const tmpMoney = parseInt(nMeasure * fRand / 10);
@@ -344,9 +359,9 @@ cc.Class({
     console.log('Main funComputedHook', g_nTimeHook, nMeasure, objMemberInfo);
 
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-      console.log('Main funComputedHook Success.', res);
-      const strMsg = `经验+${tmpExp} 铜钱+${tmpMoney} 元宝+${tmpGold}`;
-      this.showToastDlg(strMsg);
+      // 弹出离线奖励弹窗
+      this.showHookDlg(nMeasure, tmpExp, tmpMoney, tmpGold);
+      // 渲染页面
       this.m_money.getComponent(cc.Label).string = g_objMemberInfo.money;
       this.m_gold.getComponent(cc.Label).string = g_objMemberInfo.gold;
       console.log('Main onBtnJinkuangClick success', res);
@@ -361,6 +376,13 @@ cc.Class({
     this.m_dlgToast = cc.instantiate(this.m_prefabToast);
     this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
     this.m_root.addChild(this.m_dlgToast);
+  },
+
+  // 显示离线奖励对话框
+  showHookDlg: function(nMeasure, tmpExp, tmpMoney, tmpGold) {
+    this.m_dlgHook = cc.instantiate(this.m_prefabHook);
+    this.m_dlgHook.getComponent('HookDialog').setHookAwardData(nMeasure, tmpExp, tmpMoney, tmpGold);
+    this.m_root.addChild(this.m_dlgHook);
   },
 
   // 显示排行对话框

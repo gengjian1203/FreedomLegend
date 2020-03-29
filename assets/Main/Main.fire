@@ -2938,7 +2938,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 5,
+      "width": 80,
       "height": 20
     },
     "_anchorPoint": {
@@ -6785,6 +6785,9 @@
     },
     "m_prefabToast": {
       "__uuid__": "979be6ee-d07d-4584-8d25-2f74b3dc3e35"
+    },
+    "m_prefabHook": {
+      "__uuid__": "f63d7f1e-df94-4d3a-8f85-b158f8872e2a"
     },
     "m_prefabRanking": {
       "__uuid__": "da782f01-3ba0-4d78-8a6b-8ad2e1def793"

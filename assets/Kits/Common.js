@@ -33,10 +33,10 @@ function isObjectEmpty(obj) {
 }
 
 //////////////////////////////////////////////////
-// formatNumber
+// formatLargeNumber
 // 格式化数字，超过万则显示w为单位
 //////////////////////////////////////////////////
-function formatNumber(num) {
+function formatLargeNumber(num) {
   let number = parseInt(num);
   let result = '';
 
@@ -47,6 +47,21 @@ function formatNumber(num) {
     result = `${number}`;
   }
   return result;
+}
+
+//////////////////////////////////////////////////
+// formatDate
+// 秒数格式化日期
+//////////////////////////////////////////////////
+function formatDate(seconds) {
+  let nSeconds = new Number(seconds);
+  const ss = Math.floor(nSeconds % 60);
+  nSeconds = Math.floor(nSeconds / 60);
+  const mm = Math.floor(nSeconds % 60);
+  const hh = Math.floor(nSeconds / 60);
+  let strResult = `${hh}时${mm}分${ss}秒`
+
+  return strResult;
 }
 
 //////////////////////////////////////////////////
@@ -62,6 +77,7 @@ function getExpMaxString(level) {
 export default {
   AdapterScreen,
   isObjectEmpty,
-  formatNumber,
+  formatLargeNumber,
+  formatDate,
   getExpMaxString,
 }
