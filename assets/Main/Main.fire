@@ -81,10 +81,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 150
+        "__id__": 151
       },
       {
-        "__id__": 151
+        "__id__": 152
       }
     ],
     "_prefab": null,
@@ -2384,7 +2384,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 149
+        "__id__": 150
       }
     ],
     "_prefab": null,
@@ -4663,7 +4663,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 148
+        "__id__": 149
       }
     ],
     "_prefab": null,
@@ -6417,7 +6417,7 @@
         "__id__": 146
       },
       {
-        "__id__": 147
+        "__id__": 148
       }
     ],
     "_prefab": null,
@@ -6549,7 +6549,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "4a9bccc4-0906-4a77-96e2-4cf2c7139341"
+      "__uuid__": "bd58a48d-0272-4fae-9930-22eb858be4b5"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -6606,7 +6606,11 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 147
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
@@ -6673,6 +6677,16 @@
     },
     "_N$target": null,
     "_id": "c6TQtHtiBAe5Z9K2gg+J/D"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "47483PB0cJMGJAFMpbVIoEi",
+    "handler": "onBtnSwitchClick",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Widget",
@@ -6828,9 +6842,17 @@
     "m_pannelTabber": {
       "__id__": 105
     },
-    "m_btnSwitch": {
-      "__id__": 142
+    "m_sprSwitch": {
+      "__id__": 143
     },
+    "m_arrSwitchFrame": [
+      {
+        "__uuid__": "4a9bccc4-0906-4a77-96e2-4cf2c7139341"
+      },
+      {
+        "__uuid__": "bd58a48d-0272-4fae-9930-22eb858be4b5"
+      }
+    ],
     "_id": "3fLLgsByBCr6mCtgWiFuFH"
   }
 ]

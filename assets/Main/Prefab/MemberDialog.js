@@ -30,11 +30,13 @@ cc.Class({
       type: cc.Node,
       default: null
     },
-    // 头像
-    m_sprAvatar: {
-      type: cc.Node,
-      default: null
-    },
+    //////////////////////////////////////////////////
+    // 装备栏
+    //////////////////////////////////////////////////
+    // 
+    //////////////////////////////////////////////////
+    // 状态栏
+    //////////////////////////////////////////////////
     // 昵称
     m_labelName: {
       type: cc.Node,
@@ -225,10 +227,7 @@ cc.Class({
   setMemberInfo: function() {
     if (!Common.isObjectEmpty(g_objUserInfo) && !Common.isObjectEmpty(g_objMemberInfo)) {
       console.log('', g_objUserInfo, g_objMemberInfo);
-      // 更新头像
-      cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
-        this.m_sprAvatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
-      });
+      
       // 昵称
       this.m_labelName.getComponent(cc.Label).string = g_objUserInfo.nickName;
       // 称号

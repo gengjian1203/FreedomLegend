@@ -109,16 +109,21 @@ cc.Class({
       default: null
     },
     // ===== 交互 =====
-    // 强化
+    // 底部按钮根节点
     m_pannelTabber: {
       type: cc.Node,
       default: null
     },
     // 切换
-    m_btnSwitch: {
+    m_sprSwitch: {
       type: cc.Node,
       default: null
-    }
+    },
+    // 切换按钮纹理数组
+    m_arrSwitchFrame :{
+      type:[cc.SpriteFrame],
+      default:[]
+    },
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -296,6 +301,19 @@ cc.Class({
       console.log('Main onBtnJinkuangClick fail', err);
       this.bLockButton = false;
     });
+  },
+
+  // 切换iconbar按钮
+  onBtnSwitchClick: function() {
+    if (this.m_pannelTabber.active) {
+      // 隐藏iconbar
+      this.m_pannelTabber.active = false;
+      this.m_sprSwitch.getComponent(cc.Sprite).spriteFrame = this.m_arrSwitchFrame[0];
+    } else {
+      //  显示iconbar
+      this.m_pannelTabber.active = true;
+      this.m_sprSwitch.getComponent(cc.Sprite).spriteFrame = this.m_arrSwitchFrame[1];
+    }
   },
 
   //////////////////////////////////////////////////
