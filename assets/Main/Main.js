@@ -247,11 +247,12 @@ cc.Class({
     this.bLockButton = true;
     console.log('Main onBtnQianghuaClick');
     g_objMemberInfo.level++;
-    const objMemberInfo = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level);
+    const objMemberInfo = GameApi.funComputedMemberInfoForBase(g_objMemberInfo.level);
     
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       this.showLevelupDlg();
       this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
+      this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
       console.log('Main onBtnQianghuaClick success', res);
     }).catch((err) => {
       console.log('Main onBtnQianghuaClick fail', err);
@@ -412,7 +413,7 @@ cc.Class({
     if (g_objMemberInfo.exp >= nExpMax) {
       // 制造参数
       g_objMemberInfo.level++;
-      const objMemberInfo = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level);
+      const objMemberInfo = GameApi.funComputedMemberInfoForBase(g_objMemberInfo.level);
       objMemberInfo.exp = 0;
       g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
 
@@ -445,8 +446,8 @@ cc.Class({
 
   // 显示升级奖励对话框
   showLevelupDlg: function() {
-    const objMemberInfoOld = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level - 1);
-    const objMemberInfoNew = GameApi.funComputedMemberInfoAD(g_objMemberInfo.level);
+    const objMemberInfoOld = GameApi.funComputedMemberInfoForBase(g_objMemberInfo.level - 1);
+    const objMemberInfoNew = GameApi.funComputedMemberInfoForBase(g_objMemberInfo.level);
     this.m_dlgLevelup = cc.instantiate(this.m_prefabLevelup);
     this.m_dlgLevelup.getComponent('LevelupDialog').setLevelupData(objMemberInfoOld, objMemberInfoNew);
     this.m_root.addChild(this.m_dlgLevelup);

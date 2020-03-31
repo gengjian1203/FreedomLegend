@@ -178,51 +178,6 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 获取该角色的人物描述
-  getDescribeString: function(describe) {
-    let param = '';
-    let result = '';
-
-    if ( describe > 100 ) {
-      param = '美央绝伦，谪仙降世';
-    }
-    else if ( describe > 90 ) {
-      param = '风流俊雅，仪表堂堂';
-    }
-    else if ( describe > 80 ) {
-      param = '气宇轩昂，骨骼清奇';
-    }
-    else if ( describe > 70 ) {
-      param = '天庭饱满，双目有神';
-    }
-    else if ( describe > 60 ) {
-      param = '五官端正，身材均称';
-    }
-    else if ( describe > 50 ) {
-      param = '相貌平平，还过得去';
-    }
-    else if ( describe > 40 ) {
-      param = '一塌糊涂，不是人样';
-    }
-    else if ( describe > 30 ) {
-      param = '眼大嘴小，相貌简陋';
-    }
-    else if ( describe > 20 ) {
-      param = '小鼻小眼，一脸麻子';
-    }
-    else if ( describe > 10 ) {
-      param = '貌赛无盐，惨不忍睹';
-    }
-    else if ( describe > 0 ) {
-      param = '牛嘴马眼，面目狰狞';
-    }
-    else {
-      param = '鬼哭神嚎，天怒人怨';
-    }
-    result = `这位少侠生的是${param}。`;
-    return result;
-  },
-
   // 渲染玩家属性值
   setMemberInfo: function() {
     if (!Common.isObjectEmpty(g_objUserInfo) && !Common.isObjectEmpty(g_objMemberInfo)) {
@@ -237,25 +192,25 @@ cc.Class({
       // 经验
       this.m_labelExp.getComponent(cc.Label).string = `${g_objMemberInfo.exp} / ${GameApi.getExpMaxString(g_objMemberInfo.level)}`;
       // 描述
-      this.m_labelDescribe.getComponent(cc.Label).string = this.getDescribeString(g_objMemberInfo.describe);
+      this.m_labelDescribe.getComponent(cc.Label).string = GameApi.getDescribeString(g_objMemberInfo.describe);
       // 生命
-      this.m_labelHP.getComponent(cc.Label).string = g_objMemberInfo.hp;
+      this.m_labelHP.getComponent(cc.Label).string = g_objMemberInfo.hp_total;
       // 外功
-      this.m_labelOuterAttack.getComponent(cc.Label).string = g_objMemberInfo.outerAttack;
+      this.m_labelOuterAttack.getComponent(cc.Label).string = g_objMemberInfo.outerAttack_total;
       // 内功
-      this.m_labelinnerAttack.getComponent(cc.Label).string = g_objMemberInfo.innerAttack;
+      this.m_labelinnerAttack.getComponent(cc.Label).string = g_objMemberInfo.innerAttack_total;
       // 外防
-      this.m_labelOuterDefense.getComponent(cc.Label).string = g_objMemberInfo.outerDefense;
+      this.m_labelOuterDefense.getComponent(cc.Label).string = g_objMemberInfo.outerDefense_total;
       // 内防
-      this.m_labelInnerDefense.getComponent(cc.Label).string = g_objMemberInfo.innerDefense;
+      this.m_labelInnerDefense.getComponent(cc.Label).string = g_objMemberInfo.innerDefense_total;
       // 暴击
-      this.m_labelCrit.getComponent(cc.Label).string = g_objMemberInfo.crit;
+      this.m_labelCrit.getComponent(cc.Label).string = g_objMemberInfo.crit_total;
       // 闪避
-      this.m_labelDodge.getComponent(cc.Label).string = g_objMemberInfo.dodge;
+      this.m_labelDodge.getComponent(cc.Label).string = g_objMemberInfo.dodge_total;
       // 格挡
-      this.m_labelBlock.getComponent(cc.Label).string = g_objMemberInfo.block;
+      this.m_labelBlock.getComponent(cc.Label).string = g_objMemberInfo.block_total;
       // 幸运
-      this.m_labelLucky.getComponent(cc.Label).string = g_objMemberInfo.lucky;
+      this.m_labelLucky.getComponent(cc.Label).string = g_objMemberInfo.lucky_total;
       
     }
   },

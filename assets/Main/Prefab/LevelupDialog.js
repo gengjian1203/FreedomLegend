@@ -183,24 +183,24 @@ cc.Class({
   setLevelupData(objOld, objNew) {
     this.m_labelTaste_Old.getComponent(cc.Label).string = GameApi.getTasteString(objOld.level);
     this.m_labelTaste_New.getComponent(cc.Label).string = GameApi.getTasteString(objNew.level);
-    this.m_labelHP_Old.getComponent(cc.Label).string = objOld.hp;
-    this.m_labelHP_New.getComponent(cc.Label).string = objNew.hp;
-    this.m_labelOuterAttack_Old.getComponent(cc.Label).string = objOld.outerAttack;
-    this.m_labelOuterAttack_New.getComponent(cc.Label).string = objNew.outerAttack;
-    this.m_labelInnerAttack_Old.getComponent(cc.Label).string = objOld.innerAttack;
-    this.m_labelInnerAttack_New.getComponent(cc.Label).string = objNew.innerAttack;
-    this.m_labelOuterDefense_Old.getComponent(cc.Label).string = objOld.outerDefense;
-    this.m_labelOuterDefense_New.getComponent(cc.Label).string = objNew.outerDefense;
-    this.m_labelInnerDefense_Old.getComponent(cc.Label).string = objOld.innerDefense;
-    this.m_labelInnerDefense_New.getComponent(cc.Label).string = objNew.innerDefense;
-    this.m_labelCrit_Old.getComponent(cc.Label).string = objOld.crit;
-    this.m_labelCrit_New.getComponent(cc.Label).string = objNew.crit;
-    this.m_labelDodge_Old.getComponent(cc.Label).string = objOld.dodge;
-    this.m_labelDodge_New.getComponent(cc.Label).string = objNew.dodge;
-    this.m_labelBlock_Old.getComponent(cc.Label).string = objOld.block;
-    this.m_labelBlock_New.getComponent(cc.Label).string = objNew.block;
-    this.m_labelLucky_Old.getComponent(cc.Label).string = objOld.lucky;
-    this.m_labelLucky_New.getComponent(cc.Label).string = objNew.lucky;
+    this.m_labelHP_Old.getComponent(cc.Label).string = objOld.hp_total;
+    this.m_labelHP_New.getComponent(cc.Label).string = objNew.hp_total;
+    this.m_labelOuterAttack_Old.getComponent(cc.Label).string = objOld.outerAttack_total;
+    this.m_labelOuterAttack_New.getComponent(cc.Label).string = objNew.outerAttack_total;
+    this.m_labelInnerAttack_Old.getComponent(cc.Label).string = objOld.innerAttack_total;
+    this.m_labelInnerAttack_New.getComponent(cc.Label).string = objNew.innerAttack_total;
+    this.m_labelOuterDefense_Old.getComponent(cc.Label).string = objOld.outerDefense_total;
+    this.m_labelOuterDefense_New.getComponent(cc.Label).string = objNew.outerDefense_total;
+    this.m_labelInnerDefense_Old.getComponent(cc.Label).string = objOld.innerDefense_total;
+    this.m_labelInnerDefense_New.getComponent(cc.Label).string = objNew.innerDefense_total;
+    this.m_labelCrit_Old.getComponent(cc.Label).string = objOld.crit_total;
+    this.m_labelCrit_New.getComponent(cc.Label).string = objNew.crit_total;
+    this.m_labelDodge_Old.getComponent(cc.Label).string = objOld.dodge_total;
+    this.m_labelDodge_New.getComponent(cc.Label).string = objNew.dodge_total;
+    this.m_labelBlock_Old.getComponent(cc.Label).string = objOld.block_total;
+    this.m_labelBlock_New.getComponent(cc.Label).string = objNew.block_total;
+    this.m_labelLucky_Old.getComponent(cc.Label).string = objOld.lucky_total;
+    this.m_labelLucky_New.getComponent(cc.Label).string = objNew.lucky_total;
   }
 
 });

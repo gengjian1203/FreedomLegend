@@ -16,21 +16,32 @@ function formatLargeNumber(num) {
 }
 
 //////////////////////////////////////////////////
-// funComputedMemberInfoAD
+// funComputedMemberInfoForBase
 // 计算玩家的基础属性
 //////////////////////////////////////////////////
-function funComputedMemberInfoAD(level) {
+function funComputedMemberInfoForBase(level) {
   const objMemberInfo = {
     level: level,
-    hp: level * 20 + 100,
-    outerAttack: level * 10 + 20, // 外功
-    innerAttack: level * 10 + 10, // 内功
-    outerDefense: level * 10 + 10, // 外防
-    innerDefense: level * 10 + 0, // 内防
-    crit: 0, // 暴击率
-    dodge: 0, // 闪避率
-    block: 0, // 格挡率
-    lucky: 0, // 幸运值
+    // 基础属性
+    hp_base: level * 50 + 100,
+    outerAttack_base: level * 10 + 20, // 外功
+    innerAttack_base: level * 10 + 10, // 内功
+    outerDefense_base: level * 10 + 10, // 外防
+    innerDefense_base: level * 10 + 0, // 内防
+    crit_base: 0, // 暴击率
+    dodge_base: 0, // 闪避率
+    block_base: 0, // 格挡率
+    lucky_base: 0, // 幸运值
+    // 综合属性
+    hp_total: (level * 50 + 100) + g_objMemberInfo.hp_suit + g_objMemberInfo.hp_medicine, // 生命
+    outerAttack_total: (level * 10 + 20) + g_objMemberInfo.outerAttack_suit + g_objMemberInfo.outerAttack_medicine, // 外功
+    innerAttack_total: (level * 10 + 10) + g_objMemberInfo.innerAttack_suit + g_objMemberInfo.innerAttack_medicine, // 内功
+    outerDefense_total: (level * 10 + 10) + g_objMemberInfo.outerDefense_suit + g_objMemberInfo.outerDefense_medicine, // 外防
+    innerDefense_total: (level * 10 + 0) + g_objMemberInfo.innerDefense_suit + g_objMemberInfo.innerDefense_medicine, // 内防
+    crit_total: 0 + g_objMemberInfo.crit_suit + g_objMemberInfo.crit_medicine, // 暴击率
+    dodge_total: 0 + g_objMemberInfo.dodge_suit + g_objMemberInfo.dodge_medicine, // 闪避率
+    block_total: 0 + g_objMemberInfo.block_suit + g_objMemberInfo.block_medicine, // 格挡率
+    lucky_total: 0 + g_objMemberInfo.lucky_suit + g_objMemberInfo.lucky_medicine, // 幸运值
   };
   return objMemberInfo;
 }
@@ -106,11 +117,52 @@ function getTasteColor(level) {
   return new cc.color(arrTasteColor[index][0], arrTasteColor[index][1], arrTasteColor[index][2]);
 }
 
+//////////////////////////////////////////////////
+// getDescribeString
+// 通过容貌值，获取该角色的人物描述
+//////////////////////////////////////////////////
+function getDescribeString(describe) {
+  const arrCall = ['侠士', '侠女'];
+  const arrWord = [[
+                    '相貌狰狞，天怒人怨', 
+                    '一塌糊涂，不是人样',
+                    '尖嘴猴腮，面有菜色',
+                    '贼眉贼眼，神情狡滑',
+                    '相貌平平，其貌不扬',
+                    '五官端正，身材均称',
+                    '相貌英俊，双眼有神',
+                    '风流俊雅，仪表堂堂',
+                    '气宇轩昂，骨骼清奇',
+                    '星辉环绕，谪仙降世',
+                  ], [
+                    '鬼哭神嚎，惨不忍睹',
+                    '眼大嘴小，貌若无盐',
+                    '骨瘦如柴，面黄肌瘦',
+                    '灰容土貌，不堪入目',
+                    '相貌平平，还过得去',
+                    '身材娇好，尚有姿色',
+                    '婷婷玉立，眉清目秀',
+                    '沉鱼落雁，闭月羞花',
+                    '冰肌玉骨，翩若惊鸿',
+                    '美央绝伦，人间仙子',
+                  ]];
+  // 性别
+  const nGender = parseInt(g_objMemberInfo.gender / 2);
+  // 相貌档次 (0 ~ 100)
+  let nDescribe = parseInt(describe / 10);
+  nDescribe = nDescribe < 0 ? 0 : nDescribe;
+  nDescribe = nDescribe > 9 ? 9 : nDescribe;
+  
+  const result = `这位${arrCall[nGender]}生的是${arrWord[nGender][nDescribe]}。`;
+  return result;
+}
+
 export default {
   formatLargeNumber,
-  funComputedMemberInfoAD,
+  funComputedMemberInfoForBase,
   formatDate,
   getExpMaxString,
   getTasteString,
   getTasteColor,
+  getDescribeString,
 }
