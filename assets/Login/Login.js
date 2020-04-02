@@ -23,8 +23,6 @@ cc.Class({
       strNotice: '',
       version: '',
     };
-    // 账号信息
-    this.objMember = undefined,
     // 登录锁
     this.bLockLogin = false;
     // 登录按钮
@@ -170,6 +168,8 @@ cc.Class({
 
   // 点击登录按钮消息事件
   onBtnLoginClick: function(res) {
+    let isNewMember = false; // 是否是新玩家
+
     if (this.bLockLogin) {
       return;
     }
@@ -181,6 +181,7 @@ cc.Class({
       this.setLineLoading(20);
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
+        isNewMember = res.isNewMember;
         this.setLineLoading(40);
         cc.loader.downloader.loadSubpackage('Main', (err) => {
           if (err) {
@@ -194,13 +195,12 @@ cc.Class({
               // 查询玩家信息
               this.queryMemberInfo().then((res) => {
                 this.setLineLoading(100);
-                console.log('Login onBtnLoginClick', this.objMember);
-                if (this.objMember && !Common.isObjectEmpty(this.objMember)) {
-                  // 跳转正常游戏
-                  cc.director.loadScene('Main');
-                } else {
+                if (isNewMember) {
                   // 跳转新手引导页
                   cc.director.loadScene('Preface');
+                } else {
+                  // 跳转正常游戏
+                  cc.director.loadScene('Main');
                 }
                 console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
               }).catch((err) => {
@@ -283,7 +283,7 @@ cc.Class({
       const isLogin = true;
       WebApi.updateMemberInfo(g_objUserInfo, isLogin).then((res) => {
         console.log('Login updateMemberInfo.success.', res);
-        resolve();
+        resolve(res.result);
       }).catch((err) => {
         console.log('Login updateMemberInfo.fail.', err);
         reject();
@@ -299,19 +299,17 @@ cc.Class({
     WebApi.queryGameDetail().then((res) => {
       return new Promise((resolve, reject) => {
         // 1.接口读取到的信息转义
-        if (res) {
+        if (res.result) {
           console.log('Login queryGameDetail', res);
           // 一定要获取到游戏信息
           if (res && res.game) {
             this.objGameDetail = res.game.data[0];
             this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
           }
-          // 有可能查不到玩家信息
-          if (res && res.member) {
-            this.objMember = res.member;
-          }
           resolve();
         } else {
+          // 接口返回失败（弹出弹窗交互重新获取游戏信息）
+
           reject();
         }
       });

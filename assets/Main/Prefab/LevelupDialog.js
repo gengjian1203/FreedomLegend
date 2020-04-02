@@ -103,23 +103,23 @@ cc.Class({
       type: cc.Node,
       default: null
     },
-    // 格挡 - 旧
-    m_labelBlock_Old: {
+    // 速度 - 旧
+    m_labelSpeed_Old: {
       type: cc.Node,
       default: null
     },
-    // 格挡 - 新
-    m_labelBlock_New: {
+    // 速度 - 新
+    m_labelSpeed_New: {
       type: cc.Node,
       default: null
     },
-    // 幸运 - 旧
-    m_labelLucky_Old: {
+    // 悟性 - 旧
+    m_labelUnderstand_Old: {
       type: cc.Node,
       default: null
     },
-    // 幸运 - 新
-    m_labelLucky_New: {
+    // 悟性 - 新
+    m_labelUnderstand_New: {
       type: cc.Node,
       default: null
     },
@@ -197,10 +197,10 @@ cc.Class({
     this.m_labelCrit_New.getComponent(cc.Label).string = objNew.crit_total;
     this.m_labelDodge_Old.getComponent(cc.Label).string = objOld.dodge_total;
     this.m_labelDodge_New.getComponent(cc.Label).string = objNew.dodge_total;
-    this.m_labelBlock_Old.getComponent(cc.Label).string = objOld.block_total;
-    this.m_labelBlock_New.getComponent(cc.Label).string = objNew.block_total;
-    this.m_labelLucky_Old.getComponent(cc.Label).string = objOld.lucky_total;
-    this.m_labelLucky_New.getComponent(cc.Label).string = objNew.lucky_total;
+    this.m_labelSpeed_Old.getComponent(cc.Label).string = objOld.speed_total;
+    this.m_labelSpeed_New.getComponent(cc.Label).string = objNew.speed_total;
+    this.m_labelUnderstand_Old.getComponent(cc.Label).string = objOld.understand_total;
+    this.m_labelUnderstand_New.getComponent(cc.Label).string = objNew.understand_total;
   }
 
 });

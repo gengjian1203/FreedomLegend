@@ -28,20 +28,20 @@ function funComputedMemberInfoForBase(level) {
     innerAttack_base: level * 10 + 10, // 内功
     outerDefense_base: level * 10 + 10, // 外防
     innerDefense_base: level * 10 + 0, // 内防
-    crit_base: 0, // 暴击率
-    dodge_base: 0, // 闪避率
-    block_base: 0, // 格挡率
-    lucky_base: 0, // 幸运值
+    crit_base: g_objMemberInfo.crit_base,       // 暴击率
+    dodge_base: g_objMemberInfo.dodge_base,     // 闪避率
+    speed_base: g_objMemberInfo.speed_base,     // 速度
+    understand_base: g_objMemberInfo.understand_base, // 悟性
     // 综合属性
     hp_total: (level * 50 + 100) + g_objMemberInfo.hp_suit + g_objMemberInfo.hp_medicine, // 生命
     outerAttack_total: (level * 10 + 20) + g_objMemberInfo.outerAttack_suit + g_objMemberInfo.outerAttack_medicine, // 外功
     innerAttack_total: (level * 10 + 10) + g_objMemberInfo.innerAttack_suit + g_objMemberInfo.innerAttack_medicine, // 内功
     outerDefense_total: (level * 10 + 10) + g_objMemberInfo.outerDefense_suit + g_objMemberInfo.outerDefense_medicine, // 外防
     innerDefense_total: (level * 10 + 0) + g_objMemberInfo.innerDefense_suit + g_objMemberInfo.innerDefense_medicine, // 内防
-    crit_total: 0 + g_objMemberInfo.crit_suit + g_objMemberInfo.crit_medicine, // 暴击率
-    dodge_total: 0 + g_objMemberInfo.dodge_suit + g_objMemberInfo.dodge_medicine, // 闪避率
-    block_total: 0 + g_objMemberInfo.block_suit + g_objMemberInfo.block_medicine, // 格挡率
-    lucky_total: 0 + g_objMemberInfo.lucky_suit + g_objMemberInfo.lucky_medicine, // 幸运值
+    crit_total: g_objMemberInfo.crit_base + g_objMemberInfo.crit_suit + g_objMemberInfo.crit_medicine, // 暴击率
+    dodge_total: g_objMemberInfo.dodge_base + g_objMemberInfo.dodge_suit + g_objMemberInfo.dodge_medicine, // 闪避率
+    speed_total: g_objMemberInfo.speed_base + g_objMemberInfo.speed_suit + g_objMemberInfo.speed_medicine, // 速度
+    understand_total: g_objMemberInfo.understand_base + g_objMemberInfo.understand_suit + g_objMemberInfo.understand_medicine, // 悟性
   };
   return objMemberInfo;
 }

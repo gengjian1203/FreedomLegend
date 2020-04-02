@@ -5832,7 +5832,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Block",
+    "_name": "Speed",
     "_objFlags": 0,
     "_parent": {
       "__id__": 11
@@ -6048,7 +6048,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Block",
+    "_name": "Speed",
     "_objFlags": 0,
     "_parent": {
       "__id__": 164
@@ -6127,8 +6127,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "格挡",
-    "_N$string": "格挡",
+    "_string": "速度",
+    "_N$string": "速度",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -6183,7 +6183,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Block_old",
+    "_name": "Speed_old",
     "_objFlags": 0,
     "_parent": {
       "__id__": 164
@@ -6318,7 +6318,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Block_new",
+    "_name": "Speed_new",
     "_objFlags": 0,
     "_parent": {
       "__id__": 164
@@ -6491,7 +6491,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Lucky",
+    "_name": "Understand",
     "_objFlags": 0,
     "_parent": {
       "__id__": 11
@@ -6707,7 +6707,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Lucky",
+    "_name": "Understand",
     "_objFlags": 0,
     "_parent": {
       "__id__": 183
@@ -6786,8 +6786,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "幸运",
-    "_N$string": "幸运",
+    "_string": "悟性",
+    "_N$string": "悟性",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -6842,7 +6842,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Lucky_old",
+    "_name": "Understand_old",
     "_objFlags": 0,
     "_parent": {
       "__id__": 183
@@ -6977,7 +6977,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Lucky_new",
+    "_name": "Understand_new",
     "_objFlags": 0,
     "_parent": {
       "__id__": 183
@@ -7724,16 +7724,16 @@
     "m_labelDodge_New": {
       "__id__": 158
     },
-    "m_labelBlock_Old": {
+    "m_labelSpeed_Old": {
       "__id__": 173
     },
-    "m_labelBlock_New": {
+    "m_labelSpeed_New": {
       "__id__": 177
     },
-    "m_labelLucky_Old": {
+    "m_labelUnderstand_Old": {
       "__id__": 192
     },
-    "m_labelLucky_New": {
+    "m_labelUnderstand_New": {
       "__id__": 196
     },
     "_id": ""

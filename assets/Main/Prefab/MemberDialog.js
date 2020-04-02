@@ -97,13 +97,13 @@ cc.Class({
       type: cc.Node,
       default: null
     },
-    // 格挡
-    m_labelBlock: {
+    // 速度
+    m_labelSpeed: {
       type: cc.Node,
       default: null
     },
     // 幸运
-    m_labelLucky: {
+    m_labelUnderstand: {
       type: cc.Node,
       default: null
     },
@@ -208,9 +208,9 @@ cc.Class({
       // 闪避
       this.m_labelDodge.getComponent(cc.Label).string = g_objMemberInfo.dodge_total;
       // 格挡
-      this.m_labelBlock.getComponent(cc.Label).string = g_objMemberInfo.block_total;
+      this.m_labelSpeed.getComponent(cc.Label).string = g_objMemberInfo.speed_total;
       // 幸运
-      this.m_labelLucky.getComponent(cc.Label).string = g_objMemberInfo.lucky_total;
+      this.m_labelUnderstand.getComponent(cc.Label).string = g_objMemberInfo.understand_total;
       
     }
   },

@@ -5218,7 +5218,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "BL",
+    "_name": "SU",
     "_objFlags": 0,
     "_parent": {
       "__id__": 23
@@ -5295,7 +5295,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Block",
+    "_name": "Speed",
     "_objFlags": 0,
     "_parent": {
       "__id__": 147
@@ -5374,8 +5374,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "格挡",
-    "_N$string": "格挡",
+    "_string": "速度",
+    "_N$string": "速度",
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -5430,7 +5430,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Block_Value",
+    "_name": "Speed_Value",
     "_objFlags": 0,
     "_parent": {
       "__id__": 147
@@ -5565,7 +5565,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Lucky",
+    "_name": "Understand",
     "_objFlags": 0,
     "_parent": {
       "__id__": 147
@@ -5644,8 +5644,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "幸运",
-    "_N$string": "幸运",
+    "_string": "悟性",
+    "_N$string": "悟性",
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -5700,7 +5700,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Lucky_Value",
+    "_name": "Understand_Value",
     "_objFlags": 0,
     "_parent": {
       "__id__": 147
@@ -8557,10 +8557,10 @@
     "m_labelDodge": {
       "__id__": 141
     },
-    "m_labelBlock": {
+    "m_labelSpeed": {
       "__id__": 152
     },
-    "m_labelLucky": {
+    "m_labelUnderstand": {
       "__id__": 160
     },
     "_id": ""
