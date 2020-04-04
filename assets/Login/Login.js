@@ -178,37 +178,34 @@ cc.Class({
     this.showLineLoading();
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
-      this.setLineLoading(20);
+      this.setLineLoading(25);
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
         isNewMember = res.isNewMember;
-        this.setLineLoading(40);
+        this.setLineLoading(50);
         cc.loader.downloader.loadSubpackage('Main', (err) => {
           if (err) {
             console.log('loadSubpackage Error', err);
             this.hideLineLoading();
             this.bLockLogin = false;
           } else {
-            this.setLineLoading(60);
-            setTimeout(() => {
-              this.setLineLoading(80);
-              // 查询玩家信息
-              this.queryMemberInfo().then((res) => {
-                this.setLineLoading(100);
-                if (isNewMember) {
-                  // 跳转新手引导页
-                  cc.director.loadScene('Preface');
-                } else {
-                  // 跳转正常游戏
-                  cc.director.loadScene('Main');
-                }
-                console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
-              }).catch((err) => {
-                console.log('Login queryMemberInfo Fail.', err);
-                this.hideLineLoading();
-                this.bLockLogin = false;
-              });
-            }, 1000);
+            this.setLineLoading(75);
+            // 查询玩家信息
+            this.queryMemberInfo().then((res) => {
+              this.setLineLoading(100);
+              if (isNewMember) {
+                // 跳转新手引导页
+                cc.director.loadScene('Preface');
+              } else {
+                // 跳转正常游戏
+                cc.director.loadScene('Main');
+              }
+              console.log('Login GlobalData', g_objUserInfo, g_objMemberInfo);
+            }).catch((err) => {
+              console.log('Login queryMemberInfo Fail.', err);
+              this.hideLineLoading();
+              this.bLockLogin = false;
+            });
           }
         });
       }).catch((err) => {

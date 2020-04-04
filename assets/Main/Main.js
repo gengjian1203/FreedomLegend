@@ -26,6 +26,8 @@ cc.Class({
     this.m_dlgRanking = null;
     // 属性对话框
     this.m_dlgMember = null;
+    // 属性对话框
+    this.m_dlgBagList = null;
     // 按钮锁
     this.bLockButton = false;
   },
@@ -59,6 +61,11 @@ cc.Class({
     },
     // 预制体 - 属性弹窗
     m_prefabMember: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 背包弹窗
+    m_prefabBagList: {
       type: cc.Prefab,
       default: null
     },
@@ -159,11 +166,13 @@ cc.Class({
     console.log('Main registerEvent.');
 
     // 注册公告栏消失事件
-    this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
-    this.node.on('hide-hook-dlg', this.onHideHookDlg, this);
-    this.node.on('hide-levelup-dlg', this.onHideLevelupDlg, this);
-    this.node.on('hide-ranking-dlg', this.onHideRankingDlg, this);
-    this.node.on('hide-member-dlg', this.onHideRankingDlg, this);
+    this.node.on('hide-toast-dlg', this.onHideDialog, this);
+    this.node.on('hide-hook-dlg', this.onHideDialog, this);
+    this.node.on('hide-levelup-dlg', this.onHideDialog, this);
+    this.node.on('hide-ranking-dlg', this.onHideDialog, this);
+    this.node.on('hide-member-dlg', this.onHideDialog, this);
+    this.node.on('hide-bag-dlg', this.onHideDialog, this);
+    
   },
 
   // 注销事件
@@ -171,40 +180,18 @@ cc.Class({
     console.log('Main registerEvent.');
 
     // 注销公告栏消失事件
-    this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
-    this.node.off('hide-hook-dlg', this.onHideHookDlg, this);
-    this.node.off('hide-levelup-dlg', this.onHideLevelupDlg, this);
-    this.node.off('hide-ranking-dlg', this.onHideRankingDlg, this);
-    this.node.off('hide-member-dlg', this.onHideMemberDlg, this);
+    this.node.off('hide-toast-dlg', this.onHideDialog, this);
+    this.node.off('hide-hook-dlg', this.onHideDialog, this);
+    this.node.off('hide-levelup-dlg', this.onHideDialog, this);
+    this.node.off('hide-ranking-dlg', this.onHideDialog, this);
+    this.node.off('hide-member-dlg', this.onHideDialog, this);
+    this.node.off('hide-bag-dlg', this.onHideDialog, this);
+
   },
 
   // 隐藏气泡弹窗
-  onHideToastDlg: function() {
-    console.log('Main onHideToastDlg');
-    this.bLockButton = false;
-  },
-
-  // 隐藏离线奖励弹窗
-  onHideHookDlg: function() {
-    console.log('Main onHideHookDlg');
-    this.bLockButton = false;
-  },
-
-  // 隐藏升级弹窗
-  onHideLevelupDlg: function() {
-    console.log('Main onHideLevelupDlg');
-    this.bLockButton = false;
-  },
-
-  // 隐藏排行榜
-  onHideRankingDlg: function() {
-    console.log('Main onHideRankingDlg');
-    this.bLockButton = false;
-  },
-
-  // 隐藏属性对话框
-  onHideMemberDlg: function() {
-    console.log('Main onHideMemberDlg');
+  onHideDialog: function() {
+    console.log('Main onHideDialog');
     this.bLockButton = false;
   },
 
@@ -266,20 +253,8 @@ cc.Class({
       return;
     }
     this.bLockButton = true;
+    this.showBagListDlg();
     console.log('Main onBtnBeibaoClick');
-    g_objMemberInfo.money += 100;
-    const objMemberInfo = {
-      money: g_objMemberInfo.money
-    }
-    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-      const strMsg = '铜钱 +100';
-      this.showToastDlg(strMsg);
-      this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
-      console.log('Main onBtnBeibaoClick success', res);
-    }).catch((err) => {
-      console.log('Main onBtnBeibaoClick fail', err);
-      this.bLockButton = false;
-    });
   },
 
   // 金矿
@@ -463,5 +438,11 @@ cc.Class({
   showMemberDlg: function() {
     this.m_dlgMember = cc.instantiate(this.m_prefabMember);
     this.m_root.addChild(this.m_dlgMember);
+  },
+
+  // 显示背包对话框
+  showBagListDlg: function() {
+    this.m_dlgBagList = cc.instantiate(this.m_prefabBagList);
+    this.m_root.addChild(this.m_dlgBagList);
   }
 });

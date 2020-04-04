@@ -47,21 +47,6 @@ function funComputedMemberInfoForBase(level) {
 }
 
 //////////////////////////////////////////////////
-// formatDate
-// 秒数格式化日期
-//////////////////////////////////////////////////
-function formatDate(seconds) {
-  let nSeconds = new Number(seconds);
-  const ss = Math.floor(nSeconds % 60);
-  nSeconds = Math.floor(nSeconds / 60);
-  const mm = Math.floor(nSeconds % 60);
-  const hh = Math.floor(nSeconds / 60);
-  let strResult = `${hh}时${mm}分${ss}秒`
-
-  return strResult;
-}
-
-//////////////////////////////////////////////////
 // getExpMaxString
 // 通过当前等级，计算升级所需的经验值
 //////////////////////////////////////////////////
@@ -160,7 +145,6 @@ function getDescribeString(describe) {
 export default {
   formatLargeNumber,
   funComputedMemberInfoForBase,
-  formatDate,
   getExpMaxString,
   getTasteString,
   getTasteColor,

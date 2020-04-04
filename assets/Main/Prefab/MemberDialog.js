@@ -15,16 +15,10 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
-    // 气泡对话框
-    this.m_dlgToast = null;
+
   },
 
   properties: {
-    // 预制体 - 气泡弹窗
-    m_prefabToast: {
-      type: cc.Prefab,
-      default: null
-    },
     // 模态对话框蒙板
     m_mask: {
       type: cc.Node,
@@ -119,13 +113,11 @@ cc.Class({
 
   onEnable () {
     console.log('MemberDialog onEvable.');
-    this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
     this.registerEvent();
   },
 
   onDisable () {
     console.log('MemberDialog onDisable.');
-    this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
     this.CancelEvent();
   },
 
@@ -140,13 +132,6 @@ cc.Class({
     this.node.dispatchEvent( new cc.Event.EventCustom('hide-member-dlg', true) );
     this.node.active = false;
     this.node.removeFromParent();
-  },
-
-  // 人物传记按钮
-  onBtnLogClick: function() {
-    console.log('MemberDialog onBtnOKClick.');
-    const strMsg = '抱歉，该功能尚未开放';
-    this.showToastDlg(strMsg);
   },
   
   // 注册事件
@@ -167,12 +152,6 @@ cc.Class({
     this.m_mask.off('touchend', (event) => {
       event.stopPropagation();
     });
-  },
-
-  // 隐藏气泡弹窗
-  onHideToastDlg: function() {
-    console.log('MemberDialog onHideToastDlg');
-    this.bLockButton = false;
   },
 
   //////////////////////////////////////////////////
@@ -213,12 +192,5 @@ cc.Class({
       this.m_labelUnderstand.getComponent(cc.Label).string = g_objMemberInfo.understand_total;
       
     }
-  },
-
-  // 显示气泡对话框 
-  showToastDlg: function(strMsg) {
-    this.m_dlgToast = cc.instantiate(this.m_prefabToast);
-    this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
-    this.node.addChild(this.m_dlgToast);
-  },
+  }
 });

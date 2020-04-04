@@ -44,8 +44,24 @@ function destructuringAssignment(objBase, objAdd) {
   return objResult;
 }
 
+//////////////////////////////////////////////////
+// formatDate
+// 秒数格式化日期
+//////////////////////////////////////////////////
+function formatDate(seconds) {
+  let nSeconds = new Number(seconds);
+  const ss = Math.floor(nSeconds % 60);
+  nSeconds = Math.floor(nSeconds / 60);
+  const mm = Math.floor(nSeconds % 60);
+  const hh = Math.floor(nSeconds / 60);
+  let strResult = `${hh}时${mm}分${ss}秒`
+
+  return strResult;
+}
+
 export default {
   AdapterScreen,
   isObjectEmpty,
   destructuringAssignment,
+  formatDate,
 }

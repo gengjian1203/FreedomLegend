@@ -8,7 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let GameApi = require("../Kits/GameApi");
+let Common = require("../Kits/Common");
 
 cc.Class({
   extends: cc.Component,
@@ -101,7 +101,7 @@ cc.Class({
   //////////////////////////////////////////////////
   // 渲染奖励信息
   setHookAwardData(nMeasure, nExp, nMoney, nGold) {
-    const strTime = `您本次离线了${GameApi.formatDate(nMeasure)}`;
+    const strTime = `您本次离线了${Common.formatDate(nMeasure)}`;
     const strExp = `经验 + ${nExp}`;
     const strMoney = `铜钱 + ${nMoney}`;
     const strGold = `元宝 + ${nGold}`;
