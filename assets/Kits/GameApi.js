@@ -144,11 +144,15 @@ function getDescribeString(describe) {
 
 //////////////////////////////////////////////////
 // getPartsInfoColor
-// 通过当前等级，计算当前的境界
+// 通过物品ID，计算物品品级的颜色
+// param:
+// id: String       物品资料库ID
+// return:
+// cc.color         cc颜色对象
 //////////////////////////////////////////////////
 function getPartsInfoColor(id) {
-  const level = Math.floor(parseInt(id) / 100) % 100;
-  const index = Math.floor(level / 3);
+  const grade = parseInt(id.slice(2, 4));
+  const index = Math.floor(grade / 3);
   const arrPartsInfoColor = [[100, 100, 100],   // 淡灰色 0品 无
                              [50, 50, 50],      // 灰色 3品 常见
                              [0, 0, 255],       // 蓝色 6品 少见
@@ -159,6 +163,27 @@ function getPartsInfoColor(id) {
   return new cc.color(arrPartsInfoColor[index][0], arrPartsInfoColor[index][1], arrPartsInfoColor[index][2]);
 }
 
+//////////////////////////////////////////////////
+// getPartsInfoType
+// 通过物品ID，解构物品相关信息
+// param:
+// id: String       物品资料库ID
+// return:
+// Object           物品相关信息{ nType: 10 - 装备
+//                              nGrade: 品级
+//                              nPosition: 部位
+//                              nComplete: 0 - 完整  1 - 碎片
+//////////////////////////////////////////////////
+function getPartsInfoType(id) {
+  const objResult = {
+    nType: parseInt(id.slice(0, 2)),
+    nGrade: parseInt(id.slice(2, 4)),
+    nPosition: parseInt(id.slice(4, 5)),
+    nComplete: parseInt(id.slice(5, 6)),
+  };
+  return objResult;
+}
+
 export default {
   formatLargeNumber,
   funComputedMemberInfoForBase,
@@ -167,4 +192,5 @@ export default {
   getTasteColor,
   getDescribeString,
   getPartsInfoColor,
+  getPartsInfoType,
 }

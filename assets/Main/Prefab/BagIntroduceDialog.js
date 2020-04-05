@@ -14,6 +14,8 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
+    // 这件物品的类型
+    this.m_objIntroduceType = {};
     // 气泡对话框
     this.m_dlgTip = null;
     // 按钮锁
@@ -56,6 +58,16 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // 使用按钮
+    m_labelUse: {
+      type: cc.Node,
+      default: null
+    },
+    // 丢弃按钮
+    m_labelGiveup: {
+      type: cc.Node,
+      default: null
+    }
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -166,10 +178,10 @@ cc.Class({
     this.m_dialog.height += 40;
   },
 
-  // 渲染物品属性的内容
+  // 渲染物品属性的内容（整件物品才会有属性）
   setItemAttribute: function(objBagListItemComplete) {
     let nCount = 0;
-    if (parseInt(objBagListItemComplete.id) % 10 === 0) {
+    if (this.m_objIntroduceType.nComplete === 0) {
       // 生命
       const nHp = objBagListItemComplete.hp + objBagListItemComplete.hp_up * (objBagListItemComplete.level - 1);
       if (nHp > 0) {
@@ -243,11 +255,32 @@ cc.Class({
     }
   },
 
+  // 渲染该介绍的物品类型
+  setItemType: function(objBagListItemComplete) {
+    this.m_objIntroduceType = GameApi.getPartsInfoType(objBagListItemComplete.id);
+    console.log('IntroduceDialog setItemType m_objIntroduceType', this.m_objIntroduceType);
+    switch(this.m_objIntroduceType.nType) {
+      // 装备
+      case 10: 
+        if (this.m_objIntroduceType.nComplete === 0) {
+          this.m_labelUse.getComponent(cc.Label).string = '装备';
+        } else {
+          this.m_labelUse.getComponent(cc.Label).string = '合成';
+        }
+        break;
+      // 其他
+      default:
+        break;
+    }
+  },
+
   // 渲染物品基本信息的内容
   setItemIntroduce: function(objBagListItemComplete) {
     console.log('IntroduceDialog setItemIntroduce', objBagListItemComplete);
+    // 解析该介绍的物品类型
+    this.setItemType(objBagListItemComplete);
 
-    const strLevel = (parseInt(objBagListItemComplete.id) % 10 === 0) ? `(Lv.${objBagListItemComplete.level})` : ``;
+    const strLevel = (this.m_objIntroduceType.nComplete === 0) ? `(Lv.${objBagListItemComplete.level})` : ``;
     // 物品名称
     this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}${strLevel}`;
     this.m_labelName.color = GameApi.getPartsInfoColor(objBagListItemComplete.id);
