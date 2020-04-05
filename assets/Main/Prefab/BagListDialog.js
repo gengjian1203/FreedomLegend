@@ -162,7 +162,7 @@ cc.Class({
         break;
       // 合成指定物品
       case 2:
-
+        this.composeBagPartsInfo(objParam.objBagListItemComplete);
         break;
       // 分解指定物品
       case 3:
@@ -269,6 +269,47 @@ cc.Class({
     }
   },
 
+  // 合成指定物品 0为整装 1为碎片
+  composeBagPartsInfo: function(objBagListItemComplete) {
+    // 查找对应碎片
+    const nIndex1 = this.m_arrPartsInfoList.findIndex((item) => { 
+      return objBagListItemComplete._id === item._id;
+    });
+    // 找到则进行操作
+    if (nIndex1 >= 0) {
+      this.m_arrPartsInfoList[nIndex1].total -= GameApi.getPartsInfoFragments(objBagListItemComplete.id);
+      if (this.m_arrPartsInfoList[nIndex1].total === 0) {
+        // 删除对应碎片
+        this.m_arrPartsInfoList.splice(nIndex1, 1);
+      }
+      // 增加对应装备
+      const strID0 = String(parseInt(objBagListItemComplete.id) - 1);
+      const newPartsInfo = {
+        _id: Common.getUUID(),
+        id: strID0,
+        time: new Date().getTime(),
+        type: 'compose',
+        level: 1,
+        total: 1,
+      };
+      this.m_arrPartsInfoList.push(newPartsInfo);
+
+      // 更新数据库
+      const param = {
+        partsInfo: this.m_arrPartsInfoList,
+        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+      };
+      WebApi.updatePartsInfo(param).then((res) => {
+        // 刷新背包列表
+        this.refreshBagListInfo();
+      }).catch((err) => {
+        console.log('BagDialog decomposeBagPartsInfo Fail.', err);
+      });
+    } else {
+      console.log('BagDialog decomposeBagPartsInfo 未找到指定物品');
+    }
+  },
+
   // 分解指定物品 0为整装 1为碎片
   decomposeBagPartsInfo: function(objBagListItemComplete) {
     // 查找对应物品
@@ -309,10 +350,10 @@ cc.Class({
         // 刷新背包列表
         this.refreshBagListInfo();
       }).catch((err) => {
-        console.log('BagDialog removeBagPartsInfo Fail.', err);
+        console.log('BagDialog decomposeBagPartsInfo Fail.', err);
       });
     } else {
-      console.log('BagDialog removeBagPartsInfo 未找到指定物品');
+      console.log('BagDialog decomposeBagPartsInfo 未找到指定物品');
     }
   }
 });
