@@ -196,7 +196,7 @@ function updateMemberInfo(memberInfo, isLogin) {
 // 查询角色的附属数据信息
 // param 
 // openid: String       openid 如果传值则查询对应id的角色信息、如果不传值则查询自身的角色信息
-// type: String         'all' - 全部, 'equip' - 装备, 'medicine' - 丹药, 'other' - 其他
+// type: String         'equip' - 装备, 'magic' - 功法, 'medicine' - 丹药, 'other' - 其他
 // return
 // result: Boolean      接口成功标识
 // prize: Array         [{_id:'', id:'', total:5, time:0}] 物品UUID唯一标识 物品ID 物品数量 创建时间戳
@@ -230,6 +230,46 @@ function queryPartsInfo(param) {
   });
 }
 
+//////////////////////////////////////////////////
+// updatePartsInfo
+// 更新/创建的配件信息
+// param 
+// openid: String       openid 如果传值则查询对应id的角色信息、如果不传值则查询自身的角色信息
+// partsInfo: Array     物品信息
+// partsType: String    配件列表名称
+// return
+// result: Boolean      接口成功标识
+//////////////////////////////////////////////////
+function updatePartsInfo(param) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.callFunction({
+        name: 'updatePartsInfo',
+        data: {
+          openid: param.openid,
+          partsInfo: param.partsInfo,
+          partsType: param.partsType
+        },
+        success: (res) => {
+          console.log('WebApi.updatePartsInfo', res, param);
+          if (res.result) {
+            console.log('WebApi.updatePartsInfo Success', res.result);
+            resolve(res);
+          } else {
+            reject(res);
+          }
+        },
+        fail: (err) => {
+          console.log('WebApi.updatePartsInfo Fail', err);
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   mylog,
   initWXCloud,
@@ -237,4 +277,5 @@ export default {
   queryMemberInfo,
   updateMemberInfo,
   queryPartsInfo,
+  updatePartsInfo,
 }

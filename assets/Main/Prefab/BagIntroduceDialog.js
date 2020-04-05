@@ -85,12 +85,14 @@ cc.Class({
   onEnable () {
     console.log('IntroduceDialog onEvable.');
     this.node.on('hide-introduce-tip-dlg', this.onHideIntroduceDialogTipDlg, this);
+    this.node.on('submit-introduce-tip-dlg', this.onHideIntroduceDialog_Simple, this);
     this.registerEvent();
   },
 
   onDisable () {
     console.log('IntroduceDialog onDisable.');
     this.node.off('hide-introduce-tip-dlg', this.onHideIntroduceDialogTipDlg, this);
+    this.node.off('submit-introduce-tip-dlg', this.onHideIntroduceDialog_Simple, this);
     this.CancelEvent();
   },
 
@@ -141,52 +143,66 @@ cc.Class({
     this.node.removeFromParent();
   },
 
+  // 关闭对话框 - 不影响Tip的冒泡消息
+  onHideIntroduceDialog_Simple: function() {
+    this.node.active = false;
+    this.node.removeFromParent();
+  },
+
   // 点击使用/合成/装备按钮
   onBtnUseClick: function(e, param) {
     console.log('IntroduceDialog onBtnUseClick');
     let strMsg = '';
-    
+    let nCommand = -1; // 0 - 丢弃 1 - 装备 2 - 合成 3 - 分解 4 - 使用
+  
     switch(this.m_objIntroduceType.nType) {
       case 10: 
         if (this.m_objIntroduceType.nComplete === 0) {
           // 装备
           strMsg = `您确定要装备这件${this.objBagListItemComplete.name}么？`;
+          nCommand = 1;
         } else {
           // 合成
           strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件${this.objBagListItemComplete.name.slice(0, -3)}么？`;
+          nCommand = 2;
         }
         break;
       default:
         // 其他
         strMsg = `您确定要使用这件${this.objBagListItemComplete.name}么？`;
+        nCommand = -1;
         break;
     }
 
-    this.onShowIntroduceDialogTipDlg(strMsg);
+    this.onShowIntroduceDialogTipDlg(strMsg, nCommand);
   },
 
   // 点击分解/丢弃按钮
   onBtnGiveupClick: function(e, param) {
     console.log('IntroduceDialog onBtnGiveupClick');
     let strMsg = '';
+    let nCommand = -1;
     
     switch(this.m_objIntroduceType.nType) {
       case 10: 
         if (this.m_objIntroduceType.nComplete === 0) {
           // 分解
           strMsg = `您将会得到${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片，确定要分解这件${this.objBagListItemComplete.name}么？`;
+          nCommand = 3;
         } else {
           // 丢弃
           strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
+          nCommand = 0;
         }
         break;
       default:
         // 丢弃
         strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
+        nCommand = -1;
         break;
     }
 
-    this.onShowIntroduceDialogTipDlg(strMsg);
+    this.onShowIntroduceDialogTipDlg(strMsg, nCommand);
   },
 
   // 隐藏气泡弹窗
@@ -195,10 +211,10 @@ cc.Class({
   },
 
   // 显示气泡对话框 
-  onShowIntroduceDialogTipDlg: function(strMsg) {
+  onShowIntroduceDialogTipDlg: function(strMsg, nCommand) {
     console.log('IntroduceDialog onHideIntroduceDialogTipDlg');
     this.m_dlgIntroduceTip = cc.instantiate(this.m_prefabIntroduceTip);
-    this.m_dlgIntroduceTip.getComponent('BagIntroduceTipDialog').setTipMessage(strMsg);
+    this.m_dlgIntroduceTip.getComponent('BagIntroduceTipDialog').setTipDialogData(strMsg, nCommand, this.objBagListItemComplete);
     this.node.addChild(this.m_dlgIntroduceTip);
   },
 

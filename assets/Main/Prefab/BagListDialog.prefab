@@ -961,7 +961,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btnSwitchAll",
+    "_name": "btnSwitchEquip",
     "_objFlags": 0,
     "_parent": {
       "__id__": 23
@@ -1182,8 +1182,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "全部",
-    "_N$string": "全部",
+    "_string": "装备",
+    "_N$string": "装备",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -1444,7 +1444,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btnSwitchEquip",
+    "_name": "btnSwitchMagic",
     "_objFlags": 0,
     "_parent": {
       "__id__": 23
@@ -1665,8 +1665,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "装备",
-    "_N$string": "装备",
+    "_string": "功法",
+    "_N$string": "功法",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -3518,10 +3518,10 @@
     "m_mask": {
       "__id__": 2
     },
-    "m_labelTabAll": {
+    "m_labelTabEquipment": {
       "__id__": 26
     },
-    "m_labelTabEquipment": {
+    "m_labelTabMagic": {
       "__id__": 39
     },
     "m_labelTabMedicine": {

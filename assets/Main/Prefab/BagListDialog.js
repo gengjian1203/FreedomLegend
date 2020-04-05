@@ -16,13 +16,13 @@ cc.Class({
 
   ctor() {
     // 背包tab类型
-    this.arrType = ['all', 'equip', 'medicine', 'other'];
+    this.arrType = ['equipment', 'magic', 'medicine', 'other'];
     // 介绍对话框
     this.m_dlgIntroduce = null;
-    // 按钮锁
-    this.bLockButton = false;
     // 当前选中的按钮序号
     this.m_nSelectIndex = -1;
+    // 当前的物品列表
+    this.m_arrPartsInfoList = [];
   },
 
   properties: {
@@ -41,22 +41,22 @@ cc.Class({
       type: cc.Node,
       default: null
     }, 
-    // 全部按钮文字
-    m_labelTabAll: {
-      type: cc.Node,
-      default: null
-    },
-    // 全部按钮装备
+    // Tab按钮 - 装备
     m_labelTabEquipment: {
       type: cc.Node,
       default: null
     },
-    // 全部按钮丹药
+    // Tab按钮 - 功法
+    m_labelTabMagic: {
+      type: cc.Node,
+      default: null
+    },
+    // Tab按钮 - 丹药
     m_labelTabMedicine: {
       type: cc.Node,
       default: null
     },
-    // 全部按钮其他
+    // Tab按钮 - 其他
     m_labelTabOther: {
       type: cc.Node,
       default: null
@@ -80,6 +80,7 @@ cc.Class({
     console.log('BagDialog onEvable.');
     this.node.on('show-introduce-dlg', this.onShowIntroduceDlg, this);
     this.node.on('hide-introduce-dlg', this.onHideIntroduceDlg, this);
+    this.node.on('submit-introduce-tip-dlg', this.onFuncBagPartsInfoUpdate, this);
     this.registerEvent();
   },
 
@@ -87,6 +88,7 @@ cc.Class({
     console.log('BagDialog onDisable.');
     this.node.off('show-introduce-dlg', this.onShowIntroduceDlg, this);
     this.node.off('hide-introduce-dlg', this.onHideIntroduceDlg, this);
+    this.node.off('submit-introduce-tip-dlg', this.onFuncBagPartsInfoUpdate, this);
     this.CancelEvent();
   },
 
@@ -131,8 +133,8 @@ cc.Class({
 
   // 显示介绍弹窗
   onShowIntroduceDlg: function(event) {
-    console.log('BagDialog onShowIntroduceDlg', event, event.getUserData());
     const objBagListItemComplete = event.getUserData();
+    console.log('BagDialog onShowIntroduceDlg', event, objBagListItemComplete);
     this.m_dlgIntroduce = cc.instantiate(this.m_prefabIntroduce);
     this.m_dlgIntroduce.getComponent('BagIntroduceDialog').setItemIntroduce(objBagListItemComplete);
     this.node.addChild(this.m_dlgIntroduce);
@@ -141,21 +143,49 @@ cc.Class({
   // 隐藏介绍弹窗
   onHideIntroduceDlg: function() {
     console.log('BagDialog onHideIntroduceDlg');
-    this.bLockButton = false;
+    
+  },
+
+  // 实现对背包物品的处理
+  onFuncBagPartsInfoUpdate: function(event) {
+    const objParam = event.getUserData();
+    console.log('BagDialog onFuncBagPartsInfoUpdate', event, objParam);
+    switch (objParam.nCommand) {
+      // 删除指定物品
+      case 0:
+        this.removeBagPartsInfo(objParam.objBagListItemComplete);
+        break;
+      // 装备指定物品
+      case 1:
+
+        break;
+      // 合成指定物品
+      case 2:
+
+        break;
+      // 分解指定物品
+      case 3:
+
+        break;
+      // 未知命令
+      default:
+        console.log('BagDialog onFuncBagPartsInfoUpdate 未知命令.');
+        break;
+    }
   },
 
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
   // 改变按钮颜色
-  switchButtonColor: function(index) {
+  switchButtonColor: function() {
     const colorMain = new cc.color(255, 0, 0, 255);
     const colorDesc = new cc.color(255, 255, 255, 255);
     
-    this.m_labelTabAll.color = index === 0 ? colorMain : colorDesc;
-    this.m_labelTabEquipment.color = index === 1 ? colorMain : colorDesc;
-    this.m_labelTabMedicine.color = index === 2 ? colorMain : colorDesc;
-    this.m_labelTabOther.color = index === 3 ? colorMain : colorDesc;
+    this.m_labelTabEquipment.color = this.m_nSelectIndex === 0 ? colorMain : colorDesc;
+    this.m_labelTabMagic.color = this.m_nSelectIndex === 1 ? colorMain : colorDesc;
+    this.m_labelTabMedicine.color = this.m_nSelectIndex === 2 ? colorMain : colorDesc;
+    this.m_labelTabOther.color = this.m_nSelectIndex === 3 ? colorMain : colorDesc;
     
   },
 
@@ -176,34 +206,67 @@ cc.Class({
     })
   },
 
-  // 查询背包列表内容
-  queryBagListInfo: function(index) {
-    if (this.m_nSelectIndex === index) {
-      return ;
-    }
-    this.m_nSelectIndex = index;
-    // 改变按钮颜色
-    this.switchButtonColor(index);
-
-    console.log('BagDialog queryBagListInfo', index);
+  // 刷新背包列表内容
+  refreshBagListInfo: function() {
     const param = {
-      type: this.arrType[parseInt(index)]
+      type: this.arrType[parseInt(this.m_nSelectIndex)]
     }
     // 清空列表
     this.m_bagList.removeAllChildren();
     // 查询背包并且渲染
     WebApi.queryPartsInfo(param).then((res) => {
       console.log('BagDialog queryPartsInfo Success.', res);
+      this.m_arrPartsInfoList = res.partsInfo;
       // 排序
-      this.sortBagListInfo(res.partsInfo);
+      this.sortBagListInfo(this.m_arrPartsInfoList);
       // 渲染
-      res.partsInfo.forEach((item, index) => {
+      this.m_arrPartsInfoList.forEach((item, index) => {
         this.createBagListItem(item, index);
       });
-      this.m_bagList.height = 80 * res.partsInfo.length;
+      this.m_bagList.height = 80 * this.m_arrPartsInfoList.length;
     }).catch((err) => {
       console.log('BagDialog queryPartsInfo Fail.', err);
     });
   },
+
+  // 查询背包列表内容
+  queryBagListInfo: function(index) {
+    console.log('BagDialog queryBagListInfo', index);
+    if (this.m_nSelectIndex === index) {
+      return ;
+    }
+    this.m_nSelectIndex = index;
+    // 改变按钮颜色
+    this.switchButtonColor();
+    // 刷新背包列表
+    this.refreshBagListInfo();
+  },
+
+  // 删除指定物品
+  removeBagPartsInfo: function(objBagListItemComplete) {
+    // 查找对应物品
+    const nIndex = this.m_arrPartsInfoList.findIndex((item) => { 
+      return objBagListItemComplete._id === item._id;
+    });
+    // 找到则进行操作
+    if (nIndex >= 0) {
+      this.m_arrPartsInfoList.splice(nIndex, 1);
+      console.log('BagDialog removeBagPartsInfo', nIndex, this.m_arrPartsInfoList);
+      // 更新数据库
+      const param = {
+        partsInfo: this.m_arrPartsInfoList,
+        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+      };
+      WebApi.updatePartsInfo(param).then((res) => {
+        // 刷新背包列表
+        this.refreshBagListInfo();
+      }).catch((err) => {
+        console.log('BagDialog removeBagPartsInfo Fail.', err);
+      });
+    } else {
+      console.log('BagDialog removeBagPartsInfo 未找到指定物品');
+    }
+    
+  }
 
 });

@@ -15,7 +15,9 @@ cc.Class({
 
   ctor() {
     // 按钮锁
-    this.bLockButton = false;
+    this.nCommand = -1;
+    // 物品完整信息
+    this.objBagListItemComplete = {};
   },
 
   properties: {
@@ -101,11 +103,15 @@ cc.Class({
   // 点击确定按钮
   onBtnSubmitClick: function(e, param) {
     console.log('BagIntroducetipDialog onBtnSubmitClick');
-    // 操作消息
+    // 向装备列表发送消息
     const event = new cc.Event.EventCustom('submit-introduce-tip-dlg', true);
-    event.setUserData(this.objBagListItemComplete);
+    const objParam = {
+      nCommand: this.nCommand,
+      objBagListItemComplete: this.objBagListItemComplete
+    }
+    event.setUserData(objParam);
     this.node.dispatchEvent(event);
-
+    // 关闭对话框
     this.onHideIntroduceTipDialog();
   },
 
@@ -120,9 +126,11 @@ cc.Class({
   // 自定义函数
   //////////////////////////////////////////////////
   // 渲染提示信息的内容
-  setTipMessage: function(strMessage) {
+  setTipDialogData: function(strMessage, nCommand, objBagListItemComplete) {
     console.log('BagIntroducetipDialog setTipMessage', strMessage);
     // 提示信息
     this.m_labelMessage.getComponent(cc.Label).string = strMessage;
+    this.nCommand = nCommand;
+    this.objBagListItemComplete = objBagListItemComplete;
   }
 });
