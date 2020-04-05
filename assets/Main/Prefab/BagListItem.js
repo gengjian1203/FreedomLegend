@@ -8,7 +8,6 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let Common = require("../Kits/Common");
 let GameApi = require("../Kits/GameApi");
 
 cc.Class({
@@ -70,16 +69,14 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 通过物品ID获取物品详细信息
-  getBagListItemComplete: function(objBagListItemBase) {
-    this.objBagListItemComplete = objBagListItemBase;
-  },
-
   // 渲染背包物品item信息
   setBagListItemData: function(objBagListItemBase) {
-    this.getBagListItemComplete(objBagListItemBase);
+    this.objBagListItemComplete = objBagListItemBase;
 
-    this.m_labelName.getComponent(cc.Label).string = this.objBagListItemComplete.name;
+    const strLevel = (parseInt(this.objBagListItemComplete.id) % 10 === 0) ? `(Lv.${this.objBagListItemComplete.level})` : ``;
+    this.m_labelName.getComponent(cc.Label).string = `${this.objBagListItemComplete.name}${strLevel}`;
+    this.m_labelName.color = GameApi.getPartsInfoColor(this.objBagListItemComplete.id);
     this.m_labelTotal.getComponent(cc.Label).string = `×${this.objBagListItemComplete.total}`;
+    this.m_labelTotal.color = GameApi.getPartsInfoColor(this.objBagListItemComplete.id);
   }
 });

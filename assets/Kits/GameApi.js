@@ -72,7 +72,7 @@ function getTasteString(level) {
 
 //////////////////////////////////////////////////
 // getTasteColor
-// 通过当前等级，计算当前的境界
+// 通过当前等级，计算当前的境界的展示颜色
 //////////////////////////////////////////////////
 function getTasteColor(level) {
   if (level > 199) {
@@ -142,6 +142,23 @@ function getDescribeString(describe) {
   return result;
 }
 
+//////////////////////////////////////////////////
+// getPartsInfoColor
+// 通过当前等级，计算当前的境界
+//////////////////////////////////////////////////
+function getPartsInfoColor(id) {
+  const level = Math.floor(parseInt(id) / 100) % 100;
+  const index = Math.floor(level / 3);
+  const arrPartsInfoColor = [[100, 100, 100],   // 淡灰色 0品 无
+                             [50, 50, 50],      // 灰色 3品 常见
+                             [0, 0, 255],       // 蓝色 6品 少见
+                             [0, 255, 0],       // 绿色 9品 稀有
+                             [255, 0, 255],     // 紫色 12品 传说
+                             [255, 255, 0],     // 金色 15品 史诗
+                             [255, 0, 0]];      // 红色 18品 神器
+  return new cc.color(arrPartsInfoColor[index][0], arrPartsInfoColor[index][1], arrPartsInfoColor[index][2]);
+}
+
 export default {
   formatLargeNumber,
   funComputedMemberInfoForBase,
@@ -149,4 +166,5 @@ export default {
   getTasteString,
   getTasteColor,
   getDescribeString,
+  getPartsInfoColor,
 }

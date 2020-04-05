@@ -1184,7 +1184,7 @@
     "_useOriginalSize": false,
     "_string": "全部",
     "_N$string": "全部",
-    "_fontSize": 30,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -1667,7 +1667,7 @@
     "_useOriginalSize": false,
     "_string": "装备",
     "_N$string": "装备",
-    "_fontSize": 30,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -2150,7 +2150,7 @@
     "_useOriginalSize": false,
     "_string": "丹药",
     "_N$string": "丹药",
-    "_fontSize": 30,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -2633,7 +2633,7 @@
     "_useOriginalSize": false,
     "_string": "其他",
     "_N$string": "其他",
-    "_fontSize": 30,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -3517,6 +3517,18 @@
     },
     "m_mask": {
       "__id__": 2
+    },
+    "m_labelTabAll": {
+      "__id__": 26
+    },
+    "m_labelTabEquipment": {
+      "__id__": 39
+    },
+    "m_labelTabMedicine": {
+      "__id__": 52
+    },
+    "m_labelTabOther": {
+      "__id__": 65
     },
     "m_bagList": {
       "__id__": 81

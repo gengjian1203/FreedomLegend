@@ -21,6 +21,8 @@ cc.Class({
     this.m_dlgIntroduce = null;
     // 按钮锁
     this.bLockButton = false;
+    // 当前选中的按钮序号
+    this.m_nSelectIndex = -1;
   },
 
   properties: {
@@ -39,6 +41,26 @@ cc.Class({
       type: cc.Node,
       default: null
     }, 
+    // 全部按钮文字
+    m_labelTabAll: {
+      type: cc.Node,
+      default: null
+    },
+    // 全部按钮装备
+    m_labelTabEquipment: {
+      type: cc.Node,
+      default: null
+    },
+    // 全部按钮丹药
+    m_labelTabMedicine: {
+      type: cc.Node,
+      default: null
+    },
+    // 全部按钮其他
+    m_labelTabOther: {
+      type: cc.Node,
+      default: null
+    },
     // 背包列表节点
     m_bagList: {
       type: cc.Node,
@@ -125,6 +147,18 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
+  // 改变按钮颜色
+  switchButtonColor: function(index) {
+    const colorMain = new cc.color(255, 0, 0, 255);
+    const colorDesc = new cc.color(255, 255, 255, 255);
+    
+    this.m_labelTabAll.color = index === 0 ? colorMain : colorDesc;
+    this.m_labelTabEquipment.color = index === 1 ? colorMain : colorDesc;
+    this.m_labelTabMedicine.color = index === 2 ? colorMain : colorDesc;
+    this.m_labelTabOther.color = index === 3 ? colorMain : colorDesc;
+    
+  },
+
   // 创建一个预制体item
   createBagListItem: function(objItem, index) {
     let item = null;
@@ -135,8 +169,22 @@ cc.Class({
     this.m_bagList.addChild(item);
   },
 
+  // 背包排序
+  sortBagListInfo: function(arrPartInfo) {
+    arrPartInfo.sort((infoA, infoB) => {
+      return infoB.id - infoA.id;
+    })
+  },
+
   // 查询背包列表内容
   queryBagListInfo: function(index) {
+    if (this.m_nSelectIndex === index) {
+      return ;
+    }
+    this.m_nSelectIndex = index;
+    // 改变按钮颜色
+    this.switchButtonColor(index);
+
     console.log('BagDialog queryBagListInfo', index);
     const param = {
       type: this.arrType[parseInt(index)]
@@ -146,6 +194,9 @@ cc.Class({
     // 查询背包并且渲染
     WebApi.queryPartsInfo(param).then((res) => {
       console.log('BagDialog queryPartsInfo Success.', res);
+      // 排序
+      this.sortBagListInfo(res.partsInfo);
+      // 渲染
       res.partsInfo.forEach((item, index) => {
         this.createBagListItem(item, index);
       });

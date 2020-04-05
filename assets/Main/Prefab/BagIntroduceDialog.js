@@ -8,7 +8,6 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let Common = require("../Kits/Common");
 let GameApi = require("../Kits/GameApi");
 
 cc.Class({
@@ -158,8 +157,10 @@ cc.Class({
   setItemIntroduce: function(objBagListItemComplete) {
     console.log('IntroduceDialog setItemIntroduce', objBagListItemComplete);
 
+    const strLevel = (parseInt(objBagListItemComplete.id) % 10 === 0) ? `(Lv.${objBagListItemComplete.level})` : ``;
     // 物品名称
-    this.m_labelName.getComponent(cc.Label).string = objBagListItemComplete.name ? objBagListItemComplete.name : '';
+    this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}${strLevel}`;
+    this.m_labelName.color = GameApi.getPartsInfoColor(objBagListItemComplete.id);
     // 物品介绍
     this.m_labelIntroduce.getComponent(cc.Label).string = objBagListItemComplete.introduce ? objBagListItemComplete.introduce : '';
     // 物品引言
