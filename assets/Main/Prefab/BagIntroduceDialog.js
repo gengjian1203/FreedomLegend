@@ -31,6 +31,7 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // 对话框节点
     m_dialog: {
       type: cc.Node,
       default: null
@@ -153,7 +154,96 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 渲染物品信息的内容
+  // 创建物品属性标签
+  createAttributeLabel: function(strAttr, nCount) {
+    const node = new cc.Node();
+    node.x = 0;
+    node.y = nCount === -1 ? 0 : -nCount * 40 - 10;
+    const label = node.addComponent(cc.Label);
+    label.fontSize = 30;
+    label.string = strAttr;
+    this.m_rootAttribute.addChild(node);
+    this.m_dialog.height += 40;
+  },
+
+  // 渲染物品属性的内容
+  setItemAttribute: function(objBagListItemComplete) {
+    let nCount = 0;
+    if (parseInt(objBagListItemComplete.id) % 10 === 0) {
+      // 生命
+      const nHp = objBagListItemComplete.hp + objBagListItemComplete.hp_up * (objBagListItemComplete.level - 1);
+      if (nHp > 0) {
+        nCount++;
+        const strAttr = `生命 + ${nHp}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 外功
+      const nOuterAttack = objBagListItemComplete.outerAttack + objBagListItemComplete.outerAttack_up * (objBagListItemComplete.level - 1);
+      if (nOuterAttack > 0) {
+        nCount++;
+        const strAttr = `外功 + ${nOuterAttack}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 内功
+      const nInnerAttack = objBagListItemComplete.innerAttack + objBagListItemComplete.innerAttack_up * (objBagListItemComplete.level - 1);
+      if (nInnerAttack > 0) {
+        nCount++;
+        const strAttr = `内功 + ${nInnerAttack}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 外防
+      const nOuterDefense = objBagListItemComplete.outerDefense + objBagListItemComplete.outerDefense_up * (objBagListItemComplete.level - 1);
+      if (nOuterDefense > 0) {
+        nCount++;
+        const strAttr = `外防 + ${nOuterDefense}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 内防
+      const nInnerDefense = objBagListItemComplete.innerDefense + objBagListItemComplete.innerDefense_up * (objBagListItemComplete.level - 1);
+      if (nInnerDefense > 0) {
+        nCount++;
+        const strAttr = `外防 + ${nInnerDefense}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 暴击
+      const nCrit = objBagListItemComplete.crit + objBagListItemComplete.crit_up * (objBagListItemComplete.level - 1);
+      if (nCrit > 0) {
+        nCount++;
+        const strAttr = `暴击 + ${nCrit}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 闪避
+      const nDodge = objBagListItemComplete.dodge + objBagListItemComplete.dodge_up * (objBagListItemComplete.level - 1);
+      if (nDodge > 0) {
+        nCount++;
+        const strAttr = `闪避 + ${nDodge}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 速度
+      const nSpeed = objBagListItemComplete.speed + objBagListItemComplete.speed_up * (objBagListItemComplete.level - 1);
+      if (nSpeed > 0) {
+        nCount++;
+        const strAttr = `速度 + ${nSpeed}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+      // 悟性
+      const nUnderstand = objBagListItemComplete.understand + objBagListItemComplete.understand_up * (objBagListItemComplete.level - 1);
+      if (nUnderstand > 0) {
+        nCount++;
+        const strAttr = `悟性 + ${nUnderstand}`;
+        this.createAttributeLabel(strAttr, nCount);
+      }
+
+      // 是否显示属性
+      if (nCount > 0) {
+        const nNum = -1;
+        const strAttr = `【属性】`;
+        this.createAttributeLabel(strAttr, nNum);
+      }
+    }
+  },
+
+  // 渲染物品基本信息的内容
   setItemIntroduce: function(objBagListItemComplete) {
     console.log('IntroduceDialog setItemIntroduce', objBagListItemComplete);
 
@@ -165,6 +255,7 @@ cc.Class({
     this.m_labelIntroduce.getComponent(cc.Label).string = objBagListItemComplete.introduce ? objBagListItemComplete.introduce : '';
     // 物品引言
     this.m_labelDescribe.getComponent(cc.Label).string = objBagListItemComplete.describe ? objBagListItemComplete.describe: '';
+    // 物品属性
+    this.setItemAttribute(objBagListItemComplete);
   }
-
 });

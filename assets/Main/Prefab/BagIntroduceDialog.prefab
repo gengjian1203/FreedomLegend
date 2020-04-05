@@ -232,7 +232,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 550,
-      "height": 680
+      "height": 420
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -299,7 +299,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 550,
-      "height": 680
+      "height": 420
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -448,7 +448,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        320,
+        190,
         0,
         0,
         0,
@@ -570,7 +570,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 510,
+      "width": 450,
       "height": 90.39999999999999
     },
     "_anchorPoint": {
@@ -582,8 +582,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -255,
-        240,
+        -225,
+        110,
         0,
         0,
         0,
@@ -648,8 +648,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 41,
-    "_left": 20,
-    "_right": 20,
+    "_left": 50,
+    "_right": 50,
     "_top": 100,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -705,7 +705,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 510,
+      "width": 450,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -717,8 +717,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -255,
-        120,
+        -225,
+        -10,
         0,
         0,
         0,
@@ -783,8 +783,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 41,
-    "_left": 20,
-    "_right": 20,
+    "_left": 50,
+    "_right": 50,
     "_top": 220,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -838,7 +838,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 510,
-      "height": 200
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -850,7 +850,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        40,
+        -110,
         0,
         0,
         0,
@@ -887,7 +887,7 @@
     "_alignFlags": 41,
     "_left": 20,
     "_right": 20,
-    "_top": 300,
+    "_top": 320,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -959,7 +959,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -320,
+        -190,
         0,
         0,
         0,
