@@ -27,7 +27,36 @@ cc.Class({
     //////////////////////////////////////////////////
     // 装备栏
     //////////////////////////////////////////////////
-    // 
+    // 头戴
+    m_labelHat: {
+      type: cc.Node,
+      default: null
+    },
+    // 肩披
+    m_labelShoulder: {
+      type: cc.Node,
+      default: null
+    },
+    // 身穿
+    m_labelJacket: {
+      type: cc.Node,
+      default: null
+    },
+    // 手持
+    m_labelWeapon: {
+      type: cc.Node,
+      default: null
+    },
+    // 腰悬
+    m_labelJewelry: {
+      type: cc.Node,
+      default: null
+    },
+    // 足踏
+    m_labelShoes: {
+      type: cc.Node,
+      default: null
+    },
     //////////////////////////////////////////////////
     // 状态栏
     //////////////////////////////////////////////////
@@ -165,13 +194,29 @@ cc.Class({
       // 昵称
       this.m_labelName.getComponent(cc.Label).string = g_objUserInfo.nickName;
       // 称号
-      this.m_labelTitle.getComponent(cc.Label).string = g_objMemberInfo.title;
+      this.m_labelTitle.getComponent(cc.Label).string = g_objMemberInfo.title ? g_objMemberInfo.title : '无';
       // 等级
       this.m_labelTaste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       // 经验
       this.m_labelExp.getComponent(cc.Label).string = `${g_objMemberInfo.exp} / ${GameApi.getExpMaxString(g_objMemberInfo.level)}`;
       // 描述
       this.m_labelDescribe.getComponent(cc.Label).string = GameApi.getDescribeString(g_objMemberInfo.describe);
+      //////////////////////////////////////////////////
+      // 装备栏
+      // 头戴
+      this.m_labelHat.getComponent(cc.Label).string = g_objMemberInfo.suit_hat.name ? g_objMemberInfo.suit_hat.name : '无';
+      // 肩披
+      this.m_labelShoulder.getComponent(cc.Label).string = g_objMemberInfo.suit_shoulder.name ? g_objMemberInfo.suit_shoulder.name : '无';
+      // 身穿
+      this.m_labelJacket.getComponent(cc.Label).string = g_objMemberInfo.suit_jacket.name ? g_objMemberInfo.suit_jacket.name : '无';
+      // 手持
+      this.m_labelWeapon.getComponent(cc.Label).string = g_objMemberInfo.suit_weapon.name ? g_objMemberInfo.suit_weapon.name : '无';
+      // 腰悬
+      this.m_labelJewelry.getComponent(cc.Label).string = g_objMemberInfo.suit_jewelry.name ? g_objMemberInfo.suit_jewelry.name : '无';
+      // 足踏
+      this.m_labelShoes.getComponent(cc.Label).string = g_objMemberInfo.suit_shoes.name ? g_objMemberInfo.suit_shoes.name : '无';
+      //////////////////////////////////////////////////
+      // 状态栏
       // 生命
       this.m_labelHP.getComponent(cc.Label).string = g_objMemberInfo.hp_total;
       // 外功

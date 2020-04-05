@@ -144,49 +144,49 @@ cc.Class({
   // 点击使用/合成/装备按钮
   onBtnUseClick: function(e, param) {
     console.log('IntroduceDialog onBtnUseClick');
+    let strMsg = '';
     
     switch(this.m_objIntroduceType.nType) {
       case 10: 
         if (this.m_objIntroduceType.nComplete === 0) {
           // 装备
-          const strMsg = `您确定要装备这件${this.objBagListItemComplete.name}么？`;
-          this.onShowIntroduceDialogTipDlg(strMsg);
+          strMsg = `您确定要装备这件${this.objBagListItemComplete.name}么？`;
         } else {
           // 合成
-          const strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件${this.objBagListItemComplete.name.slice(0, -3)}么？`;
-          this.onShowIntroduceDialogTipDlg(strMsg);
+          strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件${this.objBagListItemComplete.name.slice(0, -3)}么？`;
         }
         break;
       default:
         // 其他
-        const strMsg = `您确定要使用这件${this.objBagListItemComplete.name}么？`;
-        this.onShowIntroduceDialogTipDlg(strMsg);
+        strMsg = `您确定要使用这件${this.objBagListItemComplete.name}么？`;
         break;
     }
+
+    this.onShowIntroduceDialogTipDlg(strMsg);
   },
 
   // 点击分解/丢弃按钮
   onBtnGiveupClick: function(e, param) {
     console.log('IntroduceDialog onBtnGiveupClick');
+    let strMsg = '';
     
     switch(this.m_objIntroduceType.nType) {
       case 10: 
         if (this.m_objIntroduceType.nComplete === 0) {
           // 分解
-          const strMsg = `您将会得到${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片，确定要分解这件${this.objBagListItemComplete.name}么？`;
-          this.onShowIntroduceDialogTipDlg(strMsg);
+          strMsg = `您将会得到${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片，确定要分解这件${this.objBagListItemComplete.name}么？`;
         } else {
           // 丢弃
-          const strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
-          this.onShowIntroduceDialogTipDlg(strMsg);
+          strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
         }
         break;
       default:
         // 丢弃
-        const strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
-        this.onShowIntroduceDialogTipDlg(strMsg);
+        strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
         break;
     }
+
+    this.onShowIntroduceDialogTipDlg(strMsg);
   },
 
   // 隐藏气泡弹窗
