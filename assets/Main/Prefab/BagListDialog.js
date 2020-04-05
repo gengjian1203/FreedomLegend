@@ -10,6 +10,7 @@
 
 let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
+let GameApi = require("../Kits/GameApi");
 
 cc.Class({
   extends: cc.Component,
@@ -165,7 +166,7 @@ cc.Class({
         break;
       // 分解指定物品
       case 3:
-
+        this.decomposeBagPartsInfo(objParam.objBagListItemComplete);
         break;
       // 未知命令
       default:
@@ -266,7 +267,52 @@ cc.Class({
     } else {
       console.log('BagDialog removeBagPartsInfo 未找到指定物品');
     }
-    
-  }
+  },
 
+  // 分解指定物品 0为整装 1为碎片
+  decomposeBagPartsInfo: function(objBagListItemComplete) {
+    // 查找对应物品
+    const nIndex0 = this.m_arrPartsInfoList.findIndex((item) => { 
+      return objBagListItemComplete._id === item._id;
+    });
+    // 找到则进行操作
+    if (nIndex0 >= 0) {
+      // 删除对应物品
+      this.m_arrPartsInfoList.splice(nIndex0, 1);
+      // 增加对应碎片
+      const strID1 = String(parseInt(objBagListItemComplete.id) + 1);
+      const nIndex1 = this.m_arrPartsInfoList.findIndex((item) => { 
+        return strID1 === item.id;
+      });
+      if (nIndex1 === -1) {
+        // 没找到，新建碎片
+        const newPartsInfo = {
+          _id: Common.getUUID(),
+          id: strID1,
+          time: new Date().getTime(),
+          type: 'decompose',
+          level: 1,
+          total: GameApi.getPartsInfoFragments(objBagListItemComplete.id)
+        };
+        this.m_arrPartsInfoList.push(newPartsInfo);
+      } else {
+        // 找到，增加碎片数量
+        this.m_arrPartsInfoList[nIndex1].total += GameApi.getPartsInfoFragments(objBagListItemComplete.id);
+      }
+
+      // 更新数据库
+      const param = {
+        partsInfo: this.m_arrPartsInfoList,
+        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+      };
+      WebApi.updatePartsInfo(param).then((res) => {
+        // 刷新背包列表
+        this.refreshBagListInfo();
+      }).catch((err) => {
+        console.log('BagDialog removeBagPartsInfo Fail.', err);
+      });
+    } else {
+      console.log('BagDialog removeBagPartsInfo 未找到指定物品');
+    }
+  }
 });
