@@ -14,17 +14,17 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
+    // 这件物品的完整信息
+    this.objBagListItemComplete = {};
     // 这件物品的类型
     this.m_objIntroduceType = {};
-    // 气泡对话框
-    this.m_dlgTip = null;
-    // 按钮锁
-    this.bLockButton = false;
+    // 提示弹窗
+    this.m_dlgIntroduceTip = null;
   },
 
   properties: {
-    // 预制体 - 气泡弹窗
-    m_prefabTip: {
+    // 预制体 - 提示弹窗
+    m_prefabIntroduceTip: {
       type: cc.Prefab,
       default: null
     },
@@ -59,11 +59,16 @@ cc.Class({
       default: null
     },
     // 使用按钮
+    m_btnUse: {
+      type: cc.Node,
+      default: null
+    },
+    // 使用按钮标签
     m_labelUse: {
       type: cc.Node,
       default: null
     },
-    // 丢弃按钮
+    // 丢弃按钮标签
     m_labelGiveup: {
       type: cc.Node,
       default: null
@@ -79,13 +84,13 @@ cc.Class({
 
   onEnable () {
     console.log('IntroduceDialog onEvable.');
-    this.node.on('hide-toast-dlg', this.onHideToastDlg, this);
+    this.node.on('hide-introduce-tip-dlg', this.onHideIntroduceDialogTipDlg, this);
     this.registerEvent();
   },
 
   onDisable () {
     console.log('IntroduceDialog onDisable.');
-    this.node.off('hide-toast-dlg', this.onHideToastDlg, this);
+    this.node.off('hide-introduce-tip-dlg', this.onHideIntroduceDialogTipDlg, this);
     this.CancelEvent();
   },
 
@@ -136,32 +141,66 @@ cc.Class({
     this.node.removeFromParent();
   },
 
-  // 点击使用按钮
+  // 点击使用/合成/装备按钮
   onBtnUseClick: function(e, param) {
     console.log('IntroduceDialog onBtnUseClick');
     
-    this.onHideIntroduceDialog();
+    switch(this.m_objIntroduceType.nType) {
+      case 10: 
+        if (this.m_objIntroduceType.nComplete === 0) {
+          // 装备
+          const strMsg = `您确定要装备这件${this.objBagListItemComplete.name}么？`;
+          this.onShowIntroduceDialogTipDlg(strMsg);
+        } else {
+          // 合成
+          const strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件${this.objBagListItemComplete.name.slice(0, -3)}么？`;
+          this.onShowIntroduceDialogTipDlg(strMsg);
+        }
+        break;
+      default:
+        // 其他
+        const strMsg = `您确定要使用这件${this.objBagListItemComplete.name}么？`;
+        this.onShowIntroduceDialogTipDlg(strMsg);
+        break;
+    }
   },
 
-  // 点击丢弃按钮
+  // 点击分解/丢弃按钮
   onBtnGiveupClick: function(e, param) {
     console.log('IntroduceDialog onBtnGiveupClick');
     
-    this.onHideIntroduceDialog();
+    switch(this.m_objIntroduceType.nType) {
+      case 10: 
+        if (this.m_objIntroduceType.nComplete === 0) {
+          // 分解
+          const strMsg = `您将会得到${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片，确定要分解这件${this.objBagListItemComplete.name}么？`;
+          this.onShowIntroduceDialogTipDlg(strMsg);
+        } else {
+          // 丢弃
+          const strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
+          this.onShowIntroduceDialogTipDlg(strMsg);
+        }
+        break;
+      default:
+        // 丢弃
+        const strMsg = `您确定要丢弃全部的${this.objBagListItemComplete.name}么`;
+        this.onShowIntroduceDialogTipDlg(strMsg);
+        break;
+    }
   },
 
   // 隐藏气泡弹窗
-  onHideToastDlg: function() {
-    console.log('IntroduceDialog onHideToastDlg');
-    this.bLockButton = false;
+  onHideIntroduceDialogTipDlg: function() {
+    console.log('IntroduceDialog onHideIntroduceDialogTipDlg');
   },
 
-  // // 显示气泡对话框 
-  // showToastDlg: function(strMsg) {
-  //   this.m_dlgToast = cc.instantiate(this.m_prefabToast);
-  //   this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
-  //   this.node.addChild(this.m_dlgToast);
-  // },
+  // 显示气泡对话框 
+  onShowIntroduceDialogTipDlg: function(strMsg) {
+    console.log('IntroduceDialog onHideIntroduceDialogTipDlg');
+    this.m_dlgIntroduceTip = cc.instantiate(this.m_prefabIntroduceTip);
+    this.m_dlgIntroduceTip.getComponent('BagIntroduceTipDialog').setTipMessage(strMsg);
+    this.node.addChild(this.m_dlgIntroduceTip);
+  },
 
   //////////////////////////////////////////////////
   // 自定义函数
@@ -255,6 +294,16 @@ cc.Class({
     }
   },
 
+  // 设置使用按钮的状态
+  setBtnUseState: function() {
+    // 如果碎片数不足，则不能合成
+    const nFragmentsMax = GameApi.getPartsInfoFragments(this.objBagListItemComplete.id);
+    if (this.objBagListItemComplete.total < nFragmentsMax) {
+      console.log('setBtnUseState interactable false.');
+      this.m_btnUse.getComponent(cc.Button).interactable = false;
+    }
+  },
+
   // 渲染该介绍的物品类型
   setItemType: function(objBagListItemComplete) {
     this.m_objIntroduceType = GameApi.getPartsInfoType(objBagListItemComplete.id);
@@ -264,12 +313,17 @@ cc.Class({
       case 10: 
         if (this.m_objIntroduceType.nComplete === 0) {
           this.m_labelUse.getComponent(cc.Label).string = '装备';
+          this.m_labelGiveup.getComponent(cc.Label).string = '分解';
         } else {
           this.m_labelUse.getComponent(cc.Label).string = '合成';
+          this.m_labelGiveup.getComponent(cc.Label).string = '丢弃';
+          this.setBtnUseState();
         }
         break;
       // 其他
       default:
+        this.m_labelUse.getComponent(cc.Label).string = '使用';
+        this.m_labelGiveup.getComponent(cc.Label).string = '丢弃';
         break;
     }
   },
@@ -277,12 +331,17 @@ cc.Class({
   // 渲染物品基本信息的内容
   setItemIntroduce: function(objBagListItemComplete) {
     console.log('IntroduceDialog setItemIntroduce', objBagListItemComplete);
+    this.objBagListItemComplete = objBagListItemComplete;
     // 解析该介绍的物品类型
     this.setItemType(objBagListItemComplete);
 
     const strLevel = (this.m_objIntroduceType.nComplete === 0) ? `(Lv.${objBagListItemComplete.level})` : ``;
     // 物品名称
-    this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}${strLevel}`;
+    if (this.m_objIntroduceType.nComplete === 0) {
+      this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}(Lv.${objBagListItemComplete.level})`;
+    } else {
+      this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}(${objBagListItemComplete.total} / ${GameApi.getPartsInfoFragments(objBagListItemComplete.id)})`;
+    }
     this.m_labelName.color = GameApi.getPartsInfoColor(objBagListItemComplete.id);
     // 物品介绍
     this.m_labelIntroduce.getComponent(cc.Label).string = objBagListItemComplete.introduce ? objBagListItemComplete.introduce : '';

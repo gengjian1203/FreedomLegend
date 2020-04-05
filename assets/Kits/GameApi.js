@@ -184,6 +184,32 @@ function getPartsInfoType(id) {
   return objResult;
 }
 
+//////////////////////////////////////////////////
+// getPartsInfoFragment
+// 通过碎片ID，合成物品需要多少碎片 / 通过物品ID，分解物品得到多少碎片。
+// param:
+// id: String       物品资料库ID
+// return:
+// Number           返回结果碎片数量
+//////////////////////////////////////////////////
+function getPartsInfoFragments(id) {
+  const nType = parseInt(id.slice(0, 2));
+  const nGrade = parseInt(id.slice(2, 4));
+  const nPosition = parseInt(id.slice(4, 5));
+  const nComplete = parseInt(id.slice(5, 6));
+  let nFragment = 0;
+
+  switch (nType) {
+    case 10:
+      nFragment = (nGrade * 10) * (nComplete === 0 ? 0.8 : 1);
+      break;
+    default:
+      nFragment = 1000;
+      break;
+  }
+  return nFragment;
+}
+
 export default {
   formatLargeNumber,
   funComputedMemberInfoForBase,
@@ -193,4 +219,5 @@ export default {
   getDescribeString,
   getPartsInfoColor,
   getPartsInfoType,
+  getPartsInfoFragments,
 }
