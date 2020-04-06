@@ -212,8 +212,7 @@ cc.Class({
     const param = {
       type: this.arrType[parseInt(this.m_nSelectIndex)]
     }
-    // 清空列表
-    this.m_bagList.removeAllChildren();
+    
     // 查询背包并且渲染
     WebApi.queryPartsInfo(param).then((res) => {
       console.log('BagDialog queryPartsInfo Success.', res);
@@ -221,6 +220,8 @@ cc.Class({
       if (this.m_arrPartsInfoList) {
         // 排序
         this.sortBagListInfo(this.m_arrPartsInfoList);
+        // 清空列表
+        this.m_bagList.removeAllChildren();
         // 渲染
         this.m_arrPartsInfoList.forEach((item, index) => {
           this.createBagListItem(item, index);
