@@ -158,7 +158,7 @@ cc.Class({
         break;
       // 装备指定物品
       case 1:
-
+        this.removeBagPartsInfo(objParam.objBagListItemComplete);
         break;
       // 合成指定物品
       case 2:
@@ -218,13 +218,15 @@ cc.Class({
     WebApi.queryPartsInfo(param).then((res) => {
       console.log('BagDialog queryPartsInfo Success.', res);
       this.m_arrPartsInfoList = res.partsInfo;
-      // 排序
-      this.sortBagListInfo(this.m_arrPartsInfoList);
-      // 渲染
-      this.m_arrPartsInfoList.forEach((item, index) => {
-        this.createBagListItem(item, index);
-      });
-      this.m_bagList.height = 80 * this.m_arrPartsInfoList.length;
+      if (this.m_arrPartsInfoList) {
+        // 排序
+        this.sortBagListInfo(this.m_arrPartsInfoList);
+        // 渲染
+        this.m_arrPartsInfoList.forEach((item, index) => {
+          this.createBagListItem(item, index);
+        });
+        this.m_bagList.height = 80 * this.m_arrPartsInfoList.length;
+      }
     }).catch((err) => {
       console.log('BagDialog queryPartsInfo Fail.', err);
     });

@@ -211,7 +211,7 @@ function queryPartsInfo(param) {
           type: param.type
         },
         success: (res) => {
-          console.log('WebApi.queryPartsInfo res', res);
+          console.log('WebApi.queryPartsInfo res', res, param);
           if (res.result) {
             console.log('WebApi.queryPartsInfo Success', res.result);
             resolve(res.result);
@@ -220,7 +220,7 @@ function queryPartsInfo(param) {
           }
         },
         fail: (err) => {
-          console.log('WebApi.queryPartsInfo Fail', err);
+          console.log('WebApi.queryPartsInfo Fail', err, param);
           reject(err);
         }
       });

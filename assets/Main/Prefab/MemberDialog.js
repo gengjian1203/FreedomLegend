@@ -204,17 +204,17 @@ cc.Class({
       //////////////////////////////////////////////////
       // 装备栏
       // 头戴
-      this.m_labelHat.getComponent(cc.Label).string = g_objMemberInfo.suit_hat.name ? g_objMemberInfo.suit_hat.name : '无';
+      this.m_labelHat.getComponent(cc.Label).string = g_objMemberInfo.equipment_hat.name ? g_objMemberInfo.equipment_hat.name : '无';
       // 肩披
-      this.m_labelShoulder.getComponent(cc.Label).string = g_objMemberInfo.suit_shoulder.name ? g_objMemberInfo.suit_shoulder.name : '无';
+      this.m_labelShoulder.getComponent(cc.Label).string = g_objMemberInfo.equipment_shoulder.name ? g_objMemberInfo.equipment_shoulder.name : '无';
       // 身穿
-      this.m_labelJacket.getComponent(cc.Label).string = g_objMemberInfo.suit_jacket.name ? g_objMemberInfo.suit_jacket.name : '无';
+      this.m_labelJacket.getComponent(cc.Label).string = g_objMemberInfo.equipment_jacket.name ? g_objMemberInfo.equipment_jacket.name : '无';
       // 手持
-      this.m_labelWeapon.getComponent(cc.Label).string = g_objMemberInfo.suit_weapon.name ? g_objMemberInfo.suit_weapon.name : '无';
+      this.m_labelWeapon.getComponent(cc.Label).string = g_objMemberInfo.equipment_weapon.name ? g_objMemberInfo.equipment_weapon.name : '无';
       // 腰悬
-      this.m_labelJewelry.getComponent(cc.Label).string = g_objMemberInfo.suit_jewelry.name ? g_objMemberInfo.suit_jewelry.name : '无';
+      this.m_labelJewelry.getComponent(cc.Label).string = g_objMemberInfo.equipment_jewelry.name ? g_objMemberInfo.equipment_jewelry.name : '无';
       // 足踏
-      this.m_labelShoes.getComponent(cc.Label).string = g_objMemberInfo.suit_shoes.name ? g_objMemberInfo.suit_shoes.name : '无';
+      this.m_labelShoes.getComponent(cc.Label).string = g_objMemberInfo.equipment_shoes.name ? g_objMemberInfo.equipment_shoes.name : '无';
       //////////////////////////////////////////////////
       // 状态栏
       // 生命
