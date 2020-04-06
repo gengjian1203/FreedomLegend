@@ -158,7 +158,7 @@ cc.Class({
         break;
       // 装备指定物品
       case 1:
-        this.removeBagPartsInfo(objParam.objBagListItemComplete);
+        this.equipBagPartsInfo(objParam.objBagListItemComplete);
         break;
       // 合成指定物品
       case 2:
@@ -268,6 +268,111 @@ cc.Class({
       });
     } else {
       console.log('BagDialog removeBagPartsInfo 未找到指定物品');
+    }
+  },
+
+  // 获取指定位置的装备
+  getPositionEquipment: function(nPosition) {
+    let objTmp = {};
+    switch (nPosition) {
+      case 0:
+        objTmp = g_objMemberInfo.equipment_hat;
+        break;
+      case 1:
+        objTmp = g_objMemberInfo.equipment_shoulder;
+        break;
+      case 2:
+        objTmp = g_objMemberInfo.equipment_jacket;
+        break;
+      case 3:
+        objTmp = g_objMemberInfo.equipment_weapon;
+        break;
+      case 4:
+        objTmp = g_objMemberInfo.equipment_jewelry;
+        break;
+      case 5:
+        objTmp = g_objMemberInfo.equipment_shoes;
+        break;
+      default:
+        objTmp = {};
+        break;
+    }
+    return objTmp;
+  },
+
+  // 穿着指定位置的装备
+  setPositionEquipment: function(nPosition, objEquipment) {
+    switch (nPosition) {
+      case 0:
+        g_objMemberInfo.equipment_hat = objEquipment;
+        break;
+      case 1:
+        g_objMemberInfo.equipment_shoulder = objEquipment;
+        break;
+      case 2:
+        g_objMemberInfo.equipment_jacket = objEquipment;
+        break;
+      case 3:
+        g_objMemberInfo.equipment_weapon = objEquipment;
+        break;
+      case 4:
+        g_objMemberInfo.equipment_jewelry = objEquipment;
+        break;
+      case 5:
+        g_objMemberInfo.equipment_shoes = objEquipment;
+        break;
+      default:
+        break;
+    }
+  },
+
+  // 装备指定物品
+  equipBagPartsInfo: function(objBagListItemComplete) {
+    // 查找对应物品
+    const nIndex = this.m_arrPartsInfoList.findIndex((item) => { 
+      return objBagListItemComplete._id === item._id;
+    });
+    // 找到则进行操作
+    if (nIndex >= 0) {
+      // 背包中删除
+      this.m_arrPartsInfoList.splice(nIndex, 1);
+      // 找到对应装备
+      const nPartsInfoPosition = GameApi.getPartsInfoType(objBagListItemComplete.id).nPosition;
+      let objEquipPartsInfo = this.getPositionEquipment(nPartsInfoPosition);
+      // 装备缓存备份
+      let objTmpEquipPartsInfo = JSON.parse(JSON.stringify(objEquipPartsInfo));
+      // 穿上装备
+      this.setPositionEquipment(nPartsInfoPosition, objBagListItemComplete);
+      // 如果原来穿着装备，则放回背包中
+      if (!Common.isObjectEmpty(objTmpEquipPartsInfo)) {
+        this.m_arrPartsInfoList.push(objTmpEquipPartsInfo);
+      }
+
+      // 配置参数：更新背包列表
+      const param = {
+        partsInfo: this.m_arrPartsInfoList,
+        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+      };
+      // 服务器更新背包列表
+      WebApi.updatePartsInfo(param).then((res) => {
+        // 刷新背包列表
+        this.refreshBagListInfo();
+      }).catch((err) => {
+        console.log('BagDialog removeBagPartsInfo Fail.', err);
+      });
+
+      // 配置参数：更新人物属性全局变量
+      const newMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
+      g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, newMemberInfo);
+      // 服务器更新人物属性      
+      WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
+        console.log('BagDialog updateMemberInfo.success.', res);
+      }).catch((err) => {
+        console.log('BagDialog updateMemberInfo.fail.', err);
+      });
+
+    } else {
+      console.log('BagDialog equipBagPartsInfo 未找到指定物品');
     }
   },
 

@@ -16,32 +16,117 @@ function formatLargeNumber(num) {
 }
 
 //////////////////////////////////////////////////
-// funComputedMemberInfoForBase
+// funComputedMemberInfoForEquipment
+// 计算玩家的装备属性
+//////////////////////////////////////////////////
+function funComputedMemberInfoForEquipment(objEquipment) {
+  const objResult = {
+    hp: objEquipment.hp ? objEquipment.hp + objEquipment.hp_up * (objEquipment.level - 1) : 0,
+    outerAttack: objEquipment.outerAttack ? objEquipment.outerAttack + objEquipment.outerAttack_up * (objEquipment.level - 1) : 0,
+    innerAttack: objEquipment.innerAttack ? objEquipment.innerAttack + objEquipment.innerAttack_up * (objEquipment.level - 1) : 0,
+    outerDefense: objEquipment.outerDefense ? objEquipment.outerDefense + objEquipment.outerDefense_up * (objEquipment.level - 1) : 0,
+    innerDefense: objEquipment.innerDefense ? objEquipment.innerDefense + objEquipment.innerDefense_up * (objEquipment.level - 1) : 0,
+    crit: objEquipment.crit ? objEquipment.crit + objEquipment.crit_up * (objEquipment.level - 1) : 0,
+    dodge: objEquipment.dodge ? objEquipment.dodge + objEquipment.dodge_up * (objEquipment.level - 1) : 0,
+    speed: objEquipment.speed ? objEquipment.speed + objEquipment.speed_up * (objEquipment.level - 1) : 0,
+    understand: objEquipment.understand ? objEquipment.understand + objEquipment.understand_up * (objEquipment.level - 1) : 0,
+  };
+
+  return objResult;
+}
+
+//////////////////////////////////////////////////
+// funComputedMemberInfo
 // 计算玩家的基础属性
 //////////////////////////////////////////////////
-function funComputedMemberInfoForBase(level) {
+function funComputedMemberInfo(level) {
+  // 获取装备对象
+  const objEquipmentHat = funComputedMemberInfoForEquipment(g_objMemberInfo.equipment_hat);
+  const objEquipmentShoulder = funComputedMemberInfoForEquipment(g_objMemberInfo.equipment_shoulder);
+  const objEquipmentJacket = funComputedMemberInfoForEquipment(g_objMemberInfo.equipment_jacket);
+  const objEquipmentWeapon = funComputedMemberInfoForEquipment(g_objMemberInfo.equipment_weapon);
+  const objEquipmentJewelry = funComputedMemberInfoForEquipment(g_objMemberInfo.equipment_jewelry);
+  const objEquipmentShoes = funComputedMemberInfoForEquipment(g_objMemberInfo.equipment_shoes);
+
+  // 基本属性临时存储器
+  const objTempBase = {
+    hp_base: level * 50 + 100,                        // 生命
+    outerAttack_base: level * 10 + 20,                // 外功
+    innerAttack_base: level * 10 + 10,                // 内功
+    outerDefense_base: level * 10 + 10,               // 外防
+    innerDefense_base: level * 10 + 0,                // 内防
+    crit_base: g_objMemberInfo.crit_base,             // 暴击率
+    dodge_base: g_objMemberInfo.dodge_base,           // 闪避率
+    speed_base: g_objMemberInfo.speed_base,           // 速度
+    understand_base: g_objMemberInfo.understand_base, // 悟性
+  };
+  // 装备属性临时存储器
+  const objTempEquipment = {
+    hp_equipment: objEquipmentHat.hp + objEquipmentShoulder.hp + objEquipmentJacket.hp + objEquipmentWeapon.hp + objEquipmentJewelry.hp + objEquipmentShoes.hp,
+    outerAttack_equipment: objEquipmentHat.outerAttack + objEquipmentShoulder.outerAttack + objEquipmentJacket.outerAttack + objEquipmentWeapon.outerAttack + objEquipmentJewelry.outerAttack + objEquipmentShoes.outerAttack,
+    innerAttack_equipment: objEquipmentHat.innerAttack + objEquipmentShoulder.innerAttack + objEquipmentJacket.innerAttack + objEquipmentWeapon.innerAttack + objEquipmentJewelry.innerAttack + objEquipmentShoes.innerAttack,
+    outerDefense_equipment: objEquipmentHat.outerDefense + objEquipmentShoulder.outerDefense + objEquipmentJacket.outerDefense + objEquipmentWeapon.outerDefense + objEquipmentJewelry.outerDefense + objEquipmentShoes.outerDefense,
+    innerDefense_equipment: objEquipmentHat.innerDefense + objEquipmentShoulder.innerDefense + objEquipmentJacket.innerDefense + objEquipmentWeapon.innerDefense + objEquipmentJewelry.innerDefense + objEquipmentShoes.innerDefense,
+    crit_equipment: objEquipmentHat.crit + objEquipmentShoulder.crit + objEquipmentJacket.crit + objEquipmentWeapon.crit + objEquipmentJewelry.crit + objEquipmentShoes.crit,
+    dodge_equipment: objEquipmentHat.dodge + objEquipmentShoulder.dodge + objEquipmentJacket.dodge + objEquipmentWeapon.dodge + objEquipmentJewelry.dodge + objEquipmentShoes.dodge,
+    speed_equipment: objEquipmentHat.speed + objEquipmentShoulder.speed + objEquipmentJacket.speed + objEquipmentWeapon.speed + objEquipmentJewelry.speed + objEquipmentShoes.speed,
+    understand_equipment: objEquipmentHat.understand + objEquipmentShoulder.understand + objEquipmentJacket.understand + objEquipmentWeapon.understand + objEquipmentJewelry.understand + objEquipmentShoes.understand,
+  };
+  // 丹药属性临时存储器
+  const objTempMedicine = {
+    hp_medicine: 0,
+    outerAttack_medicine: 0,
+    innerAttack_medicine: 0,
+    outerDefense_medicine: 0,
+    innerDefense_medicine: 0,
+    crit_medicine: 0,
+    dodge_medicine: 0,
+    speed_medicine: 0,
+    understand_medicine: 0,
+  };
+
   const objMemberInfo = {
     level: level,
     // 基础属性
-    hp_base: level * 50 + 100,
-    outerAttack_base: level * 10 + 20, // 外功
-    innerAttack_base: level * 10 + 10, // 内功
-    outerDefense_base: level * 10 + 10, // 外防
-    innerDefense_base: level * 10 + 0, // 内防
-    crit_base: g_objMemberInfo.crit_base,       // 暴击率
-    dodge_base: g_objMemberInfo.dodge_base,     // 闪避率
-    speed_base: g_objMemberInfo.speed_base,     // 速度
-    understand_base: g_objMemberInfo.understand_base, // 悟性
+    hp_base: objTempBase.hp_base,                       // 生命
+    outerAttack_base: objTempBase.outerAttack_base,     // 外功
+    innerAttack_base: objTempBase.innerAttack_base,     // 内功
+    outerDefense_base: objTempBase.outerDefense_base,   // 外防
+    innerDefense_base: objTempBase.innerDefense_base,   // 内防
+    crit_base: objTempBase.crit_base,                   // 暴击率
+    dodge_base: objTempBase.dodge_base,                 // 闪避率
+    speed_base: objTempBase.speed_base,                 // 速度
+    understand_base: objTempBase.understand_base,       // 悟性
+    // 装备属性
+    hp_equipment: objTempEquipment.hp_equipment,
+    outerAttack_equipment: objTempEquipment.outerAttack_equipment,
+    innerAttack_equipment: objTempEquipment.innerAttack_equipment,
+    outerDefense_equipment: objTempEquipment.outerDefense_equipment,
+    innerDefense_equipment: objTempEquipment.innerDefense_equipment,
+    crit_equipment: objTempEquipment.crit_equipment,
+    dodge_equipment: objTempEquipment.dodge_equipment,
+    speed_equipment: objTempEquipment.speed_equipment,
+    understand_equipment: objTempEquipment.understand_equipment,
+    // 丹药属性
+    hp_medicine: objTempMedicine.hp_medicine,
+    outerAttack_medicine: objTempMedicine.outerAttack_medicine,
+    innerAttack_medicine: objTempMedicine.innerAttack_medicine,
+    outerDefense_medicine: objTempMedicine.outerDefense_medicine,
+    innerDefense_medicine: objTempMedicine.innerDefense_medicine,
+    crit_medicine: objTempMedicine.crit_medicine,
+    dodge_medicine: objTempMedicine.dodge_medicine,
+    speed_medicine: objTempMedicine.speed_medicine,
+    understand_medicine: objTempMedicine.understand_medicine,
     // 综合属性
-    hp_total: (level * 50 + 100) + g_objMemberInfo.hp_equipment + g_objMemberInfo.hp_medicine, // 生命
-    outerAttack_total: (level * 10 + 20) + g_objMemberInfo.outerAttack_equipment + g_objMemberInfo.outerAttack_medicine, // 外功
-    innerAttack_total: (level * 10 + 10) + g_objMemberInfo.innerAttack_equipment + g_objMemberInfo.innerAttack_medicine, // 内功
-    outerDefense_total: (level * 10 + 10) + g_objMemberInfo.outerDefense_equipment + g_objMemberInfo.outerDefense_medicine, // 外防
-    innerDefense_total: (level * 10 + 0) + g_objMemberInfo.innerDefense_equipment + g_objMemberInfo.innerDefense_medicine, // 内防
-    crit_total: g_objMemberInfo.crit_base + g_objMemberInfo.crit_equipment + g_objMemberInfo.crit_medicine, // 暴击率
-    dodge_total: g_objMemberInfo.dodge_base + g_objMemberInfo.dodge_equipment + g_objMemberInfo.dodge_medicine, // 闪避率
-    speed_total: g_objMemberInfo.speed_base + g_objMemberInfo.speed_equipment + g_objMemberInfo.speed_medicine, // 速度
-    understand_total: g_objMemberInfo.understand_base + g_objMemberInfo.understand_equipment + g_objMemberInfo.understand_medicine, // 悟性
+    hp_total: objTempBase.hp_base + objTempEquipment.hp_equipment + objTempMedicine.hp_medicine, // 生命
+    outerAttack_total: objTempBase.outerAttack_base + objTempEquipment.outerAttack_equipment + objTempMedicine.outerAttack_medicine, // 外功
+    innerAttack_total: objTempBase.innerAttack_base + objTempEquipment.innerAttack_equipment + objTempMedicine.innerAttack_medicine, // 内功
+    outerDefense_total: objTempBase.outerDefense_base + objTempEquipment.outerDefense_equipment + objTempMedicine.outerDefense_medicine, // 外防
+    innerDefense_total: objTempBase.innerDefense_base + objTempEquipment.innerDefense_equipment + objTempMedicine.innerDefense_medicine, // 内防
+    crit_total: objTempBase.crit_base + objTempEquipment.crit_equipment + objTempMedicine.crit_medicine, // 暴击率
+    dodge_total: objTempBase.dodge_base + objTempEquipment.dodge_equipment + objTempMedicine.dodge_medicine, // 闪避率
+    speed_total: objTempBase.speed_base + objTempEquipment.speed_equipment + objTempMedicine.speed_medicine, // 速度
+    understand_total: objTempBase.understand_base + objTempEquipment.understand_equipment + objTempMedicine.understand_medicine, // 悟性
   };
   return objMemberInfo;
 }
@@ -212,7 +297,7 @@ function getPartsInfoFragments(id) {
 
 export default {
   formatLargeNumber,
-  funComputedMemberInfoForBase,
+  funComputedMemberInfo,
   getExpMaxString,
   getTasteString,
   getTasteColor,
