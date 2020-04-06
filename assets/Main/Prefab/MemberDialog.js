@@ -204,22 +204,22 @@ cc.Class({
       //////////////////////////////////////////////////
       // 装备栏
       // 头戴
-      this.m_labelHat.getComponent(cc.Label).string = g_objMemberInfo.equipment_hat.name ? g_objMemberInfo.equipment_hat.name : '无';
+      this.m_labelHat.getComponent(cc.Label).string = g_objMemberInfo.equipment_hat.name ? `${g_objMemberInfo.equipment_hat.name}(Lv.${g_objMemberInfo.equipment_hat.level})` : '无';
       this.m_labelHat.color = g_objMemberInfo.equipment_hat.id ? GameApi.getPartsInfoColor(g_objMemberInfo.equipment_hat.id): new cc.color(255, 255, 255);
       // 肩披
-      this.m_labelShoulder.getComponent(cc.Label).string = g_objMemberInfo.equipment_shoulder.name ? g_objMemberInfo.equipment_shoulder.name : '无';
+      this.m_labelShoulder.getComponent(cc.Label).string = g_objMemberInfo.equipment_shoulder.name ? `${g_objMemberInfo.equipment_shoulder.name}(Lv.${g_objMemberInfo.equipment_shoulder.level})` : '无';
       this.m_labelShoulder.color = g_objMemberInfo.equipment_shoulder.id ? GameApi.getPartsInfoColor(g_objMemberInfo.equipment_shoulder.id): new cc.color(255, 255, 255);
       // 身穿
-      this.m_labelJacket.getComponent(cc.Label).string = g_objMemberInfo.equipment_jacket.name ? g_objMemberInfo.equipment_jacket.name : '无';
+      this.m_labelJacket.getComponent(cc.Label).string = g_objMemberInfo.equipment_jacket.name ? `${g_objMemberInfo.equipment_jacket.name}(Lv.${g_objMemberInfo.equipment_jacket.level})` : '无';
       this.m_labelJacket.color = g_objMemberInfo.equipment_jacket.id ? GameApi.getPartsInfoColor(g_objMemberInfo.equipment_jacket.id): new cc.color(255, 255, 255);
       // 手持
-      this.m_labelWeapon.getComponent(cc.Label).string = g_objMemberInfo.equipment_weapon.name ? g_objMemberInfo.equipment_weapon.name : '无';
+      this.m_labelWeapon.getComponent(cc.Label).string = g_objMemberInfo.equipment_weapon.name ? `${g_objMemberInfo.equipment_weapon.name}(Lv.${g_objMemberInfo.equipment_weapon.level})` : '无';
       this.m_labelWeapon.color = g_objMemberInfo.equipment_weapon.id ? GameApi.getPartsInfoColor(g_objMemberInfo.equipment_weapon.id): new cc.color(255, 255, 255);
       // 腰悬
-      this.m_labelJewelry.getComponent(cc.Label).string = g_objMemberInfo.equipment_jewelry.name ? g_objMemberInfo.equipment_jewelry.name : '无';
+      this.m_labelJewelry.getComponent(cc.Label).string = g_objMemberInfo.equipment_jewelry.name ? `${g_objMemberInfo.equipment_jewelry.name}(Lv.${g_objMemberInfo.equipment_jewelry.level})` : '无';
       this.m_labelJewelry.color = g_objMemberInfo.equipment_jewelry.id ? GameApi.getPartsInfoColor(g_objMemberInfo.equipment_jewelry.id): new cc.color(255, 255, 255);
       // 足踏
-      this.m_labelShoes.getComponent(cc.Label).string = g_objMemberInfo.equipment_shoes.name ? g_objMemberInfo.equipment_shoes.name : '无';
+      this.m_labelShoes.getComponent(cc.Label).string = g_objMemberInfo.equipment_shoes.name ? `${g_objMemberInfo.equipment_shoes.name}(Lv.${g_objMemberInfo.equipment_shoes.level})` : '无';
       this.m_labelShoes.color = g_objMemberInfo.equipment_shoes.id ? GameApi.getPartsInfoColor(g_objMemberInfo.equipment_shoes.id): new cc.color(255, 255, 255);
       //////////////////////////////////////////////////
       // 状态栏

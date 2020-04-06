@@ -24,6 +24,8 @@ cc.Class({
     this.m_dlgLevelup = null;
     // 排行榜对话框
     this.m_dlgRanking = null;
+    // 黑市对话框
+    this.m_dlgShop = null;
     // 属性对话框
     this.m_dlgMember = null;
     // 属性对话框
@@ -56,6 +58,11 @@ cc.Class({
     },
     // 预制体 - 排行榜弹窗
     m_prefabRanking: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 黑市弹窗
+    m_prefabShop: {
       type: cc.Prefab,
       default: null
     },
@@ -170,23 +177,26 @@ cc.Class({
     this.node.on('hide-hook-dlg', this.onHideDialog, this);
     this.node.on('hide-levelup-dlg', this.onHideDialog, this);
     this.node.on('hide-ranking-dlg', this.onHideDialog, this);
+    this.node.on('hide-shop-dlg', this.onHideDialog, this);
     this.node.on('hide-member-dlg', this.onHideDialog, this);
     this.node.on('hide-bag-dlg', this.onHideDialog, this);
-    
+    // 刷新事件
+    this.node.on('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
 
   // 注销事件
   CancelEvent: function() {
     console.log('Main registerEvent.');
-
     // 注销公告栏消失事件
     this.node.off('hide-toast-dlg', this.onHideDialog, this);
     this.node.off('hide-hook-dlg', this.onHideDialog, this);
     this.node.off('hide-levelup-dlg', this.onHideDialog, this);
     this.node.off('hide-ranking-dlg', this.onHideDialog, this);
+    this.node.off('hide-shop-dlg', this.onHideDialog, this);
     this.node.off('hide-member-dlg', this.onHideDialog, this);
     this.node.off('hide-bag-dlg', this.onHideDialog, this);
-
+    // 刷新事件
+    this.node.off('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
 
   // 隐藏气泡弹窗
@@ -214,6 +224,16 @@ cc.Class({
     this.bLockButton = true;
     this.showRankingDlg();
     console.log('Main onBtnJuyitangClick');    
+  },
+
+  // 黑市
+  onBtnHeishiClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    this.showShopDlg();
+    console.log('Main onBtnHeishiClick');    
   },
 
   // 武将
@@ -264,19 +284,8 @@ cc.Class({
     }
     this.bLockButton = true;
     console.log('Main onBtnJinkuangClick');
-    g_objMemberInfo.gold += 50;
-    const objMemberInfo = {
-      gold: g_objMemberInfo.gold
-    };
-    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-      const strMsg = '元宝 +50';
-      this.showToastDlg(strMsg);
-      this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
-      console.log('Main onBtnJinkuangClick success', res);
-    }).catch((err) => {
-      console.log('Main onBtnJinkuangClick fail', err);
-      this.bLockButton = false;
-    });
+    const strMsg = '抱歉，该功能尚未开放';
+    this.showToastDlg(strMsg);
   },
 
   // 切换iconbar按钮
@@ -329,8 +338,7 @@ cc.Class({
       this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
       this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
-      this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
-      this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
+      this.setMoneyAndGold();
     }
   },
 
@@ -345,6 +353,12 @@ cc.Class({
     this.m_sprExp.width = nWidth;
     this.m_labelExp.getComponent(cc.Label).string = `${fPerResult}%`;
     console.log('setExpProgress', rootWidth, nWidth, fPer, fPerResult);
+  },
+
+  // 渲染铜钱和元宝信息
+  setMoneyAndGold: function() {
+    this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
+    this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
   },
 
   // 计算挂机奖励
@@ -432,6 +446,12 @@ cc.Class({
   showRankingDlg: function() {
     this.m_dlgRanking = cc.instantiate(this.m_prefabRanking);
     this.m_root.addChild(this.m_dlgRanking);
+  },
+
+  // 显示黑市对话框
+  showShopDlg: function() {
+    this.m_dlgShop = cc.instantiate(this.m_prefabShop);
+    this.m_root.addChild(this.m_dlgShop);
   },
 
   // 显示属性对话框

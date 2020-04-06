@@ -203,7 +203,17 @@ cc.Class({
   // 背包排序
   sortBagListInfo: function(arrPartInfo) {
     arrPartInfo.sort((infoA, infoB) => {
-      return infoB.id - infoA.id;
+      // 深拷贝字符串
+      let strID_A = JSON.stringify(JSON.parse(infoA.id));
+      let strID_B = JSON.stringify(JSON.parse(infoB.id));
+      // 如果是碎片都放后面
+      if (strID_A.slice(5, 6) === '0') {
+        strID_A = `99${strID_A}`
+      }
+      if (strID_B.slice(5, 6) === '0') {
+        strID_B = `99${strID_B}`
+      }
+      return strID_B - strID_A;
     })
   },
 

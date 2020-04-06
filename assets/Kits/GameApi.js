@@ -238,7 +238,7 @@ function getDescribeString(describe) {
 function getPartsInfoColor(id) {
   const grade = parseInt(id.slice(2, 4));
   const index = Math.floor(grade / 3);
-  const arrPartsInfoColor = [[100, 100, 100],   // 淡灰色 0品 无
+  const arrPartsInfoColor = [[255, 255, 255],   // 白色 0品 
                              [50, 50, 50],      // 灰色 3品 常见
                              [0, 0, 255],       // 蓝色 6品 少见
                              [0, 255, 0],       // 绿色 9品 稀有

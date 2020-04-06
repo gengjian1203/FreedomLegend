@@ -270,6 +270,47 @@ function updatePartsInfo(param) {
   });
 }
 
+//////////////////////////////////////////////////
+// createRewards
+// 获取奖励
+// param 
+// openid: String       openid 如果传值则查询对应id的角色信息、如果不传值则查询自身的角色信息
+// type: String         'box' - 装备抽奖  'roll' - 轮盘抽奖 '' - 功法抽奖
+// count: Number        抽奖次数
+// return
+// result: Boolean      接口成功标识
+// prize: Array         [{_id:'', id:'', total:5, time:0}] 物品UUID唯一标识 物品ID 物品数量 创建时间戳
+//////////////////////////////////////////////////
+function createRewards(param) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.callFunction({
+        name: 'createRewards',
+        data: {
+          openid: param.openid,
+          type: param.type,
+          count: param.count
+        },
+        success: (res) => {
+          console.log('WebApi.createRewards', res, param);
+          if (res.result) {
+            console.log('WebApi.createRewards Success', res.result);
+            resolve(res.result);
+          } else {
+            reject(res);
+          }
+        },
+        fail: (err) => {
+          console.log('WebApi.createRewards Fail', err);
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   mylog,
   initWXCloud,
@@ -278,4 +319,5 @@ export default {
   updateMemberInfo,
   queryPartsInfo,
   updatePartsInfo,
+  createRewards,
 }
