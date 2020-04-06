@@ -123,6 +123,16 @@ cc.Class({
       default: null
     },
     // ===== 交互 =====
+    // 邮件标记
+    m_mailTip: {
+      type: cc.Node,
+      default: null
+    },
+    // 邮件数量
+    m_mailCount: {
+      type: cc.Node,
+      default: null
+    },
     // 底部按钮根节点
     m_pannelTabber: {
       type: cc.Node,
@@ -214,6 +224,11 @@ cc.Class({
     console.log('Main onBtnTestClick');
     const strMsg = '抱歉，该功能尚未开放';
     this.showToastDlg(strMsg);
+  },
+
+  // 点击邮件
+  onBtnMailClick: function() {
+
   },
 
   // 聚义堂
@@ -339,6 +354,12 @@ cc.Class({
       this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
       this.setMoneyAndGold();
+    }
+    // 判断是否有邮件
+    if (g_arrMailInfo.length) {
+      this.m_mailTip.active = true;
+      // 邮件数量
+      this.m_mailCount.getComponent(cc.Label).string = g_arrMailInfo.length > 99 ? '99+' : `${g_arrMailInfo.length}`;
     }
   },
 

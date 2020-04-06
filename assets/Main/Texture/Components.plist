@@ -56,10 +56,36 @@
                 <key>sourceSize</key>
                 <string>{605,388}</string>
             </dict>
+            <key>email.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{392,372},{100,82}}</string>
+                <key>offset</key>
+                <string>{0,4}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{14,19},{100,82}}</string>
+                <key>sourceSize</key>
+                <string>{128,128}</string>
+            </dict>
+            <key>redtip.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,609},{128,128}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{128,128}}</string>
+                <key>sourceSize</key>
+                <string>{128,128}</string>
+            </dict>
             <key>返回.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{392,372},{83,87}}</string>
+                <string>{{392,456},{83,87}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -79,7 +105,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:95bc51c202db383e3e320a665545f279:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:d696a3a07862a9d71baa66f85e0737eb:1/1$</string>
             <key>textureFileName</key>
             <string>Components.png</string>
         </dict>
