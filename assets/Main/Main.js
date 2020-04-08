@@ -319,6 +319,22 @@ cc.Class({
   //////////////////////////////////////////////////
   // 接口函数
   //////////////////////////////////////////////////
+  // 获取邮件信息
+  queryMailInfo: function() {
+    return new Promise((resolve, reject) => {
+      const param = {
+        type: ['mail']
+      }
+      WebApi.queryPartsInfo(param).then((res) => {
+        g_arrMailInfo = res.arrPartsInfo.mail;
+        console.log('Login queryMailInfo Success', g_arrMailInfo);
+        resolve(res);
+      }).catch((err) => {
+        console.log('Login queryMailInfo fail', err);
+        reject(err);
+      });
+    });
+  },
 
   //////////////////////////////////////////////////
   // 自定义函数
@@ -335,7 +351,19 @@ cc.Class({
   
   // 正式开始执行
   Run: function() {
-    
+    // 查询邮件
+    this.queryMailInfo().then((res) => {
+      // 判断是否有邮件
+      if (g_arrMailInfo.length) {
+        this.m_mailTip.active = true;
+        // 邮件数量
+        this.m_mailCount.getComponent(cc.Label).string = g_arrMailInfo.length > 99 ? '99+' : `${g_arrMailInfo.length}`;
+      }
+    }).catch((err) => {
+      console.log('Login queryMailInfo Fail.', err);
+      this.hideLineLoading();
+      this.bLockLogin = false;
+    });
   },
 
   // 渲染个人信息
@@ -354,12 +382,6 @@ cc.Class({
       this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
       this.setMoneyAndGold();
-    }
-    // 判断是否有邮件
-    if (g_arrMailInfo.length) {
-      this.m_mailTip.active = true;
-      // 邮件数量
-      this.m_mailCount.getComponent(cc.Label).string = g_arrMailInfo.length > 99 ? '99+' : `${g_arrMailInfo.length}`;
     }
   },
 

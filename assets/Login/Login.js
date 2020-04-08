@@ -178,38 +178,30 @@ cc.Class({
     this.showLineLoading();
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
-      this.setLineLoading(20);
+      this.setLineLoading(25);
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
-        this.setLineLoading(40);
+        this.setLineLoading(50);
         cc.loader.downloader.loadSubpackage('Main', (err) => {
-          this.setLineLoading(60);
+          this.setLineLoading(75);
           if (err) {
             console.log('loadSubpackage Error', err);
             this.hideLineLoading();
             this.bLockLogin = false;
           } else {
-            // 查询邮件
-            this.queryMailInfo().then((res) => {
-              this.setLineLoading(80);
-              // 查询玩家信息
-              this.queryMemberInfo().then((res) => {
-                this.setLineLoading(100);
-                if (this.isNewMember) {
-                  // 跳转新手引导页
-                  cc.director.loadScene('Preface');
-                } else {
-                  // 跳转正常游戏
-                  cc.director.loadScene('Main');
-                }
-                console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo, g_arrMailInfo);
-              }).catch((err) => {
-                console.log('Login queryMemberInfo Fail.', err);
-                this.hideLineLoading();
-                this.bLockLogin = false;
-              });
+            // 查询玩家信息
+            this.queryMemberInfo().then((res) => {
+              this.setLineLoading(100);
+              if (this.isNewMember) {
+                // 跳转新手引导页
+                cc.director.loadScene('Preface');
+              } else {
+                // 跳转正常游戏
+                cc.director.loadScene('Main');
+              }
+              console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo);
             }).catch((err) => {
-              console.log('Login queryMailInfo Fail.', err);
+              console.log('Login queryMemberInfo Fail.', err);
               this.hideLineLoading();
               this.bLockLogin = false;
             });
@@ -276,23 +268,6 @@ cc.Class({
         resolve(res);
       }).catch((err) => {
         console.log('Login queryMemberInfo fail', err);
-        reject(err);
-      });
-    });
-  },
-
-  // 获取邮件信息
-  queryMailInfo: function() {
-    return new Promise((resolve, reject) => {
-      const param = {
-        type: 'mail'
-      }
-      WebApi.queryPartsInfo(param).then((res) => {
-        g_arrMailInfo = res.partsInfo;
-        console.log('Login queryMailInfo Success', g_arrMailInfo);
-        resolve(res);
-      }).catch((err) => {
-        console.log('Login queryMailInfo fail', err);
         reject(err);
       });
     });

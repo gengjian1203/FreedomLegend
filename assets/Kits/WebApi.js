@@ -196,10 +196,10 @@ function updateMemberInfo(memberInfo, isLogin) {
 // 查询角色的附属数据信息
 // param 
 // openid: String       openid 如果传值则查询对应id的角色信息、如果不传值则查询自身的角色信息
-// type: String         'equip' - 装备, 'magic' - 功法, 'medicine' - 丹药, 'other' - 其他, 'mail' - 邮件
+// type: Array          ['equipment', 'mail'] 'equipment' - 装备, 'magic' - 功法, 'medicine' - 丹药, 'other' - 其他, 'mail' - 邮件
 // return
 // result: Boolean      接口成功标识
-// partsInfo: Array         [{_id:'', id:'', total:5, time:0}] 物品UUID唯一标识 物品ID 物品数量 创建时间戳
+// partsInfo: Array     ['equipment': {_id:'', id:'', total:5, time:0}, 'mail': {_id:'', id:'', total:5, time:0}] 物品UUID唯一标识 物品ID 物品数量 创建时间戳
 //////////////////////////////////////////////////
 function queryPartsInfo(param) {
   return new Promise((resolve, reject) => {
@@ -279,7 +279,7 @@ function updatePartsInfo(param) {
 // count: Number        抽奖次数
 // return
 // result: Boolean      接口成功标识
-// prize: Array         [{_id:'', id:'', total:5, time:0}] 物品UUID唯一标识 物品ID 物品数量 创建时间戳
+// prize: Array         [{_id:'', id:'', name:'', total:5, time:0}] 物品UUID唯一标识 物品ID 物品名称 物品数量 创建时间戳
 //////////////////////////////////////////////////
 function createRewards(param) {
   return new Promise((resolve, reject) => {
