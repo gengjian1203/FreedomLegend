@@ -109,7 +109,7 @@ cc.Class({
     node.color = GameApi.getPartsInfoColor(objPrize.id);
     const label = node.addComponent(cc.Label);
     label.fontSize = 30;
-    label.string = `${objPrize.name} ×${objPrize.total}`;
+    label.string = `${GameApi.getPartsInfoComplete(objPrize.id).name} ×${objPrize.total}`;
     this.m_rootPrize.addChild(node);
     this.m_dialog.height += 40;
   },

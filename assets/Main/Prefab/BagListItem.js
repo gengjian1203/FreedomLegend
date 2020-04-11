@@ -16,8 +16,8 @@ cc.Class({
   ctor() {
     // 信息弹窗
     this.m_dlgIntroduce = null;
-    // 该条数据的完整信息
-    this.objBagListItemComplete = {};
+    // 该条数据的基本信息
+    this.objBagListItemBase = {};
   },
 
   properties: {
@@ -61,7 +61,7 @@ cc.Class({
   //////////////////////////////////////////////////
   onShowIntroduceDlg: function() {
     const event = new cc.Event.EventCustom('show-introduce-dlg', true);
-    event.setUserData(this.objBagListItemComplete);
+    event.setUserData(this.objBagListItemBase);
 
     this.node.dispatchEvent(event);
   },
@@ -71,12 +71,12 @@ cc.Class({
   //////////////////////////////////////////////////
   // 渲染背包物品item信息
   setBagListItemData: function(objBagListItemBase) {
-    this.objBagListItemComplete = objBagListItemBase;
+    this.objBagListItemBase = objBagListItemBase;
 
-    const strLevel = (parseInt(this.objBagListItemComplete.id) % 10 === 0) ? `(Lv.${this.objBagListItemComplete.level})` : ``;
-    this.m_labelName.getComponent(cc.Label).string = `${this.objBagListItemComplete.name}${strLevel}`;
-    this.m_labelName.color = GameApi.getPartsInfoColor(this.objBagListItemComplete.id);
-    this.m_labelTotal.getComponent(cc.Label).string = `×${this.objBagListItemComplete.total}`;
-    this.m_labelTotal.color = GameApi.getPartsInfoColor(this.objBagListItemComplete.id);
+    const strLevel = (parseInt(this.objBagListItemBase.id) % 10 === 0) ? `(Lv.${this.objBagListItemBase.level})` : ``;
+    this.m_labelName.getComponent(cc.Label).string = `${GameApi.getPartsInfoComplete(this.objBagListItemBase.id).name}${strLevel}`;
+    this.m_labelName.color = GameApi.getPartsInfoColor(this.objBagListItemBase.id);
+    this.m_labelTotal.getComponent(cc.Label).string = `×${this.objBagListItemBase.total}`;
+    this.m_labelTotal.color = GameApi.getPartsInfoColor(this.objBagListItemBase.id);
   }
 });

@@ -105,7 +105,6 @@ cc.Class({
       this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
       const arrPrize = [{
         id: '000000',
-        name: '铜钱',
         total: arrMoney[nRandom]
       }];
       this.onShowPrizeDlg(arrPrize);
@@ -127,8 +126,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
       const arrPrize = [{
-        id: '000000',
-        name: '元宝',
+        id: '000001',
         total: arrGold[nRandom]
       }];
       this.onShowPrizeDlg(arrPrize);

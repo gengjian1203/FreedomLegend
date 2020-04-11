@@ -1,4 +1,27 @@
 //////////////////////////////////////////////////
+// LoadDatabasePartsinfo
+// 加载物品资料库到缓存中
+// param:
+// return:
+// Boolean
+//////////////////////////////////////////////////
+function LoadDatabasePartsinfo() {
+  const strKeyPartsInfo = 'partsinfo';
+  cc.loader.loadRes('database_partsinfo.json', (err, object) => {
+    if (err) {
+      console.log('LoadDatabasePartsinfo fail', err);
+      return;
+    }
+    if (object && object.json) {
+      console.log('LoadDatabasePartsinfo', object.json);
+      object.json[strKeyPartsInfo].forEach((item) => {
+        cc.sys.localStorage.setItem(`${strKeyPartsInfo}-${item._id}`, item);
+      });
+    }
+  });
+}
+
+//////////////////////////////////////////////////
 // formatLargeNumber
 // 格式化数字，超过万则显示w为单位
 //////////////////////////////////////////////////
@@ -228,6 +251,20 @@ function getDescribeString(describe) {
 }
 
 //////////////////////////////////////////////////
+// getPartsInfoComplete
+// 通过物品ID，获取物品的完整信息
+// param:
+// id: String       物品资料库ID
+// return:
+// Object           物品完整信息
+//////////////////////////////////////////////////
+function getPartsInfoComplete(id) {
+  const strKeyPartsInfo = 'partsinfo';
+  const objResult = cc.sys.localStorage.getItem(`${strKeyPartsInfo}-${id}`);
+  return objResult;
+}
+
+//////////////////////////////////////////////////
 // getPartsInfoColor
 // 通过物品ID，计算物品品级的颜色
 // param:
@@ -280,7 +317,6 @@ function getPartsInfoType(id) {
 function getPartsInfoFragments(id) {
   const nType = parseInt(id.slice(0, 2));
   const nGrade = parseInt(id.slice(2, 4));
-  const nPosition = parseInt(id.slice(4, 5));
   const nComplete = parseInt(id.slice(5, 6));
   let nFragment = 0;
 
@@ -296,12 +332,14 @@ function getPartsInfoFragments(id) {
 }
 
 export default {
+  LoadDatabasePartsinfo,
   formatLargeNumber,
   funComputedMemberInfo,
   getExpMaxString,
   getTasteString,
   getTasteColor,
   getDescribeString,
+  getPartsInfoComplete,
   getPartsInfoColor,
   getPartsInfoType,
   getPartsInfoFragments,

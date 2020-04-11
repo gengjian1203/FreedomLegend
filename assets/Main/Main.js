@@ -187,10 +187,10 @@ cc.Class({
     this.node.on('hide-hook-dlg', this.onHideDialog, this);
     this.node.on('hide-levelup-dlg', this.onHideDialog, this);
     this.node.on('hide-ranking-dlg', this.onHideDialog, this);
-    this.node.on('hide-shop-dlg', this.onHideDialog, this);
-    this.node.on('hide-member-dlg', this.onHideDialog, this);
-    this.node.on('hide-bag-dlg', this.onHideDialog, this);
     // 刷新事件
+    this.node.on('hide-shop-dlg', this.onHideDialogAndQuery, this);
+    this.node.on('hide-member-dlg', this.onHideDialogAndQuery, this);
+    this.node.on('hide-bag-dlg', this.onHideDialogAndQuery, this);
     this.node.on('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
 
@@ -202,10 +202,10 @@ cc.Class({
     this.node.off('hide-hook-dlg', this.onHideDialog, this);
     this.node.off('hide-levelup-dlg', this.onHideDialog, this);
     this.node.off('hide-ranking-dlg', this.onHideDialog, this);
-    this.node.off('hide-shop-dlg', this.onHideDialog, this);
-    this.node.off('hide-member-dlg', this.onHideDialog, this);
-    this.node.off('hide-bag-dlg', this.onHideDialog, this);
     // 刷新事件
+    this.node.off('hide-shop-dlg', this.onHideDialogAndQuery, this);
+    this.node.off('hide-member-dlg', this.onHideDialogAndQuery, this);
+    this.node.off('hide-bag-dlg', this.onHideDialogAndQuery, this);
     this.node.off('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
 
@@ -213,6 +213,17 @@ cc.Class({
   onHideDialog: function() {
     console.log('Main onHideDialog');
     this.bLockButton = false;
+  },
+
+  // 隐藏并且重新查询配件信息，更新全局变量
+  onHideDialogAndQuery: function() {
+    console.log('Main onHideDialog');
+    this.bLockButton = false;
+    // 获取配件信息
+    this.queryPartsInfo().then((res) => {
+    }).catch((err) => {
+      console.log('Main queryPartsInfo Fail.', err);
+    });
   },
 
   // 点击测试功能
@@ -319,18 +330,28 @@ cc.Class({
   //////////////////////////////////////////////////
   // 接口函数
   //////////////////////////////////////////////////
-  // 获取邮件信息
-  queryMailInfo: function() {
+  // 获取配件信息
+  queryPartsInfo: function() {
     return new Promise((resolve, reject) => {
-      const param = {
-        type: ['mail']
-      }
+      const param = {};
       WebApi.queryPartsInfo(param).then((res) => {
-        g_arrMailInfo = res.arrPartsInfo.mail;
-        console.log('Login queryMailInfo Success', g_arrMailInfo);
+        g_arrMailInfo = res.arrPartsInfo.mail;               // 邮件信息
+        g_arrTitle = res.arrPartsInfo.title;                 // 称号列表
+        g_arrLog = res.arrPartsInfo.log;                     // 人物传记列表
+        // 背包信息
+        g_objBagInfo = {
+          equipment: res.arrPartsInfo.equipment,             // 装备信息 - 背包纬度
+          medicine: res.arrPartsInfo.medicine,               // 药品列表 - 背包纬度
+          consumables: res.arrPartsInfo.consumables,         // 消耗品列表 - 背包纬度
+          magic: res.arrPartsInfo.magic,                     // 功法列表 - 背包纬度
+          pets: res.arrPartsInfo.pets,                       // 宠物蛋列表 - 背包纬度
+        }
+        // 渲染邮件
+        this.setMailInfo();
+        console.log('Main queryPartsInfo Success', g_arrMailInfo);
         resolve(res);
       }).catch((err) => {
-        console.log('Login queryMailInfo fail', err);
+        console.log('Main queryPartsInfo fail', err);
         reject(err);
       });
     });
@@ -351,18 +372,10 @@ cc.Class({
   
   // 正式开始执行
   Run: function() {
-    // 查询邮件
-    this.queryMailInfo().then((res) => {
-      // 判断是否有邮件
-      if (g_arrMailInfo.length) {
-        this.m_mailTip.active = true;
-        // 邮件数量
-        this.m_mailCount.getComponent(cc.Label).string = g_arrMailInfo.length > 99 ? '99+' : `${g_arrMailInfo.length}`;
-      }
+    // 获取配件信息
+    this.queryPartsInfo().then((res) => {
     }).catch((err) => {
-      console.log('Login queryMailInfo Fail.', err);
-      this.hideLineLoading();
-      this.bLockLogin = false;
+      console.log('Main queryPartsInfo Fail.', err);
     });
   },
 
@@ -402,6 +415,16 @@ cc.Class({
   setMoneyAndGold: function() {
     this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
     this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
+  },
+
+  // 渲染邮件提示信息
+  setMailInfo: function() {
+    // 判断是否有邮件
+    if (g_arrMailInfo.length) {
+      this.m_mailTip.active = true;
+      // 邮件数量
+      this.m_mailCount.getComponent(cc.Label).string = g_arrMailInfo.length > 99 ? '99+' : `${g_arrMailInfo.length}`;
+    }
   },
 
   // 计算挂机奖励

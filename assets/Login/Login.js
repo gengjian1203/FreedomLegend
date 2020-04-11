@@ -11,6 +11,7 @@
 let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
 let AuthApi = require("../Kits/AuthApi");
+let GameApi = require("../Kits/GameApi");
 
 cc.Class({
   extends: cc.Component,
@@ -320,6 +321,9 @@ cc.Class({
       // 报错
       console.log('Login init fail.', err);
     });
+
+    // 加载游戏资料库等数据到缓存中
+    GameApi.LoadDatabasePartsinfo();
   },
 
   // 渲染用户信息

@@ -17,13 +17,11 @@ cc.Class({
 
   ctor() {
     // 背包tab类型
-    this.arrType = ['equipment', 'magic', 'medicine', 'other'];
+    this.arrType = ['equipment', 'magic', 'medicine', 'consumables', 'pets'];
     // 介绍对话框
     this.m_dlgIntroduce = null;
     // 当前选中的按钮序号
     this.m_nSelectIndex = -1;
-    // 当前的物品列表
-    this.m_arrPartsInfoList = [];
   },
 
   properties: {
@@ -126,7 +124,7 @@ cc.Class({
     this.node.removeFromParent();
   },
 
-  // 筛选背包-全部按钮
+  // 筛选背包 - 按钮
   onBtnTabSwitchClick: function(e, param) {
     console.log('BagDialog onBtnTabSwitchClick');
     this.queryBagListInfo(parseInt(param));
@@ -134,10 +132,10 @@ cc.Class({
 
   // 显示介绍弹窗
   onShowIntroduceDlg: function(event) {
-    const objBagListItemComplete = event.getUserData();
-    console.log('BagDialog onShowIntroduceDlg', event, objBagListItemComplete);
+    const objBagListItemBase = event.getUserData();
+    console.log('BagDialog onShowIntroduceDlg', event, objBagListItemBase);
     this.m_dlgIntroduce = cc.instantiate(this.m_prefabIntroduce);
-    this.m_dlgIntroduce.getComponent('BagIntroduceDialog').setItemIntroduce(objBagListItemComplete);
+    this.m_dlgIntroduce.getComponent('BagIntroduceDialog').setItemIntroduce(objBagListItemBase);
     this.node.addChild(this.m_dlgIntroduce);
   },
 
@@ -217,33 +215,23 @@ cc.Class({
     })
   },
 
-  // 刷新背包列表内容
-  refreshBagListInfo: function() {
-    const param = {
-      type: [this.arrType[parseInt(this.m_nSelectIndex)]]
+  // 刷新背包列表内容 - 本地刷新
+  refreshBagListInfo_local: function() {
+    // 清空列表
+    this.m_bagList.removeAllChildren();
+    const arrBagInfoList = g_objBagInfo[this.arrType[this.m_nSelectIndex]];
+    if (arrBagInfoList) {
+      // 排序
+      this.sortBagListInfo(arrBagInfoList);
+      // 渲染
+      arrBagInfoList.forEach((item, index) => {
+        this.createBagListItem(item, index);
+      });
+      this.m_bagList.height = 80 * arrBagInfoList.length;
     }
-    
-    // 查询背包并且渲染
-    WebApi.queryPartsInfo(param).then((res) => {
-      console.log('BagDialog queryPartsInfo Success.', res, res.arrPartsInfo);
-      this.m_arrPartsInfoList = res.arrPartsInfo[this.arrType[parseInt(this.m_nSelectIndex)]];
-      // 清空列表
-      this.m_bagList.removeAllChildren();
-      if (this.m_arrPartsInfoList) {
-        // 排序
-        this.sortBagListInfo(this.m_arrPartsInfoList);
-        // 渲染
-        this.m_arrPartsInfoList.forEach((item, index) => {
-          this.createBagListItem(item, index);
-        });
-        this.m_bagList.height = 80 * this.m_arrPartsInfoList.length;
-      }
-    }).catch((err) => {
-      console.log('BagDialog queryPartsInfo Fail.', err);
-    });
   },
 
-  // 查询背包列表内容
+  // 查询背包列表内容(不存在！)
   queryBagListInfo: function(index) {
     console.log('BagDialog queryBagListInfo', index);
     if (this.m_nSelectIndex === index) {
@@ -253,27 +241,29 @@ cc.Class({
     // 改变按钮颜色
     this.switchButtonColor();
     // 刷新背包列表
-    this.refreshBagListInfo();
+    this.refreshBagListInfo_local();
   },
 
   // 删除指定物品
   removeBagPartsInfo: function(objBagListItemComplete) {
     // 查找对应物品
-    const nIndex = this.m_arrPartsInfoList.findIndex((item) => { 
+    const nIndex = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
     });
     // 找到则进行操作
     if (nIndex >= 0) {
-      this.m_arrPartsInfoList.splice(nIndex, 1);
-      console.log('BagDialog removeBagPartsInfo', nIndex, this.m_arrPartsInfoList);
-      // 更新数据库
+      g_objBagInfo[this.arrType[this.m_nSelectIndex]].splice(nIndex, 1);
+      console.log('BagDialog removeBagPartsInfo', nIndex, g_objBagInfo[this.arrType[this.m_nSelectIndex]]);
+
+      // 先反馈，刷新背包列表
+      this.refreshBagListInfo_local();
+      // 后更新数据库
       const param = {
-        partsInfo: this.m_arrPartsInfoList,
-        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+        partsInfo: g_objBagInfo[this.arrType[this.m_nSelectIndex]],
+        partsType: this.arrType[this.m_nSelectIndex]
       };
       WebApi.updatePartsInfo(param).then((res) => {
-        // 刷新背包列表
-        this.refreshBagListInfo();
+        
       }).catch((err) => {
         console.log('BagDialog removeBagPartsInfo Fail.', err);
       });
@@ -340,13 +330,13 @@ cc.Class({
   // 装备指定物品
   equipBagPartsInfo: function(objBagListItemComplete) {
     // 查找对应物品
-    const nIndex = this.m_arrPartsInfoList.findIndex((item) => { 
+    const nIndex = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
     });
     // 找到则进行操作
     if (nIndex >= 0) {
       // 背包中删除
-      this.m_arrPartsInfoList.splice(nIndex, 1);
+      g_objBagInfo[this.arrType[this.m_nSelectIndex]].splice(nIndex, 1);
       // 找到对应装备
       const nPartsInfoPosition = GameApi.getPartsInfoType(objBagListItemComplete.id).nPosition;
       let objEquipPartsInfo = this.getPositionEquipment(nPartsInfoPosition);
@@ -356,18 +346,19 @@ cc.Class({
       this.setPositionEquipment(nPartsInfoPosition, objBagListItemComplete);
       // 如果原来穿着装备，则放回背包中
       if (!Common.isObjectEmpty(objTmpEquipPartsInfo)) {
-        this.m_arrPartsInfoList.push(objTmpEquipPartsInfo);
+        g_objBagInfo[this.arrType[this.m_nSelectIndex]].push(objTmpEquipPartsInfo);
       }
 
+      // 先反馈，刷新背包列表
+      this.refreshBagListInfo_local();
       // 配置参数：更新背包列表
       const param = {
-        partsInfo: this.m_arrPartsInfoList,
-        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+        partsInfo: g_objBagInfo[this.arrType[this.m_nSelectIndex]],
+        partsType: this.arrType[this.m_nSelectIndex]
       };
       // 服务器更新背包列表
       WebApi.updatePartsInfo(param).then((res) => {
-        // 刷新背包列表
-        this.refreshBagListInfo();
+        
       }).catch((err) => {
         console.log('BagDialog removeBagPartsInfo Fail.', err);
       });
@@ -390,36 +381,37 @@ cc.Class({
   // 合成指定物品 0为整装 1为碎片
   composeBagPartsInfo: function(objBagListItemComplete) {
     // 查找对应碎片
-    const nIndex1 = this.m_arrPartsInfoList.findIndex((item) => { 
+    const nIndex1 = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
     });
     // 找到则进行操作
     if (nIndex1 >= 0) {
-      this.m_arrPartsInfoList[nIndex1].total -= GameApi.getPartsInfoFragments(objBagListItemComplete.id);
-      if (this.m_arrPartsInfoList[nIndex1].total === 0) {
+      g_objBagInfo[this.arrType[this.m_nSelectIndex]][nIndex1].total -= GameApi.getPartsInfoFragments(objBagListItemComplete.id);
+      if (g_objBagInfo[this.arrType[this.m_nSelectIndex]][nIndex1].total === 0) {
         // 删除对应碎片
-        this.m_arrPartsInfoList.splice(nIndex1, 1);
+        g_objBagInfo[this.arrType[this.m_nSelectIndex]].splice(nIndex1, 1);
       }
       // 增加对应装备
       const strID0 = String(parseInt(objBagListItemComplete.id) - 1);
       const newPartsInfo = {
         _id: Common.getUUID(),
         id: strID0,
+        name: GameApi.getPartsInfoComplete(strID0).name,
         time: new Date().getTime(),
-        type: 'compose',
         level: 1,
         total: 1,
       };
-      this.m_arrPartsInfoList.push(newPartsInfo);
+      g_objBagInfo[this.arrType[this.m_nSelectIndex]].push(newPartsInfo);
 
-      // 更新数据库
+      // 先反馈，刷新背包列表
+      this.refreshBagListInfo_local();
+      // 后更新数据库
       const param = {
-        partsInfo: this.m_arrPartsInfoList,
+        partsInfo: g_objBagInfo[this.arrType[this.m_nSelectIndex]],
         partsType: this.arrType[parseInt(this.m_nSelectIndex)]
       };
       WebApi.updatePartsInfo(param).then((res) => {
-        // 刷新背包列表
-        this.refreshBagListInfo();
+        
       }).catch((err) => {
         console.log('BagDialog decomposeBagPartsInfo Fail.', err);
       });
@@ -431,16 +423,16 @@ cc.Class({
   // 分解指定物品 0为整装 1为碎片
   decomposeBagPartsInfo: function(objBagListItemComplete) {
     // 查找对应物品
-    const nIndex0 = this.m_arrPartsInfoList.findIndex((item) => { 
+    const nIndex0 = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
     });
     // 找到则进行操作
     if (nIndex0 >= 0) {
       // 删除对应物品
-      this.m_arrPartsInfoList.splice(nIndex0, 1);
+      g_objBagInfo[this.arrType[this.m_nSelectIndex]].splice(nIndex0, 1);
       // 增加对应碎片
       const strID1 = String(parseInt(objBagListItemComplete.id) + 1);
-      const nIndex1 = this.m_arrPartsInfoList.findIndex((item) => { 
+      const nIndex1 = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
         return strID1 === item.id;
       });
       if (nIndex1 === -1) {
@@ -448,25 +440,26 @@ cc.Class({
         const newPartsInfo = {
           _id: Common.getUUID(),
           id: strID1,
+          name: GameApi.getPartsInfoComplete(strID1).name,
           time: new Date().getTime(),
-          type: 'decompose',
           level: 1,
           total: GameApi.getPartsInfoFragments(objBagListItemComplete.id)
         };
-        this.m_arrPartsInfoList.push(newPartsInfo);
+        g_objBagInfo[this.arrType[this.m_nSelectIndex]].push(newPartsInfo);
       } else {
         // 找到，增加碎片数量
-        this.m_arrPartsInfoList[nIndex1].total += GameApi.getPartsInfoFragments(objBagListItemComplete.id);
+        g_objBagInfo[this.arrType[this.m_nSelectIndex]][nIndex1].total += GameApi.getPartsInfoFragments(objBagListItemComplete.id);
       }
 
-      // 更新数据库
+      // 先反馈，刷新背包列表
+      this.refreshBagListInfo_local();
+      // 后更新数据库
       const param = {
-        partsInfo: this.m_arrPartsInfoList,
-        partsType: this.arrType[parseInt(this.m_nSelectIndex)]
+        partsInfo: g_objBagInfo[this.arrType[this.m_nSelectIndex]],
+        partsType: this.arrType[this.m_nSelectIndex]
       };
       WebApi.updatePartsInfo(param).then((res) => {
-        // 刷新背包列表
-        this.refreshBagListInfo();
+        
       }).catch((err) => {
         console.log('BagDialog decomposeBagPartsInfo Fail.', err);
       });

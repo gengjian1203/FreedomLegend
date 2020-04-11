@@ -9,6 +9,7 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let GameApi = require("../Kits/GameApi");
+let Common = require("../Kits/Common");
 
 cc.Class({
   extends: cc.Component,
@@ -163,7 +164,8 @@ cc.Class({
           nCommand = 1;
         } else {
           // 合成
-          strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件${this.objBagListItemComplete.name.slice(0, -3)}么？`;
+          // strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件${this.objBagListItemComplete.name.slice(0, -3)}么？`;
+          strMsg = `您确定要消耗${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)}个碎片合成这件****么？`;
           nCommand = 2;
         }
         break;
@@ -345,25 +347,24 @@ cc.Class({
   },
 
   // 渲染物品基本信息的内容
-  setItemIntroduce: function(objBagListItemComplete) {
-    console.log('IntroduceDialog setItemIntroduce', objBagListItemComplete);
-    this.objBagListItemComplete = objBagListItemComplete;
-    // 解析该介绍的物品类型
-    this.setItemType(objBagListItemComplete);
+  setItemIntroduce: function(objBagListItemBase) {
+    console.log('IntroduceDialog setItemIntroduce', objBagListItemBase);
+    this.objBagListItemComplete = Common.destructuringAssignment(GameApi.getPartsInfoComplete(objBagListItemBase.id), objBagListItemBase);
+    // 解析该介绍的物品类型 - 根据类型来渲染按钮
+    this.setItemType(this.objBagListItemComplete);
 
-    const strLevel = (this.m_objIntroduceType.nComplete === 0) ? `(Lv.${objBagListItemComplete.level})` : ``;
     // 物品名称
     if (this.m_objIntroduceType.nComplete === 0) {
-      this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}(Lv.${objBagListItemComplete.level})`;
+      this.m_labelName.getComponent(cc.Label).string = `${this.objBagListItemComplete.name}(Lv.${this.objBagListItemComplete.level})`;
     } else {
-      this.m_labelName.getComponent(cc.Label).string = `${objBagListItemComplete.name}(${objBagListItemComplete.total} / ${GameApi.getPartsInfoFragments(objBagListItemComplete.id)})`;
+      this.m_labelName.getComponent(cc.Label).string = `${this.objBagListItemComplete.name}(${this.objBagListItemComplete.total} / ${GameApi.getPartsInfoFragments(this.objBagListItemComplete.id)})`;
     }
-    this.m_labelName.color = GameApi.getPartsInfoColor(objBagListItemComplete.id);
+    this.m_labelName.color = GameApi.getPartsInfoColor(this.objBagListItemComplete.id);
     // 物品介绍
-    this.m_labelIntroduce.getComponent(cc.Label).string = objBagListItemComplete.introduce ? objBagListItemComplete.introduce : '';
+    this.m_labelIntroduce.getComponent(cc.Label).string = this.objBagListItemComplete.introduce ? this.objBagListItemComplete.introduce : '';
     // 物品引言
-    this.m_labelDescribe.getComponent(cc.Label).string = objBagListItemComplete.describe ? objBagListItemComplete.describe: '';
+    this.m_labelDescribe.getComponent(cc.Label).string = this.objBagListItemComplete.describe ? this.objBagListItemComplete.describe: '';
     // 物品属性
-    this.setItemAttribute(objBagListItemComplete);
+    this.setItemAttribute(this.objBagListItemComplete);
   }
 });
