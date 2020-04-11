@@ -130,8 +130,37 @@ function postMessageRanking(type, openid) {
   });
 }
 
+//////////////////////////////////////////////////
+// setClipboardData
+// 将内容复制到剪贴板
+// param: strMsg 
+//////////////////////////////////////////////////
+function setClipboardData(strMsg) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.setClipboardData({
+        data: strMsg,
+        success: (res) => {
+          resolve(res);
+          // wx.getClipboardData({
+          //   success: function(res) {
+          //     console.log("复制成功：", res.data);
+          //   }
+          // });
+        },
+        fail: (err) => {
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   authUserInfo,
   createUserInfoButton,
   postMessageRanking,
+  setClipboardData,
 }
