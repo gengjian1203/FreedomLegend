@@ -24,6 +24,8 @@ cc.Class({
     this.m_dlgLevelup = null;
     // 排行榜对话框
     this.m_dlgRanking = null;
+    // 邮件对话框
+    this.m_dlgMail = null;
     // 黑市对话框
     this.m_dlgShop = null;
     // 属性对话框
@@ -58,6 +60,11 @@ cc.Class({
     },
     // 预制体 - 排行榜弹窗
     m_prefabRanking: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 邮件弹窗
+    m_prefabMail: {
       type: cc.Prefab,
       default: null
     },
@@ -187,10 +194,11 @@ cc.Class({
     this.node.on('hide-hook-dlg', this.onHideDialog, this);
     this.node.on('hide-levelup-dlg', this.onHideDialog, this);
     this.node.on('hide-ranking-dlg', this.onHideDialog, this);
+    this.node.on('hide-bag-dlg', this.onHideDialog, this);
+    this.node.on('hide-member-dlg', this.onHideDialogAndQuery, this);
     // 刷新事件
     this.node.on('hide-shop-dlg', this.onHideDialogAndQuery, this);
-    this.node.on('hide-member-dlg', this.onHideDialogAndQuery, this);
-    this.node.on('hide-bag-dlg', this.onHideDialogAndQuery, this);
+    this.node.on('hide-mail-dlg', this.onHideDialogAndQuery, this);
     this.node.on('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
 
@@ -202,10 +210,11 @@ cc.Class({
     this.node.off('hide-hook-dlg', this.onHideDialog, this);
     this.node.off('hide-levelup-dlg', this.onHideDialog, this);
     this.node.off('hide-ranking-dlg', this.onHideDialog, this);
+    this.node.off('hide-bag-dlg', this.onHideDialog, this);
+    this.node.off('hide-member-dlg', this.onHideDialogAndQuery, this);
     // 刷新事件
     this.node.off('hide-shop-dlg', this.onHideDialogAndQuery, this);
-    this.node.off('hide-member-dlg', this.onHideDialogAndQuery, this);
-    this.node.off('hide-bag-dlg', this.onHideDialogAndQuery, this);
+    this.node.off('hide-mail-dlg', this.onHideDialogAndQuery, this);
     this.node.off('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
 
@@ -239,7 +248,12 @@ cc.Class({
 
   // 点击邮件
   onBtnMailClick: function() {
-
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    this.showMailDlg();
+    console.log('Main onBtnMailClick');    
   },
 
   // 聚义堂
@@ -512,6 +526,12 @@ cc.Class({
   showRankingDlg: function() {
     this.m_dlgRanking = cc.instantiate(this.m_prefabRanking);
     this.m_root.addChild(this.m_dlgRanking);
+  },
+
+  // 显示邮件对话框
+  showMailDlg: function() {
+    this.m_dlgMail = cc.instantiate(this.m_prefabMail);
+    this.m_root.addChild(this.m_dlgMail);
   },
 
   // 显示黑市对话框

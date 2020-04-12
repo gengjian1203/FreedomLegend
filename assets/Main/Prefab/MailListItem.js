@@ -8,29 +8,23 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let GameApi = require("../Kits/GameApi");
-
 cc.Class({
   extends: cc.Component,
 
   ctor() {
-    // 该条数据的基本信息
-    this.objBagListItemBase = {};
+    this.m_nSelectIndex = -1;
+    // 这条数据的基本信息
+    this.objMailListItemData = {};
   },
 
   properties: {
-    // 预制体 - 信息弹窗
-    m_prefabIntroduce: {
-      type: cc.Prefab,
-      default: null
-    },
-    // 物品名称
-    m_labelName: {
+    // 邮件内容
+    m_labelContent: {
       type: cc.Node,
       default: null
     },
-    // 物品数量
-    m_labelTotal: {
+    // 邮件时间
+    m_labelTime: {
       type: cc.Node,
       default: null
     },
@@ -45,11 +39,11 @@ cc.Class({
   },
 
   onEnable () {
-    console.log('BagListItem onEvable.');
+    console.log('MailListItem onEvable.');
   },
 
   onDisable () {
-    console.log('BagListItem onDisable.');
+    console.log('MailListItem onDisable.');
   },
 
   // update (dt) {},
@@ -57,9 +51,9 @@ cc.Class({
   //////////////////////////////////////////////////
   // 交互事件
   //////////////////////////////////////////////////
-  onShowIntroduceDlg: function() {
-    const event = new cc.Event.EventCustom('show-introduce-dlg', true);
-    event.setUserData(this.objBagListItemBase);
+  onItemClick: function() {
+    const event = new cc.Event.EventCustom('show-mail-content', true);
+    event.setUserData(this.m_nSelectIndex);
 
     this.node.dispatchEvent(event);
   },
@@ -67,14 +61,19 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 渲染背包物品item信息
-  setBagListItemData: function(objBagListItemBase) {
-    this.objBagListItemBase = objBagListItemBase;
+  // 渲染邮件列表item颜色
+  setMailListItemColor: function(isSelect) {
+    const color = isSelect ? new cc.color(255, 0, 0) : new cc.color(255, 255, 255);
+    this.m_labelContent.color = color;
+    this.m_labelTotal.color = color;
+  },
 
-    const strLevel = (parseInt(this.objBagListItemBase.id) % 10 === 0) ? `(Lv.${this.objBagListItemBase.level})` : ``;
-    this.m_labelName.getComponent(cc.Label).string = `${GameApi.getPartsInfoComplete(this.objBagListItemBase.id).name}${strLevel}`;
-    this.m_labelName.color = GameApi.getPartsInfoColor(this.objBagListItemBase.id);
-    this.m_labelTotal.getComponent(cc.Label).string = `×${this.objBagListItemBase.total}`;
-    this.m_labelTotal.color = GameApi.getPartsInfoColor(this.objBagListItemBase.id);
+  // 渲染邮件列表item信息
+  setMailListItemData: function(nIndex) {
+    this.m_nSelectIndex = nIndex;
+    this.objMailListItemData = g_arrMailInfo[nIndex];
+    const strContent = this.objMailListItemData.strContent.length > 5 ? `${this.objMailListItemData.strContent.slice(0, 5)}...` : this.objMailListItemData.strContent;
+    this.m_labelContent.getComponent(cc.Label).string = strContent;
+    this.m_labelTime.getComponent(cc.Label).string = this.objMailListItemData.time;
   }
 });
