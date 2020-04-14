@@ -246,6 +246,7 @@ cc.Class({
 
   // 删除指定物品
   removeBagPartsInfo: function(objBagListItemComplete) {
+    console.log('g_objBagInfo', g_objBagInfo[this.arrType[this.m_nSelectIndex]], 'objBagListItemComplete', objBagListItemComplete);
     // 查找对应物品
     const nIndex = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
@@ -329,6 +330,7 @@ cc.Class({
 
   // 装备指定物品
   equipBagPartsInfo: function(objBagListItemComplete) {
+    console.log('g_objBagInfo', g_objBagInfo[this.arrType[this.m_nSelectIndex]], 'objBagListItemComplete', objBagListItemComplete);
     // 查找对应物品
     const nIndex = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
@@ -380,6 +382,7 @@ cc.Class({
 
   // 合成指定物品 0为整装 1为碎片
   composeBagPartsInfo: function(objBagListItemComplete) {
+    console.log('g_objBagInfo', g_objBagInfo[this.arrType[this.m_nSelectIndex]], 'objBagListItemComplete', objBagListItemComplete);
     // 查找对应碎片
     const nIndex1 = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;
@@ -413,15 +416,16 @@ cc.Class({
       WebApi.updatePartsInfo(param).then((res) => {
         
       }).catch((err) => {
-        console.log('BagDialog decomposeBagPartsInfo Fail.', err);
+        console.log('BagDialog composeBagPartsInfo Fail.', err);
       });
     } else {
-      console.log('BagDialog decomposeBagPartsInfo 未找到指定物品');
+      console.log('BagDialog composeBagPartsInfo 未找到指定物品');
     }
   },
 
   // 分解指定物品 0为整装 1为碎片
   decomposeBagPartsInfo: function(objBagListItemComplete) {
+    console.log('g_objBagInfo', g_objBagInfo[this.arrType[this.m_nSelectIndex]], 'objBagListItemComplete', objBagListItemComplete);
     // 查找对应物品
     const nIndex0 = g_objBagInfo[this.arrType[this.m_nSelectIndex]].findIndex((item) => { 
       return objBagListItemComplete._id === item._id;

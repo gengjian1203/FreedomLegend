@@ -8,8 +8,6 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let GameApi = require("../Kits/GameApi");
-
 cc.Class({
   extends: cc.Component,
 

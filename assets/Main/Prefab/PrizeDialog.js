@@ -9,6 +9,7 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let GameApi = require("../Kits/GameApi");
+let WebApi = require("../Kits/WebApi");
 
 cc.Class({
   extends: cc.Component,
@@ -119,6 +120,8 @@ cc.Class({
     for ( let i = 0; i < arrPrize.length; i++) {
       this.createPrizeLabel(arrPrize[i], i);
 
+
+      // 存入本地结构
       if (arrPrize[i].id === '000000') {
         // 铜钱
         g_objMemberInfo.money += arrPrize[i].total;
@@ -136,12 +139,43 @@ cc.Class({
           level: arrPrize[i].level,
           total: arrPrize[i].total
         }
-        g_objBagInfo.equipment.push(objEquipment);
 
+        // 判断数量 加量还是加项，碎片加量，整件加项。
+        let nFind = 0;
+        if (parseInt(objEquipment.id) % 10 === 0) {
+          nFind = -1;
+        } else {
+          nFind = g_objBagInfo.equipment.findIndex((item) => { 
+            return objEquipment.id === item.id;
+          });
+        }
+        if (nFind !== -1) {
+          g_objBagInfo.equipment[nFind].total = g_objBagInfo.equipment[nFind].total + objEquipment.total;
+        } else {
+          g_objBagInfo.equipment.push(objEquipment);
+        }
       } else {
         // 其他
 
       }
     }
+
+    // 刷新铜钱元宝
+    WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
+      // 本地发消息刷新铜钱元宝
+      this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
+    }).catch((err) => {
+      console.log('MailDialog updateMemberInfo fail', err);
+    });
+    // 配置参数：更新背包列表
+    const param = {
+      partsInfo: g_objBagInfo.equipment,
+      partsType: 'equipment'
+    };
+    // 服务器更新背包列表
+    WebApi.updatePartsInfo(param).then((res) => {
+    }).catch((err) => {
+      console.log('MailDialog updatePartsInfo Fail.', err);
+    });    
   },
 });

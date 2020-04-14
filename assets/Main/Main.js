@@ -375,12 +375,13 @@ cc.Class({
   // 自定义函数
   //////////////////////////////////////////////////
   preRun: function() {
-    // 渲染个人信息
-    this.setMemberInfo();
     // 计算挂机奖励
     if (g_nTimeHook > 0) {
       this.funComputedHook();
       g_nTimeHook = 0;
+    } else {
+      // 渲染个人信息
+      this.setMemberInfo();
     }
   },
   
@@ -427,6 +428,7 @@ cc.Class({
 
   // 渲染铜钱和元宝信息
   setMoneyAndGold: function() {
+    console.log('Main setMoneyAndGold', g_objMemberInfo);
     this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
     this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
   },
@@ -466,8 +468,7 @@ cc.Class({
     WebApi.updateMemberInfo(objMemberInfo).then((res) => {
       // 弹出离线奖励弹窗
       this.showHookDlg(nMeasure, tmpExp, tmpMoney, tmpGold);  
-      // 渲染个人信息
-      this.setMemberInfo();
+      
       console.log('Main onBtnJinkuangClick success', res);
 
       // 检验是否可以升级
@@ -498,6 +499,9 @@ cc.Class({
         console.log('Main checkoutLevelup fail', err);
 
       })
+    } else {
+      // 渲染个人信息
+      this.setMemberInfo();
     }
   },
 

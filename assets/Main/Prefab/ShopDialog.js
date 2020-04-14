@@ -8,9 +8,7 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-let Common = require("../Kits/Common");
 let WebApi = require("../Kits/WebApi");
-let GameApi = require("../Kits/GameApi");
 
 cc.Class({
   extends: cc.Component,
@@ -97,20 +95,11 @@ cc.Class({
     const arrMoney = [188, 988, 3888, 5888, 18888];
     const nRandom = Math.floor(Math.random() * 5);
 
-    g_objMemberInfo.money += arrMoney[nRandom];
-    const objMemberInfo = {
-      money: g_objMemberInfo.money
-    };
-    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-      this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
-      const arrPrize = [{
-        id: '000000',
-        total: arrMoney[nRandom]
-      }];
-      this.onShowPrizeDlg(arrPrize);
-    }).catch((err) => {
-      console.log('ShopDialog onBtnFreeMoney fail', err);
-    });
+    const arrPrize = [{
+      id: '000000',
+      total: arrMoney[nRandom]
+    }];
+    this.onShowPrizeDlg(arrPrize);
   },
 
   // 免费获取元宝
@@ -119,20 +108,11 @@ cc.Class({
     const arrGold = [6, 98, 188, 348, 648];
     const nRandom = Math.floor(Math.random() * 5);
 
-    g_objMemberInfo.gold += arrGold[nRandom];
-    const objMemberInfo = {
-      gold: g_objMemberInfo.gold
-    };
-    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-      this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
-      const arrPrize = [{
-        id: '000001',
-        total: arrGold[nRandom]
-      }];
-      this.onShowPrizeDlg(arrPrize);
-    }).catch((err) => {
-      console.log('ShopDialog onBtnFreeGold fail', err);
-    });
+    const arrPrize = [{
+      id: '000001',
+      total: arrGold[nRandom]
+    }];
+    this.onShowPrizeDlg(arrPrize);
   },
 
   // 抽取装备
@@ -149,19 +129,9 @@ cc.Class({
         count: parseInt(nCount)
       };
       WebApi.createRewards(param).then((res) => {
-        this.onShowPrizeDlg(res.prize);
-
         // 扣除元宝
         g_objMemberInfo.gold -= nNeedGold;
-        const objMemberInfo = {
-          gold: g_objMemberInfo.gold
-        };
-        WebApi.updateMemberInfo(objMemberInfo).then((res) => {
-          this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
-        }).catch((err) => {
-          console.log('ShopDialog updateMemberInfo fail', err);
-        });
-        
+        this.onShowPrizeDlg(res.prize);        
       }).catch((err) => {
         console.log('ShopDialog updateMemberInfo fail', err);
       });
@@ -176,11 +146,6 @@ cc.Class({
     this.node.addChild(this.m_dlgPrize);
   },
 
-  // // 隐藏介绍弹窗
-  // onHideIntroduceDlg: function() {
-  //   console.log('BagDialog onHideIntroduceDlg');
-    
-  // },
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////

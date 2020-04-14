@@ -3033,6 +3033,9 @@
     "m_prefabMailListItem": {
       "__uuid__": "3dd1a518-ba4c-405b-84b3-3b8c5e936bf7"
     },
+    "m_prefabPrize": {
+      "__uuid__": "d3f680fd-af6d-4db0-a746-0559cba0ee85"
+    },
     "m_mask": {
       "__id__": 2
     },

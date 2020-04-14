@@ -231,7 +231,14 @@ cc.Class({
     const objEquipment = this.takeOffPositionEquipment(parseInt(param));
     // 将装备放入背包中
     if (!Common.isObjectEmpty(objEquipment)) {
-      g_objBagInfo.equipment.push(objEquipment);
+      const objEquipmentBase = {
+        _id: objEquipment._id,
+        id: objEquipment.id,
+        level: objEquipment.level,
+        time: objEquipment.time,
+        total: objEquipment.total
+      };
+      g_objBagInfo.equipment.push(objEquipmentBase);
     }
 
     // 先反馈，刷新角色属性

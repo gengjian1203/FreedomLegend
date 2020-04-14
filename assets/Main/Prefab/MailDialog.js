@@ -9,8 +9,8 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let Common = require("../Kits/Common");
-let WebApi = require("../Kits/WebApi");
 let GameApi = require("../Kits/GameApi");
+let WebApi = require("../Kits/WebApi");
 
 cc.Class({
   extends: cc.Component,
@@ -22,11 +22,18 @@ cc.Class({
     this.arrMailListObject = [];
     // 该邮件是否携带礼物
     this.isHaveGift = false;
+    // 奖励结果
+    this.m_dlgPrize = null;
   },
 
   properties: {
     // 预制体 - List项Item
     m_prefabMailListItem: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 购买结果
+    m_prefabPrize: {
       type: cc.Prefab,
       default: null
     },
@@ -106,7 +113,11 @@ cc.Class({
     if (this.isHaveGift) {
       // 收下礼物
       const arrGifts = g_arrMailInfo[this.m_nSelectIndex].arrGifts;
-      this.acceptGifts(arrGifts, g_arrMailInfo[this.m_nSelectIndex].time);
+      arrGifts.forEach((item) => {
+        item._id = Common.getUUID();
+        item.time = new Date().getTime();
+      });
+      this.onShowPrizeDlg(arrGifts);
       g_arrMailInfo[this.m_nSelectIndex].arrGifts = {};
       this.setMailContent(this.m_nSelectIndex);
       
@@ -158,51 +169,11 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 收下礼物
-  acceptGifts: function(arrGifts, time) {
-    // 遍历礼物分别处理
-    arrGifts.forEach((item) => {
-      if (item.id === '000000') {
-        // 铜钱
-        g_objMemberInfo.money += item.total;
-
-      } else if (item.id === '000001') {
-        // 元宝
-        g_objMemberInfo.gold += item.total;
-
-      } else if (GameApi.getPartsInfoType(item.id).nType === 10) {
-        // 装备
-        const objEquipment = {
-          _id: Common.getUUID(),
-          id: item.id,
-          time: new Date().getTime(),
-          level: item.level,
-          total: item.total
-        }
-        g_objBagInfo.equipment.push(objEquipment);
-
-      } else {
-        // 其他
-
-      }
-    });
-
-    // 配置参数：更新背包列表
-    const param = {
-      partsInfo: g_objBagInfo.equipment,
-      partsType: 'equipment'
-    };
-    // 服务器更新背包列表
-    WebApi.updatePartsInfo(param).then((res) => {
-    }).catch((err) => {
-      console.log('MailDialog updatePartsInfo Fail.', err);
-    });
-    // 刷新铜钱元宝
-    WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
-      this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
-    }).catch((err) => {
-      console.log('MailDialog updateMemberInfo fail', err);
-    });
+  // 显示奖励弹窗
+  onShowPrizeDlg: function(arrPrize) {
+    this.m_dlgPrize = cc.instantiate(this.m_prefabPrize);
+    this.m_dlgPrize.getComponent('PrizeDialog').setItemPrize(arrPrize);
+    this.node.addChild(this.m_dlgPrize);
   },
 
   // 创建一个邮件item
