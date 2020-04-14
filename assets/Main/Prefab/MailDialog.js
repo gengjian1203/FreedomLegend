@@ -8,6 +8,8 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+let Common = require("../Kits/Common");
+let WebApi = require("../Kits/WebApi");
 let GameApi = require("../Kits/GameApi");
 
 cc.Class({
@@ -35,6 +37,11 @@ cc.Class({
     },
     // 邮件列表
     m_mailList: {
+      type: cc.Node,
+      default: null
+    },
+    // 邮件内容
+    m_mailContent: {
       type: cc.Node,
       default: null
     },
@@ -93,6 +100,34 @@ cc.Class({
     this.node.active = false;
     this.node.removeFromParent();
   },
+
+  // 点击收下/删除按钮
+  onBtnSureClick: function() {
+    if (this.isHaveGift) {
+      // 收下礼物
+      const arrGifts = g_arrMailInfo[this.m_nSelectIndex].arrGifts;
+      this.acceptGifts(arrGifts, g_arrMailInfo[this.m_nSelectIndex].time);
+      g_arrMailInfo[this.m_nSelectIndex].arrGifts = {};
+      this.setMailContent(this.m_nSelectIndex);
+      
+    } else {
+      // 删除邮件
+      g_arrMailInfo.splice(this.m_nSelectIndex, 1);
+      // 刷新列表
+      this.setMailList();
+      this.setMailContent(0);
+    }
+
+    // 服务器更新邮件列表
+    const param = {
+      partsInfo: g_arrMailInfo,
+      partsType: 'mail'
+    };
+    WebApi.updatePartsInfo(param).then((res) => {
+    }).catch((err) => {
+      console.log('MailDialog updatePartsInfo Fail.', err);
+    });
+  },
   
   // 注册事件
   registerEvent: function() {
@@ -123,6 +158,53 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
+  // 收下礼物
+  acceptGifts: function(arrGifts, time) {
+    // 遍历礼物分别处理
+    arrGifts.forEach((item) => {
+      if (item.id === '000000') {
+        // 铜钱
+        g_objMemberInfo.money += item.total;
+
+      } else if (item.id === '000001') {
+        // 元宝
+        g_objMemberInfo.gold += item.total;
+
+      } else if (GameApi.getPartsInfoType(item.id).nType === 10) {
+        // 装备
+        const objEquipment = {
+          _id: Common.getUUID(),
+          id: item.id,
+          time: new Date().getTime(),
+          level: item.level,
+          total: item.total
+        }
+        g_objBagInfo.equipment.push(objEquipment);
+
+      } else {
+        // 其他
+
+      }
+    });
+
+    // 配置参数：更新背包列表
+    const param = {
+      partsInfo: g_objBagInfo.equipment,
+      partsType: 'equipment'
+    };
+    // 服务器更新背包列表
+    WebApi.updatePartsInfo(param).then((res) => {
+    }).catch((err) => {
+      console.log('MailDialog updatePartsInfo Fail.', err);
+    });
+    // 刷新铜钱元宝
+    WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
+      this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
+    }).catch((err) => {
+      console.log('MailDialog updateMemberInfo fail', err);
+    });
+  },
+
   // 创建一个邮件item
   createMailListItem: function(index) {
     let item = null;
@@ -167,12 +249,14 @@ cc.Class({
   setMailContent: function(nIndex) {
     console.log('MailDialog setMailContent', nIndex);
     // 判断参数是否合法
-    if (nIndex > g_arrMailInfo.length) {
+    if (nIndex >= g_arrMailInfo.length) {
       console.log('MailDialog Empty.');
+      this.m_mailContent.active = false;
       return ;
     }
+    this.m_mailContent.active = true;
+    // 
     this.m_nSelectIndex = nIndex;
-
     // 清空礼物列表
     this.m_rootGift.height = 0;
     this.m_rootGift.removeAllChildren();

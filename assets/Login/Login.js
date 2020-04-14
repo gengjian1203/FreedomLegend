@@ -183,6 +183,7 @@ cc.Class({
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
         this.setLineLoading(50);
+        // 子包加载
         cc.loader.downloader.loadSubpackage('Main', (err) => {
           this.setLineLoading(75);
           if (err) {

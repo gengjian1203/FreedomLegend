@@ -195,9 +195,9 @@ cc.Class({
     this.node.on('hide-levelup-dlg', this.onHideDialog, this);
     this.node.on('hide-ranking-dlg', this.onHideDialog, this);
     this.node.on('hide-bag-dlg', this.onHideDialog, this);
-    this.node.on('hide-member-dlg', this.onHideDialogAndQuery, this);
+    this.node.on('hide-member-dlg', this.onHideDialog, this);
     // 刷新事件
-    this.node.on('hide-shop-dlg', this.onHideDialogAndQuery, this);
+    this.node.on('hide-shop-dlg', this.onHideDialog, this);
     this.node.on('hide-mail-dlg', this.onHideDialogAndQuery, this);
     this.node.on('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
@@ -211,9 +211,9 @@ cc.Class({
     this.node.off('hide-levelup-dlg', this.onHideDialog, this);
     this.node.off('hide-ranking-dlg', this.onHideDialog, this);
     this.node.off('hide-bag-dlg', this.onHideDialog, this);
-    this.node.off('hide-member-dlg', this.onHideDialogAndQuery, this);
+    this.node.off('hide-member-dlg', this.onHideDialog, this);
     // 刷新事件
-    this.node.off('hide-shop-dlg', this.onHideDialogAndQuery, this);
+    this.node.off('hide-shop-dlg', this.onHideDialog, this);
     this.node.off('hide-mail-dlg', this.onHideDialogAndQuery, this);
     this.node.off('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
   },
@@ -434,10 +434,12 @@ cc.Class({
   // 渲染邮件提示信息
   setMailInfo: function() {
     // 判断是否有邮件
-    if (g_arrMailInfo.length) {
+    if (Boolean(g_arrMailInfo.length)) {
       this.m_mailTip.active = true;
       // 邮件数量
       this.m_mailCount.getComponent(cc.Label).string = g_arrMailInfo.length > 99 ? '99+' : `${g_arrMailInfo.length}`;
+    } else {
+      this.m_mailTip.active = false;
     }
   },
 

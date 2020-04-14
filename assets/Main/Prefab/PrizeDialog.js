@@ -118,6 +118,30 @@ cc.Class({
   setItemPrize: function(arrPrize) {
     for ( let i = 0; i < arrPrize.length; i++) {
       this.createPrizeLabel(arrPrize[i], i);
+
+      if (arrPrize[i].id === '000000') {
+        // 铜钱
+        g_objMemberInfo.money += arrPrize[i].total;
+
+      } else if (arrPrize[i].id === '000001') {
+        // 元宝
+        g_objMemberInfo.gold += arrPrize[i].total;
+
+      } else if (GameApi.getPartsInfoType(arrPrize[i].id).nType === 10) {
+        // 装备
+        const objEquipment = {
+          _id: arrPrize[i]._id,
+          id: arrPrize[i].id,
+          time: arrPrize[i].time,
+          level: arrPrize[i].level,
+          total: arrPrize[i].total
+        }
+        g_objBagInfo.equipment.push(objEquipment);
+
+      } else {
+        // 其他
+
+      }
     }
   },
 });
