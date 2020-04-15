@@ -64,7 +64,7 @@ cc.Class({
     });
     this.m_mask.on('touchend', (event) => {
       event.stopPropagation();
-      this.onHideShopResultDialog();
+      this.onHidePrizeDialog();
     });
     this.m_dialog.on('touchstart', (event) => {
       event.stopPropagation();
@@ -81,7 +81,7 @@ cc.Class({
     });
     this.m_mask.off('touchend', (event) => {
       event.stopPropagation();
-      this.onHideShopResultDialog();
+      this.onHidePrizeDialog();
     });
     this.m_dialog.on('touchstart', (event) => {
       event.stopPropagation();
@@ -92,9 +92,9 @@ cc.Class({
   },
 
   // 关闭对话框
-  onHideShopResultDialog: function() {
-    console.log('ShopResultDialog onHideShopResultDialog.');
-    this.node.dispatchEvent( new cc.Event.EventCustom('hide-shop-result-dlg', true) );
+  onHidePrizeDialog: function() {
+    console.log('PrizeDialog onHidePrizeDialog.');
+    this.node.dispatchEvent( new cc.Event.EventCustom('hide-prize-dlg', true) );
     this.node.active = false;
     this.node.removeFromParent();
   },

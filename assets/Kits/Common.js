@@ -45,8 +45,22 @@ function destructuringAssignment(objBase, objAdd) {
 }
 
 //////////////////////////////////////////////////
+// fillZero
+// 个位数的十位用零补位
+//////////////////////////////////////////////////
+function fillZero(number) {
+  var realNum;
+  if (number < 10) {
+      realNum = `0${number}`;
+  } else {
+      realNum = number;
+  }
+  return realNum;
+}
+
+//////////////////////////////////////////////////
 // formatDate
-// 秒数格式化日期
+// 秒数格式化时间
 //////////////////////////////////////////////////
 function formatDate(seconds) {
   let nSeconds = new Number(seconds);
@@ -54,8 +68,15 @@ function formatDate(seconds) {
   nSeconds = Math.floor(nSeconds / 60);
   const mm = Math.floor(nSeconds % 60);
   const hh = Math.floor(nSeconds / 60);
-  let strResult = `${hh}时${mm}分${ss}秒`
-
+  let strResult = '';
+  if (hh) {
+    strResult += `${fillZero(hh)}时`;
+  }
+  if (mm) {
+    strResult += `${fillZero(mm)}分`;
+  }
+  strResult += `${fillZero(ss)}秒`;
+  
   return strResult;
 }
 

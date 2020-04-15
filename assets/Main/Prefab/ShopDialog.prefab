@@ -1619,8 +1619,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22,
-      "height": 21
+      "width": 116,
+      "height": 116
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1638,8 +1638,8 @@
         0,
         0,
         1,
-        3,
-        3,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -1675,7 +1675,7 @@
       "__uuid__": "5bfaa321-d385-4229-81de-f8189ffdea38"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -2246,8 +2246,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 34,
-      "height": 22
+      "width": 156,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2265,8 +2265,8 @@
         0,
         0,
         1,
-        3,
-        3,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -2302,7 +2302,7 @@
       "__uuid__": "4d912a0f-9fcd-4943-bcc8-4046dbdef9de"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -4364,6 +4364,12 @@
     },
     "m_mask": {
       "__id__": 2
+    },
+    "m_labelFreeMoney": {
+      "__id__": 41
+    },
+    "m_labelFreeGold": {
+      "__id__": 58
     },
     "_id": ""
   },
