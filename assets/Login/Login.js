@@ -183,31 +183,33 @@ cc.Class({
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
         this.setLineLoading(50);
-        // 子包加载
-        cc.loader.downloader.loadSubpackage('Main', (err) => {
+        console.log('Login onBtnLoginClick2', res);
+        Promise.all([this.loadingSubMain(), 
+                     this.loadingSubWorld(),
+                     this.loadingSubBattle()]).then((res) => {
+          console.log('Login onBtnLoginClick3', res);
           this.setLineLoading(75);
-          if (err) {
-            console.log('loadSubpackage Error', err);
+          // 查询玩家信息
+          this.queryMemberInfo().then((res) => {
+            console.log('Login onBtnLoginClick4', res);
+            this.setLineLoading(100);
+            if (this.isNewMember) {
+              // 跳转新手引导页
+              cc.director.loadScene('Preface');
+            } else {
+              // 跳转正常游戏
+              cc.director.loadScene('Main');
+            }
+            console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo);
+          }).catch((err) => {
+            console.log('Login queryMemberInfo Fail.', err);
             this.hideLineLoading();
             this.bLockLogin = false;
-          } else {
-            // 查询玩家信息
-            this.queryMemberInfo().then((res) => {
-              this.setLineLoading(100);
-              if (this.isNewMember) {
-                // 跳转新手引导页
-                cc.director.loadScene('Preface');
-              } else {
-                // 跳转正常游戏
-                cc.director.loadScene('Main');
-              }
-              console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo);
-            }).catch((err) => {
-              console.log('Login queryMemberInfo Fail.', err);
-              this.hideLineLoading();
-              this.bLockLogin = false;
-            });
-          }
+          });
+        }).catch((err) => {
+          console.log('loadSubpackage Error', err);
+          this.hideLineLoading();
+          this.bLockLogin = false;
         });
       }).catch((err) => {
         console.log('Login updateMemberInfo Fail.', err);
@@ -286,6 +288,54 @@ cc.Class({
       }).catch((err) => {
         console.log('Login updateMemberInfo.fail.', err);
         reject();
+      });
+    });
+  },
+
+  // 加载Main分包
+  loadingSubMain: function() {
+    console.log('Main loadingSubMain');
+    return new Promise((resolve, reject) => {
+      cc.loader.downloader.loadSubpackage('Main', (err) => {
+        if (err) {
+          console.log('loadingSubMain Error', err);
+          reject();
+        } else {
+          console.log('Main loadingSubMain resolve');
+          resolve();
+        }
+      });
+    });
+  },
+
+  // 加载World分包
+  loadingSubWorld: function() {
+    console.log('Main loadingSubWorld');
+    return new Promise((resolve, reject) => {
+      cc.loader.downloader.loadSubpackage('World', (err) => {
+        if (err) {
+          console.log('loadingSubWorld Error', err);
+          reject();
+        } else {
+          console.log('Main loadingSubWorld resolve');
+          resolve();
+        }
+      });
+    });
+  },
+
+  // 加载Battle分包
+  loadingSubBattle: function() {
+    console.log('Main loadingSubBattle');
+    return new Promise((resolve, reject) => {
+      cc.loader.downloader.loadSubpackage('Battle', (err) => {
+        if (err) {
+          console.log('loadingSubBattle Error', err);
+          reject();
+        } else {
+          console.log('Main loadingSubBattle resolve');
+          resolve();
+        }
       });
     });
   },

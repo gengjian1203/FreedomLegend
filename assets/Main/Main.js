@@ -515,16 +515,8 @@ cc.Class({
 
   // 跳转到征战页面
   gotoWorldScene: function() {
-    // 子包加载
-    cc.loader.downloader.loadSubpackage('World', (err) => {
-      if (err) {
-        console.log('loadSubpackage Error', err);
-        this.bLockButton = false;
-      } else {
-        // 跳转页
-        cc.director.loadScene('World');
-      }
-    });
+    // 跳转页
+    cc.director.loadScene('World');
   },
 
   // 显示气泡对话框 
