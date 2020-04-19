@@ -33,15 +33,27 @@
 9. √ 文稿抽象。男女分类。
 10. √ 背包对话框交互（附属列表、信息展示、确认提示、物品装备/分解/合成/使用/丢弃）。
 11. √ 优化创建角色接口。
-12. 邮件系统
+12. √ 邮件系统
 13. √ 黑市十连抽，货币使用。
 14. 竞技场比武。
 15. 剧情开展。
 16. 本命法宝。
 17. 家园系统。
 18. 小游戏挖矿玩法。
-19. 背包列表loading交互。优化体验。
-20. 十连抽动画效果。优化体验。防抖点击。
+19. √ 背包先反馈再通讯，优化体验。
+20. 背包/邮件空列表样式展示。
+21. √ 十连抽防抖点击。
+22. 动画效果。优化体验。
+23. √ 集中处理奖励获取。统一在奖励对话框做处理。
 
 # 预览：  
 ![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result.jpg "Result")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result1.png "Result1")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result2.png "Result2")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result3.png "Result3")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result4.png "Result4")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result5.png "Result5")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result6.png "Result6")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result7.png "Result7")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result8.png "Result8")
+![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result9.png "Result9")

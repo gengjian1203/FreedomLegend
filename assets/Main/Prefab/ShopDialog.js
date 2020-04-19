@@ -156,7 +156,7 @@ cc.Class({
     const nRandom = Math.floor(Math.random() * 5);
 
     const arrPrize = [{
-      id: '000000',
+      id: '000002',
       total: arrMoney[nRandom]
     }];
     this.onShowPrizeDlg(arrPrize);

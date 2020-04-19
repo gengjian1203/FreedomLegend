@@ -199,7 +199,7 @@ cc.Class({
     // 刷新事件
     this.node.on('hide-shop-dlg', this.onHideDialog, this);
     this.node.on('hide-mail-dlg', this.onHideDialogAndQuery, this);
-    this.node.on('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
+    this.node.on('refresh-moneyandgold-dlg', this.checkoutLevelup, this);
   },
 
   // 注销事件
@@ -215,7 +215,7 @@ cc.Class({
     // 刷新事件
     this.node.off('hide-shop-dlg', this.onHideDialog, this);
     this.node.off('hide-mail-dlg', this.onHideDialogAndQuery, this);
-    this.node.off('refresh-moneyandgold-dlg', this.setMoneyAndGold, this);
+    this.node.off('refresh-moneyandgold-dlg', this.checkoutLevelup, this);
   },
 
   // 隐藏气泡弹窗
@@ -274,6 +274,16 @@ cc.Class({
     this.bLockButton = true;
     this.showShopDlg();
     console.log('Main onBtnHeishiClick');    
+  },
+
+  // 征战
+  onBtnZhengzhanClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    console.log('Main onBtnZhengzhanClick');
+    this.gotoWorldScene();
   },
 
   // 武将
@@ -402,14 +412,18 @@ cc.Class({
       cc.loader.load({url: g_objUserInfo.avatarUrl, type: 'png'}, (err, img) => {
         this.m_avatar.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(img);
       });
-      // 更新经验条信息
-      this.setExpProgress(g_objMemberInfo.level, g_objMemberInfo.exp);
+      
       // 更新Label信息
       this.m_name.getComponent(cc.Label).string = g_objUserInfo.nickName;
       this.m_level.getComponent(cc.Label).string = g_objMemberInfo.level;
       this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
-      this.setMoneyAndGold();
+      
+      // 更新铜钱和元宝信息
+      this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
+      this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
+      // 更新经验条信息
+      this.setExpProgress(g_objMemberInfo.level, g_objMemberInfo.exp);
     }
   },
 
@@ -426,13 +440,6 @@ cc.Class({
     console.log('setExpProgress', rootWidth, nWidth, fPer, fPerResult);
   },
 
-  // 渲染铜钱和元宝信息
-  setMoneyAndGold: function() {
-    console.log('Main setMoneyAndGold', g_objMemberInfo);
-    this.m_money.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.money);
-    this.m_gold.getComponent(cc.Label).string = GameApi.formatLargeNumber(g_objMemberInfo.gold);
-  },
-
   // 渲染邮件提示信息
   setMailInfo: function() {
     // 判断是否有邮件
@@ -447,6 +454,7 @@ cc.Class({
 
   // 计算挂机奖励
   funComputedHook: function() {
+    g_nTimeHook = g_nTimeHook > 28800000 ? 28800000 : g_nTimeHook; // 最长挂机8小时
     const fRand = 0.8 + (Math.random() / 2.5);
     const nMeasure = g_nTimeHook / 1000;
     const tmpExp = parseInt(nMeasure * fRand);
@@ -503,6 +511,20 @@ cc.Class({
       // 渲染个人信息
       this.setMemberInfo();
     }
+  },
+
+  // 跳转到征战页面
+  gotoWorldScene: function() {
+    // 子包加载
+    cc.loader.downloader.loadSubpackage('World', (err) => {
+      if (err) {
+        console.log('loadSubpackage Error', err);
+        this.bLockButton = false;
+      } else {
+        // 跳转页
+        cc.director.loadScene('World');
+      }
+    });
   },
 
   // 显示气泡对话框 

@@ -22,6 +22,30 @@ function LoadDatabasePartsinfo() {
 }
 
 //////////////////////////////////////////////////
+// LoadDatabaseStory
+// 加载剧情数据数据到缓存中
+// param:
+// return:
+// Boolean
+//////////////////////////////////////////////////
+function LoadDatabaseStory() {
+  const strKeyStory = 'story';
+  cc.loader.loadRes('database_story.json', (err, object) => {
+    if (err) {
+      console.log('LoadDatabaseStory fail', err);
+      return;
+    }
+    if (object && object.json) {
+      console.log('LoadDatabaseStory', object.json);
+      object.json[strKeyStory].forEach((item) => {
+        cc.sys.localStorage.setItem(`${strKeyStory}-${item.id}`, item);
+      });
+      cc.sys.localStorage.setItem(`${strKeyStory}-Length`, object.json[strKeyStory].length);
+    }
+  });
+}
+
+//////////////////////////////////////////////////
 // formatLargeNumber
 // 格式化数字，超过万则显示w为单位
 //////////////////////////////////////////////////
@@ -331,8 +355,36 @@ function getPartsInfoFragments(id) {
   return nFragment;
 }
 
+//////////////////////////////////////////////////
+// getStoryLength
+// 获取当前章节总数
+// param:
+// return:
+// Number                  返回章节总数
+//////////////////////////////////////////////////
+function getStoryLength() {
+  const strKeyStory = 'story';
+  const nResult = cc.sys.localStorage.getItem(`${strKeyStory}-Length`);
+  return nResult;
+}
+
+//////////////////////////////////////////////////
+// getStoryInfo
+// 通过章节号获取章节名字
+// param:
+// nChapters: Number       章节号
+// return:
+// Object                  返回该章节的具体信息
+//////////////////////////////////////////////////
+function getStoryInfo(nChapters) {
+  const strKeyStory = 'story';
+  const objResult = cc.sys.localStorage.getItem(`${strKeyStory}-${nChapters}`);
+  return objResult;
+}
+
 export default {
   LoadDatabasePartsinfo,
+  LoadDatabaseStory,
   formatLargeNumber,
   funComputedMemberInfo,
   getExpMaxString,
@@ -343,4 +395,6 @@ export default {
   getPartsInfoColor,
   getPartsInfoType,
   getPartsInfoFragments,
+  getStoryLength,
+  getStoryInfo,
 }

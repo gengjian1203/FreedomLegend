@@ -1,7 +1,8 @@
 {
   "partsinfo": [
-    {"_id":"000000","name":"铜钱"},
+    {"_id":"000000","name":"经验"},
     {"_id":"000001","name":"元宝"},
+    {"_id":"000002","name":"铜钱"},
     {"_id":"100300","name":"青铜头盔","introduce":"大陆上常见的青铜头盔","describe":"","hp":100,"hp_up":10,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"100301","name":"青铜头盔·碎片","introduce":"用于合成青铜头盔"},
     {"_id":"100310","name":"青铜护肩","introduce":"大陆上常见的青铜护肩","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":10,"innerDefense_up":2,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},

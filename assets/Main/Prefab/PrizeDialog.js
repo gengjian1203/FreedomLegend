@@ -123,12 +123,14 @@ cc.Class({
 
       // 存入本地结构
       if (arrPrize[i].id === '000000') {
-        // 铜钱
-        g_objMemberInfo.money += arrPrize[i].total;
-
+        // 经验
+        g_objMemberInfo.exp += arrPrize[i].total;
       } else if (arrPrize[i].id === '000001') {
         // 元宝
         g_objMemberInfo.gold += arrPrize[i].total;
+      } else if (arrPrize[i].id === '000002') {
+        // 铜钱
+        g_objMemberInfo.money += arrPrize[i].total;
 
       } else if (GameApi.getPartsInfoType(arrPrize[i].id).nType === 10) {
         // 装备

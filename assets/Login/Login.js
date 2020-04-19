@@ -325,6 +325,8 @@ cc.Class({
 
     // 加载游戏资料库等数据到缓存中
     GameApi.LoadDatabasePartsinfo();
+    // 加载剧情数据数据到缓存中
+    GameApi.LoadDatabaseStory();
   },
 
   // 渲染用户信息

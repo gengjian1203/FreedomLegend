@@ -1,0 +1,133 @@
+{
+  "story": [{
+    "id": "0", 
+    "title": "初入异界", 
+    "level": [{
+      "id": "0000",
+      "title": "初入异界1",
+      "opponent": [
+        {"_id": "mem-0000-00", "nickName": "小杂鱼", "level": 5, "hp_total": 50, "outerAttack_total": 5, "innerAttack_total": 10, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}, 
+        {"_id": "mem-0000-01", "nickName": "小喽啰", "level": 5, "hp_total": 50, "outerAttack_total": 10, "innerAttack_total": 5, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}
+      ],
+      "prize": [
+        {"id": "000000", "total": 100}, 
+        {"id": "000002", "total": 100}
+      ],
+      "prize_special": [
+        {"id": "000001", "total": 100}
+      ]
+    }, {
+      "id": "0001",
+      "title": "初入异界2",
+      "opponent": [
+        {"_id": "mem-0001-00", "nickName": "小流氓", "level": 10, "hp_total": 100, "outerAttack_total": 5, "innerAttack_total": 10, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}, 
+        {"_id": "mem-0001-01", "nickName": "小无赖", "level": 10, "hp_total": 100, "outerAttack_total": 10, "innerAttack_total": 5, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}
+      ],
+      "prize": [
+        {"id": "000000", "total": 100}, 
+        {"id": "000002", "total": 100}
+      ],
+      "prize_special": [
+        {"id": "000001", "total": 100}
+      ]
+    }, {
+      "id": "0002",
+      "title": "初入异界3",
+      "opponent": [
+        {"_id": "mem-0002-00", "nickName": "小混混", "level": 15, "hp_total": 200, "outerAttack_total": 15, "innerAttack_total": 30, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}, 
+        {"_id": "mem-0002-01", "nickName": "小痞子", "level": 15, "hp_total": 200, "outerAttack_total": 20, "innerAttack_total": 5, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}
+      ],
+      "prize": [
+        {"id": "000000", "total": 100}, 
+        {"id": "000002", "total": 100}
+      ],
+      "prize_special": [
+        {"id": "000001", "total": 100}
+      ]
+    }, {
+      "id": "0003",
+      "title": "初入异界4",
+      "opponent": [
+        {"_id": "mem-0003-00", "nickName": "强盗", "level": 20, "hp_total": 400, "outerAttack_total": 20, "innerAttack_total": 20, "outerDefense_total": 20, "innerDefense_total": 10, "crit_total": 0, "dodge_total": 0, "speed_total": 5, "understand_total": 0}, 
+        {"_id": "mem-0003-01", "nickName": "土匪", "level": 20, "hp_total": 400, "outerAttack_total": 30, "innerAttack_total": 30, "outerDefense_total": 20, "innerDefense_total": 5, "crit_total": 0, "dodge_total": 0, "speed_total": 3, "understand_total": 0}
+      ],
+      "prize": [
+        {"id": "000000", "total": 100}, 
+        {"id": "000002", "total": 100}
+      ],
+      "prize_special": [
+        {"id": "000001", "total": 100}
+      ]
+    }, {
+      "id": "0004",
+      "title": "初入异界5",
+      "opponent": [
+        {"_id": "mem-0004-00", "nickName": "强盗头子", "level": 20, "hp_total": 600, "outerAttack_total": 40, "innerAttack_total": 30, "outerDefense_total": 20, "innerDefense_total": 25, "crit_total": 0, "dodge_total": 0, "speed_total": 10, "understand_total": 0},
+        {"_id": "mem-0004-01", "nickName": "土匪头子", "level": 20, "hp_total": 600, "outerAttack_total": 40, "innerAttack_total": 40, "outerDefense_total": 35, "innerDefense_total": 5, "crit_total": 0, "dodge_total": 0, "speed_total": 12, "understand_total": 0},
+        {"_id": "mem-0004-02", "nickName": "强盗", "level": 20, "hp_total": 400, "outerAttack_total": 20, "innerAttack_total": 20, "outerDefense_total": 20, "innerDefense_total": 10, "crit_total": 0, "dodge_total": 0, "speed_total": 5, "understand_total": 0}, 
+        {"_id": "mem-0004-03", "nickName": "土匪", "level": 20, "hp_total": 400, "outerAttack_total": 30, "innerAttack_total": 30, "outerDefense_total": 20, "innerDefense_total": 5, "crit_total": 0, "dodge_total": 0, "speed_total": 3, "understand_total": 0}
+      ],
+      "prize": [
+        {"id": "000000", "total": 100}, 
+        {"id": "000002", "total": 100}
+      ],
+      "prize_special": [
+        {"id": "000001", "total": 100}
+      ]
+    }]
+  }, {
+    "id": "1", 
+    "title": "循序渐进", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "2", 
+    "title": "小有名气", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "3", 
+    "title": "峰回路转", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "4", 
+    "title": "阴影乍现", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "5", 
+    "title": "枯鱼涸辙", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "6", 
+    "title": "峰回路转", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "7", 
+    "title": "绝境重生", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "8", 
+    "title": "背水一战", 
+    "level": [{
+
+    }]
+  }, {
+    "id": "9", 
+    "title": "不负众望", 
+    "level": [{
+
+    }]
+  }]
+}
