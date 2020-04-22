@@ -17,6 +17,8 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
+    // 被选中的章节子项详情索引
+    this.nSelectIndex = -1;
     // 当前章节号
     this.nChapters = 0;
     // 需要展示的章节信息
@@ -29,11 +31,28 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // ===== 预制体 =====
+    // 预制体 - 章节的子项
+    m_prefabStoryItem: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 章节的子项详情
+    m_prefabStoryItemIntroduce: {
+      type: cc.Prefab,
+      default: null
+    },
+    // ===== 展示 =====
     // 章节标题标签
     m_labelTitle: {
       type: cc.Node,
       default: null
     },
+    // 展示章节区域
+    m_contentStory: {
+      type: cc.Node,
+      default: null
+    }
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -72,20 +91,31 @@ cc.Class({
     console.log('World registerEvent');
     // 注册公告栏消失事件
     this.node.on('hide-notice-dlg', this.onHideDlg, this);
+    this.node.on('select-story-introduce', this.onSelectStoryIntroduce, this);
   },
 
   // 注销事件
   CancelEvent: function() {
     console.log('World CancelEvent');
-
     // 注销公告栏消失事件
     this.node.off('hide-notice-dlg', this.onHideDlg, this);
+    this.node.off('select-story-introduce', this.onSelectStoryIntroduce, this);
   },
 
   // 隐藏对话框
   onHideDlg: function() {
     console.log('World onHideDlg');
     
+  },
+
+  // 选中指定章节子项
+  onSelectStoryIntroduce: function(event) {
+    const index = event.getUserData();
+    if (this.nSelectIndex === index) {
+      return ;
+    }
+    this.nSelectIndex = index;
+    this.renderStoryInfo();
   },
   
   // 测试点击函数
@@ -139,13 +169,54 @@ cc.Class({
     this.setStoryInfo(this.nChapters);
   },
 
-  // 渲染章节数据
+  // 创建一个预制体StoryItem
+  createStoryItem: function(objItem, index) {
+    let item = null;
+    item = cc.instantiate(this.m_prefabStoryItem);
+    item.getComponent('StoryItem').setStoryItemData(objItem, index);
+    item.x = 0;
+    item.y = -(index) * 80;
+    if ((this.nSelectIndex >=0) && (index > this.nSelectIndex)) {
+      item.y -= 500;
+    }
+    this.m_contentStory.addChild(item);
+  },
+
+  // 创建一个预制体StoryItemIntroduce
+  createStoryItemIntroduce: function(objItem, index) {
+    let item = null;
+    item = cc.instantiate(this.m_prefabStoryItemIntroduce);
+    item.getComponent('StoryItemIntroduce').setBagListItemIntroduceData(objItem);
+    item.x = 0;
+    item.y = -(index + 1) * 80;
+    this.m_contentStory.addChild(item);
+  },
+
+  // 渲染数据
+  renderStoryInfo: function() {
+    this.m_labelTitle.getComponent(cc.Label).string = this.objStoryInfo.title;
+    this.m_contentStory.removeAllChildren();
+    // 渲染章节子项目
+    this.objStoryInfo.level.forEach((item, index) => {
+      item.title = item.title ? item.title : `${this.objStoryInfo.title}${index+1}`;
+      this.createStoryItem(item, index);
+      if (this.nSelectIndex === index) {
+        this.createStoryItemIntroduce(item, index);
+      }
+    });
+    // 撑起内容高度
+    this.m_contentStory.height = 80 * this.objStoryInfo.level.length;
+    this.m_contentStory.height += 500;
+  },
+
+  // 从头渲染章节数据
   setStoryInfo: function(nChapters) {
+    this.nSelectIndex = -1;
     // 获取数据
     this.getStoryInfo(nChapters);
 
-    // 渲染
-    this.m_labelTitle.getComponent(cc.Label).string = this.objStoryInfo.title;
+    // 渲染该章节的子项数据
+    this.renderStoryInfo();
   }
 
 });

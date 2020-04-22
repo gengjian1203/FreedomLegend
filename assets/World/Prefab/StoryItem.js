@@ -14,18 +14,14 @@ cc.Class({
   extends: cc.Component,
 
   ctor() {
-    // 该条数据的基本信息
-    this.objBagListItemBase = {};
+    // 该条章节的基本信息
+    this.objStoryInfo = {};
+    this.index = -1;
   },
 
   properties: {
-    // 物品名称
+    // 章节名称
     m_labelName: {
-      type: cc.Node,
-      default: null
-    },
-    // 物品数量
-    m_labelTotal: {
       type: cc.Node,
       default: null
     },
@@ -53,8 +49,8 @@ cc.Class({
   // 交互事件
   //////////////////////////////////////////////////
   onShowIntroduceDlg: function() {
-    const event = new cc.Event.EventCustom('show-introduce-dlg', true);
-    event.setUserData(this.objBagListItemBase);
+    const event = new cc.Event.EventCustom('select-story-introduce', true);
+    event.setUserData(this.index);
 
     this.node.dispatchEvent(event);
   },
@@ -62,14 +58,11 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 渲染背包物品item信息
-  setBagListItemData: function(objBagListItemBase) {
-    this.objBagListItemBase = objBagListItemBase;
+  // 渲染章节的子项item信息
+  setStoryItemData: function(objStoryInfo, index) {
+    this.objStoryInfo = objStoryInfo;
+    this.index = index;
 
-    const strLevel = (parseInt(this.objBagListItemBase.id) % 10 === 0) ? `(Lv.${this.objBagListItemBase.level})` : ``;
-    this.m_labelName.getComponent(cc.Label).string = `${GameApi.getPartsInfoComplete(this.objBagListItemBase.id).name}${strLevel}`;
-    this.m_labelName.color = GameApi.getPartsInfoColor(this.objBagListItemBase.id);
-    this.m_labelTotal.getComponent(cc.Label).string = `×${this.objBagListItemBase.total}`;
-    this.m_labelTotal.color = GameApi.getPartsInfoColor(this.objBagListItemBase.id);
+    this.m_labelName.getComponent(cc.Label).string = `${this.objStoryInfo.title}`;
   }
 });
