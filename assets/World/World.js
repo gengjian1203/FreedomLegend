@@ -112,9 +112,10 @@ cc.Class({
   onSelectStoryIntroduce: function(event) {
     const index = event.getUserData();
     if (this.nSelectIndex === index) {
-      return ;
-    }
-    this.nSelectIndex = index;
+      this.nSelectIndex = -1;
+    } else {
+      this.nSelectIndex = index;
+    }    
     this.renderStoryInfo();
   },
   

@@ -43,7 +43,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 630,
+      "width": 520,
       "height": 80
     },
     "_anchorPoint": {
@@ -114,7 +114,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 630,
+      "width": 520,
       "height": 80
     },
     "_anchorPoint": {
@@ -126,7 +126,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        315,
+        260,
         -40,
         0,
         0,
@@ -185,7 +185,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 630,
+      "width": 520,
       "height": 80
     },
     "_anchorPoint": {
@@ -252,7 +252,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 590,
+      "width": 480,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -264,7 +264,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -295,
+        -240,
         0,
         0,
         0,
@@ -303,8 +303,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "物品名称",
-    "_N$string": "物品名称",
+    "_string": "关卡名称",
+    "_N$string": "关卡名称",
     "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": true,
