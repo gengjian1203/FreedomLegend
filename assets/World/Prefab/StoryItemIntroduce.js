@@ -9,6 +9,7 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let GameApi = require("../Kits/GameApi");
+let WebApi = require("../Kits/WebApi");
 
 cc.Class({
   extends: cc.Component,
@@ -45,11 +46,11 @@ cc.Class({
   },
 
   onEnable () {
-    console.log('BagListItem onEvable.');
+    console.log('BagListItemIntroduce onEvable.');
   },
 
   onDisable () {
-    console.log('BagListItem onDisable.');
+    console.log('BagListItemIntroduce onDisable.');
   },
 
   // update (dt) {},
@@ -57,11 +58,27 @@ cc.Class({
   //////////////////////////////////////////////////
   // 交互事件
   //////////////////////////////////////////////////
-  onShowIntroduceDlg: function() {
-    const event = new cc.Event.EventCustom('select-story-introduce', true);
-    event.setUserData(this.objBagListItemBase);
+  onBtnBattleClick: function() {
+    console.log('onBtnBattleClick');
+    // 跳转页
+    cc.director.loadScene('Battle');
 
-    this.node.dispatchEvent(event);
+    const param = {
+      arrMemberInfoA: [],
+      arrMemberInfoB: []
+    };
+    // 友军压入数组
+    param.arrMemberInfoA.push(g_objMemberInfo);
+    // 对手压入数组
+    this.objStoryInfo.opponent.forEach((item) => {
+      param.arrMemberInfoB.push(item);
+    });
+    
+    WebApi.fetchBattleResult(param).then((res) => {
+      console.log('onBtnBattleClick Success.', res);
+    }).catch((err) => {
+      console.log('onBtnBattleClick Fail.', err);
+    });
   },
 
   //////////////////////////////////////////////////

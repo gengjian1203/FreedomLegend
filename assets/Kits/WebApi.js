@@ -309,6 +309,44 @@ function createRewards(param) {
   });
 }
 
+//////////////////////////////////////////////////
+// fetchBattleResult
+// 获取战斗结果
+// param 
+// arrMemberInfoA: Array
+// arrMemberInfoB: Array
+// return
+// arrListResult: Array      
+//////////////////////////////////////////////////
+function fetchBattleResult(param) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.callFunction({
+        name: 'fetchBattleResult',
+        data: {
+          arrMemberInfoA: param.arrMemberInfoA,
+          arrMemberInfoB: param.arrMemberInfoB
+        },
+        success: (res) => {
+          console.log('WebApi.fetchBattleResult', res, param);
+          if (res.result) {
+            console.log('WebApi.fetchBattleResult Success', res.result);
+            resolve(res.result);
+          } else {
+            reject(res);
+          }
+        },
+        fail: (err) => {
+          console.log('WebApi.fetchBattleResult Fail', err);
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   mylog,
   initWXCloud,
@@ -318,4 +356,5 @@ export default {
   queryPartsInfo,
   updatePartsInfo,
   createRewards,
+  fetchBattleResult,
 }
