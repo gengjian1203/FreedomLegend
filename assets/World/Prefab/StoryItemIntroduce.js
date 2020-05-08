@@ -60,8 +60,6 @@ cc.Class({
   //////////////////////////////////////////////////
   onBtnBattleClick: function() {
     console.log('onBtnBattleClick');
-    // 跳转页
-    cc.director.loadScene('Battle');
 
     const param = {
       arrMemberInfoA: [],
@@ -73,9 +71,15 @@ cc.Class({
     this.objStoryInfo.opponent.forEach((item) => {
       param.arrMemberInfoB.push(item);
     });
+    console.log('onBtnBattleClick param', param);
+    g_arrMemberInfoA = param.arrMemberInfoA;
+    g_arrMemberInfoB = param.arrMemberInfoB;
     
     WebApi.fetchBattleResult(param).then((res) => {
       console.log('onBtnBattleClick Success.', res);
+      g_arrBattleResult = res.arrListResult;
+      // 跳转页
+      cc.director.loadScene('Battle');
     }).catch((err) => {
       console.log('onBtnBattleClick Fail.', err);
     });
