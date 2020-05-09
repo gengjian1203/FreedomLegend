@@ -16,9 +16,21 @@ let GameApi = require("../Kits/GameApi");
 cc.Class({
   extends: cc.Component,
 
+  ctor() {
+    this.arrRoundName = ['阳之阵', '阴之阵'];
+    this.arrAttackAdj = ['张牙舞爪', '手舞足蹈', '眼疾手快', '动如脱兔', '全力以赴', '偷偷摸摸', '兔起鹘落', '轻手轻脚', '步罡踏斗', '楞手楞脚', '进退有度', '神出鬼没', '左右开弓'];
+    this.arrAttackString = ['外功', '内功'];
+    this.nKillCount = 0;
+  },
+
   properties: {
     // 根节点
     m_root: {
+      type: cc.Node,
+      default: null
+    },
+    // 回合标题
+    m_labelRound: {
       type: cc.Node,
       default: null
     },
@@ -95,7 +107,9 @@ cc.Class({
     console.log('Battle g_arrBattleResult', g_arrBattleResult);
 
     g_arrBattleResult.forEach((item, index) => {
-      this.createBattleLogLabel(item, index);
+      setTimeout(() => {
+        this.updateBattleRoundData(item, index);
+      }, 2000 * index);
     });
   },
 
@@ -108,20 +122,77 @@ cc.Class({
     return arrMemberInfo[index].nickName;
   },
 
-  // 物品奖励的内容
+  // 更新回合信息
+  updateBattleRoundData: function(objBattleResultItem, nCount) {
+    // 更新回合标题
+    this.setRoundTitle(objBattleResultItem, nCount);
+    // 更新战斗日志的内容
+    this.createBattleLogLabel(objBattleResultItem, nCount);
+    // 更新战斗日志的击杀情况
+    if (objBattleResultItem.nHPDefense <= 0) {
+      this.createKillLogLabel(objBattleResultItem, nCount);
+    }
+  },
+
+  // 更新回合标题
+  setRoundTitle: function(objBattleResultItem, nCount) {
+    const strRoundTitle =  `第${Math.floor(objBattleResultItem.nRound / 2) + 1}回合` + 
+                           `◆` + 
+                           `${this.arrRoundName[objBattleResultItem.nRound % 2]}`;
+    this.m_labelRound.getComponent(cc.Label).string = strRoundTitle;
+  },
+
+  // 更新战斗日志的内容
   createBattleLogLabel: function(objBattleResultItem, nCount) {
+    const nLengthAdj = this.arrAttackAdj.length;
     const node = new cc.Node();
     node.x = 0;
-    node.y = -nCount * 40;
+    node.y = -(nCount + this.nKillCount) * 40;
     node.setAnchorPoint(cc.v2(0, 1))
     // node.color = GameApi.getPartsInfoColor(objPrize.id);
     const label = node.addComponent(cc.Label);
-    label.fontSize = 26;
+    label.fontSize = 24;
     label.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
-    label.string = `【回合${objBattleResultItem.nRound}】“${this.getMemberName(objBattleResultItem.strIDAttack)}”对“${this.getMemberName(objBattleResultItem.strIDDefense)}”造成了${-objBattleResultItem.nEffectDefense}点伤害`;
+    if (objBattleResultItem.nEffectDefense === 0) {
+      label.string = `【回合${Math.floor(objBattleResultItem.nRound / 2) + 1}】` + 
+      `“${this.getMemberName(objBattleResultItem.strIDAttack)}”` + 
+      `${this.arrAttackAdj[Math.floor(Math.random() * nLengthAdj)]}` +
+      `发动${this.arrAttackString[objBattleResultItem.nRound % 2]}，结果被` + 
+      `“${this.getMemberName(objBattleResultItem.strIDDefense)}”` + 
+      `轻松的躲开了`;
+    } else {
+      label.string = `【回合${Math.floor(objBattleResultItem.nRound / 2) + 1}】` + 
+      `“${this.getMemberName(objBattleResultItem.strIDAttack)}”` + 
+      `${this.arrAttackAdj[Math.floor(Math.random() * nLengthAdj)]}` +
+      `发动${this.arrAttackString[objBattleResultItem.nRound % 2]}对` + 
+      `“${this.getMemberName(objBattleResultItem.strIDDefense)}”` + 
+      `造成了` + 
+      `${-objBattleResultItem.nEffectDefense}` + 
+      `点伤害`;
+    }
     this.m_logContent.addChild(node);
     this.m_logContent.height += 40;
     // 滚动到最下方
     this.m_logScrollView.getComponent(cc.ScrollView).scrollToBottom(0.5);
   },
+
+  // 更新战斗日志的击杀情况
+  createKillLogLabel: function(objBattleResultItem, nCount) {
+    this.nKillCount++;
+    const node = new cc.Node();
+    node.x = 0;
+    node.y = -(nCount + this.nKillCount) * 40;
+    node.setAnchorPoint(cc.v2(0, 1))
+    // node.color = GameApi.getPartsInfoColor(objPrize.id);
+    const label = node.addComponent(cc.Label);
+    label.fontSize = 24;
+    label.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
+    label.string = `“${this.getMemberName(objBattleResultItem.strIDDefense)}”` + 
+                   `体力不支，重伤之下已经无法战斗`;
+      
+    this.m_logContent.addChild(node);
+    this.m_logContent.height += 40;
+    // 滚动到最下方
+    this.m_logScrollView.getComponent(cc.ScrollView).scrollToBottom(0.5);
+  }
 });

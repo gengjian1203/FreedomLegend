@@ -552,7 +552,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 420,
+      "width": 453.37,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -565,7 +565,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        589.2,
+        579.2,
         0,
         0,
         0,
@@ -603,8 +603,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "第一回合（阳）",
-    "_N$string": "第一回合（阳）",
+    "_string": "第1回合◆阳之阵",
+    "_N$string": "第1回合◆阳之阵",
     "_fontSize": 60,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -632,7 +632,7 @@
     "_alignFlags": 17,
     "_left": 0,
     "_right": 0,
-    "_top": 40,
+    "_top": 50,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -1313,6 +1313,9 @@
     "_enabled": true,
     "m_root": {
       "__id__": 10
+    },
+    "m_labelRound": {
+      "__id__": 11
     },
     "m_logScrollView": {
       "__id__": 17
