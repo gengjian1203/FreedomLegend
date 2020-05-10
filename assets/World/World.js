@@ -142,12 +142,16 @@ cc.Class({
 
   // 向右切换章节
   onBtnRightClick: function(e, param) {
-    console.log('World onBtnRightClick', param);
-    if (this.nChapters >= GameApi.getStoryLength() - 1) {
-      return;
+    if (this.nChapters < Math.floor(g_objMemberInfo.story / 10)) {
+      console.log('World onBtnRightClick', param);
+      if (this.nChapters >= GameApi.getStoryLength() - 1) {
+        return;
+      }
+      this.nChapters++;
+      this.setStoryInfo(this.nChapters);
+    } else {
+      console.log('剧情进度不足');
     }
-    this.nChapters++;
-    this.setStoryInfo(this.nChapters);
   },
 
   //////////////////////////////////////////////////
@@ -199,10 +203,20 @@ cc.Class({
     this.m_contentStory.removeAllChildren();
     // 渲染章节子项目
     this.objStoryInfo.level.forEach((item, index) => {
-      item.title = item.title ? item.title : `${this.objStoryInfo.title}${index+1}`;
-      this.createStoryItem(item, index);
-      if (this.nSelectIndex === index) {
-        this.createStoryItemIntroduce(item, index);
+      if (index <= (g_objMemberInfo.story % 10)) {
+        if ((this.nChapters === Math.floor(g_objMemberInfo.story / 10)) && index === (g_objMemberInfo.story % 10)) {
+          item.title = `${this.objStoryInfo.title}${index+1}【未通关】`;
+        } else {
+          item.title = `${this.objStoryInfo.title}${index+1}【已通关】`;
+        }
+        this.createStoryItem(item, index);
+        if (this.nSelectIndex === index) {
+          this.createStoryItemIntroduce(item, index);
+          // 记录章节情况
+          g_nBattleStory = this.nChapters * 10 + index;
+        }
+      } else {
+        console.log('剧情进度不足');
       }
     });
     // 撑起内容高度

@@ -160,6 +160,7 @@ cc.Class({
     console.log('Battle init');
     // 预处理数据数据
     this.computedMemberInfoData();
+    console.log('Battle g_nBattleStory', g_nBattleStory);
     console.log('Battle g_objPrize', g_objPrize);
     console.log('Battle g_arrMemberInfoA', g_arrMemberInfoA);
     console.log('Battle g_arrMemberInfoB', g_arrMemberInfoB);

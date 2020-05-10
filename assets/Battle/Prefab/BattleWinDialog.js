@@ -162,7 +162,12 @@ cc.Class({
       }
     }
 
-    // 刷新铜钱元宝
+    // 关卡进度
+    if (g_nBattleStory === g_objMemberInfo.story) {
+      g_objMemberInfo.story++;
+    }
+
+    // 刷新关卡进度、经验、铜钱、元宝。
     WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
       // 本地发消息刷新铜钱元宝
       this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
