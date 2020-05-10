@@ -168,7 +168,7 @@ cc.Class({
   // 初始化
   init: function() {
     // 获取数据
-    this.nChapters = 0;
+    this.nChapters = g_nChapters;
 
     // 进行渲染
     this.setStoryInfo(this.nChapters);
@@ -203,7 +203,7 @@ cc.Class({
     this.m_contentStory.removeAllChildren();
     // 渲染章节子项目
     this.objStoryInfo.level.forEach((item, index) => {
-      if (index <= (g_objMemberInfo.story % 10)) {
+      if ((this.nChapters < Math.floor(g_objMemberInfo.story / 10)) || index <= (g_objMemberInfo.story % 10)) {
         if ((this.nChapters === Math.floor(g_objMemberInfo.story / 10)) && index === (g_objMemberInfo.story % 10)) {
           item.title = `${this.objStoryInfo.title}${index+1}【未通关】`;
         } else {

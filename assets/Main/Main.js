@@ -515,6 +515,7 @@ cc.Class({
 
   // 跳转到征战页面
   gotoWorldScene: function() {
+    g_nChapters = Math.floor(g_objMemberInfo.story / 10);
     // 跳转页
     cc.director.loadScene('World');
   },
