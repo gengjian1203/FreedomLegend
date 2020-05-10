@@ -65,6 +65,8 @@ cc.Class({
       arrMemberInfoA: [],
       arrMemberInfoB: []
     };
+    // 保存奖励
+    g_objPrize = this.objStoryInfo.prize;
     // 友军压入数组
     param.arrMemberInfoA.push(g_objMemberInfo);
     // 对手压入数组

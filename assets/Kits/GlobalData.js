@@ -15,6 +15,13 @@ window.g_objBagInfo = {
 }
 
 // 战斗传值
+window.g_objPrize = [{
+  id: "000000", 
+  total: 100
+}, {
+  id: "000002", 
+  total: 50
+}];
 // 友军mock数据
 window.g_arrMemberInfoA = [{
   avatarUrl: "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83er6JJibWSWCgr0Gh9aNEoArt77vjb875bkIfEkAic8UroEW8lgp7vfvZB7a9DW8OwoIB5oicngaNf7icg/132",
