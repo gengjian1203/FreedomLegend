@@ -100,8 +100,8 @@ function funComputedMemberInfo(level) {
     hp_base: level * 50 + 100,                        // 生命
     outerAttack_base: level * 10 + 20,                // 外功
     innerAttack_base: level * 10 + 10,                // 内功
-    outerDefense_base: level * 10 + 10,               // 外防
-    innerDefense_base: level * 10 + 0,                // 内防
+    outerDefense_base: level * 1 + 10,               // 外防
+    innerDefense_base: level * 1 + 0,                // 内防
     crit_base: g_objMemberInfo.crit_base,             // 暴击率
     dodge_base: g_objMemberInfo.dodge_base,           // 闪避率
     speed_base: g_objMemberInfo.speed_base,           // 速度
