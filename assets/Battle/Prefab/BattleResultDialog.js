@@ -43,12 +43,12 @@ cc.Class({
   },
 
   onEnable () {
-    console.log('ShopResultDialog onEvable.');
+    console.log('BattleResultDialog onEvable.');
     this.registerEvent();
   },
 
   onDisable () {
-    console.log('ShopResultDialog onDisable.');
+    console.log('BattleResultDialog onDisable.');
     this.CancelEvent();
   },
 
@@ -93,7 +93,7 @@ cc.Class({
 
   // 关闭对话框
   onHidePrizeDialog: function() {
-    console.log('PrizeDialog onHidePrizeDialog.');
+    console.log('BattleResultDialog onHidePrizeDialog.');
     this.node.dispatchEvent( new cc.Event.EventCustom('hide-prize-dlg', true) );
     this.node.active = false;
     this.node.removeFromParent();
@@ -167,7 +167,7 @@ cc.Class({
       // 本地发消息刷新铜钱元宝
       this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
     }).catch((err) => {
-      console.log('MailDialog updateMemberInfo fail', err);
+      console.log('BattleResultDialog updateMemberInfo fail', err);
     });
     // 配置参数：更新背包列表
     const param = {
@@ -177,7 +177,7 @@ cc.Class({
     // 服务器更新背包列表
     WebApi.updatePartsInfo(param).then((res) => {
     }).catch((err) => {
-      console.log('MailDialog updatePartsInfo Fail.', err);
+      console.log('BattleResultDialog updatePartsInfo Fail.', err);
     });    
   },
 });

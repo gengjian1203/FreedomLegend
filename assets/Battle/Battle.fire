@@ -9059,6 +9059,9 @@
     "m_prefabResultDlg": {
       "__uuid__": "de12af2f-97dc-40f1-beb0-c2b638635e38"
     },
+    "m_prefabLevelup": {
+      "__uuid__": "f63d7f1e-df94-4d3a-8f85-b158f8872e2a"
+    },
     "m_labelRound": {
       "__id__": 12
     },

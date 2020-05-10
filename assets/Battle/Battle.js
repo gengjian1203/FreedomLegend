@@ -54,6 +54,11 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
+    // 预制体 - 升级弹窗
+    m_prefabLevelup: {
+      type: cc.Prefab,
+      default: null
+    },
     // 回合标题
     m_labelRound: {
       type: cc.Node,
@@ -363,10 +368,43 @@ cc.Class({
     player.runAction(actAttackSeq);
   },
 
-  // 展示结果
+  // 展示战斗结果
   showResultDlg: function() {
     const dlgResult = cc.instantiate(this.m_prefabResultDlg);
     dlgResult.getComponent('BattleResultDialog').setItemPrize(g_objPrize);
     this.m_root.addChild(dlgResult);
-  }
+
+    this.checkoutLevelup();
+  },
+
+  // 检验升级情况
+  checkoutLevelup: function() {
+    const nExpMax = parseInt(GameApi.getExpMaxString(g_objMemberInfo.level));
+    if (g_objMemberInfo.exp >= nExpMax) {
+      // 制造参数
+      g_objMemberInfo.level++;
+      const objMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
+      objMemberInfo.exp = 0;
+      g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
+
+      console.log('Battle checkoutLevelup', objMemberInfo);
+      WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+        // 弹出升级弹窗
+        this.showLevelupDlg();
+      }).catch((err) => {
+        console.log('Battle checkoutLevelup fail', err);
+      })
+    }
+  },
+
+  // 显示升级奖励对话框
+  showLevelupDlg: function() {
+    console.log('Battle showLevelupDlg');
+    const objMemberInfoOld = GameApi.funComputedMemberInfo(g_objMemberInfo.level - 1);
+    const objMemberInfoNew = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
+    const dlgLevelup = cc.instantiate(this.m_prefabLevelup);
+    dlgLevelup.getComponent('LevelupDialog').setLevelupData(objMemberInfoOld, objMemberInfoNew);
+    this.m_root.addChild(dlgLevelup);
+    console.log('Battle showLevelupDlg', dlgLevelup, this.m_root);
+  },
 });
