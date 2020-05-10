@@ -15,6 +15,7 @@ window.g_objBagInfo = {
 }
 
 // 战斗传值
+window.g_bBattleWin = false;
 window.g_objPrize = [{
   id: "000000", 
   total: 100

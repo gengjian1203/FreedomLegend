@@ -49,8 +49,13 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
-    // 预制体 - 战斗结果弹窗 
-    m_prefabResultDlg: {
+    // 预制体 - 战斗结果弹窗 (胜利)
+    m_prefabWinDlg: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 战斗结果弹窗 (失败)
+    m_prefabLostDlg: {
       type: cc.Prefab,
       default: null
     },
@@ -370,11 +375,15 @@ cc.Class({
 
   // 展示战斗结果
   showResultDlg: function() {
-    const dlgResult = cc.instantiate(this.m_prefabResultDlg);
-    dlgResult.getComponent('BattleResultDialog').setItemPrize(g_objPrize);
-    this.m_root.addChild(dlgResult);
-
-    this.checkoutLevelup();
+    if (g_bBattleWin) {
+      const dlgWinDlg = cc.instantiate(this.m_prefabWinDlg);
+      dlgWinDlg.getComponent('BattleWinDialog').setItemPrize(g_objPrize);
+      this.m_root.addChild(dlgWinDlg);
+      this.checkoutLevelup();
+    } else {
+      const dlgLostDlg = cc.instantiate(this.m_prefabLostDlg);
+      this.m_root.addChild(dlgLostDlg);
+    }
   },
 
   // 检验升级情况

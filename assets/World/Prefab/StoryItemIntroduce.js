@@ -79,7 +79,9 @@ cc.Class({
     
     WebApi.fetchBattleResult(param).then((res) => {
       console.log('onBtnBattleClick Success.', res);
+      g_bBattleWin = res.bWin;
       g_arrBattleResult = res.arrListResult;
+      
       // 跳转页
       cc.director.loadScene('Battle');
     }).catch((err) => {

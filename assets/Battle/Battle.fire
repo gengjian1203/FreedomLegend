@@ -9056,8 +9056,11 @@
     "m_prefabBackWorldDlg": {
       "__uuid__": "8197fa14-1ae1-4647-b18d-2e61e355003e"
     },
-    "m_prefabResultDlg": {
+    "m_prefabWinDlg": {
       "__uuid__": "de12af2f-97dc-40f1-beb0-c2b638635e38"
+    },
+    "m_prefabLostDlg": {
+      "__uuid__": "83f3089a-0665-4253-bb11-e44eb220aa35"
     },
     "m_prefabLevelup": {
       "__uuid__": "f63d7f1e-df94-4d3a-8f85-b158f8872e2a"
