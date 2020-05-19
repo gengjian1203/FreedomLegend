@@ -28,6 +28,8 @@ cc.Class({
     this.m_dlgMail = null;
     // 黑市对话框
     this.m_dlgShop = null;
+    // 演武场对话框
+    this.m_dlgSport = null;
     // 属性对话框
     this.m_dlgMember = null;
     // 属性对话框
@@ -70,6 +72,11 @@ cc.Class({
     },
     // 预制体 - 黑市弹窗
     m_prefabShop: {
+      type: cc.Prefab,
+      default: null
+    },
+    // 预制体 - 演武场弹窗
+    m_prefabSport: {
       type: cc.Prefab,
       default: null
     },
@@ -196,6 +203,7 @@ cc.Class({
     this.node.on('hide-ranking-dlg', this.onHideDialog, this);
     this.node.on('hide-bag-dlg', this.onHideDialog, this);
     this.node.on('hide-member-dlg', this.onHideDialog, this);
+    this.node.on('hide-sport-dlg', this.onHideDialog, this);
     // 刷新事件
     this.node.on('hide-shop-dlg', this.onHideDialog, this);
     this.node.on('hide-mail-dlg', this.onHideDialogAndQuery, this);
@@ -212,6 +220,7 @@ cc.Class({
     this.node.off('hide-ranking-dlg', this.onHideDialog, this);
     this.node.off('hide-bag-dlg', this.onHideDialog, this);
     this.node.off('hide-member-dlg', this.onHideDialog, this);
+    this.node.off('hide-sport-dlg', this.onHideDialog, this);
     // 刷新事件
     this.node.off('hide-shop-dlg', this.onHideDialog, this);
     this.node.off('hide-mail-dlg', this.onHideDialogAndQuery, this);
@@ -274,6 +283,16 @@ cc.Class({
     this.bLockButton = true;
     this.showShopDlg();
     console.log('Main onBtnHeishiClick');    
+  },
+
+  // 黑市
+  onBtnYanwuchangClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    this.showSportDlg();
+    console.log('Main onBtnYanwuchangClick');    
   },
 
   // 征战
@@ -454,7 +473,7 @@ cc.Class({
 
   // 计算挂机奖励
   funComputedHook: function() {
-    g_nTimeHook = g_nTimeHook > 28800000 ? 28800000 : g_nTimeHook; // 最长挂机8小时
+    // g_nTimeHook = g_nTimeHook > 28800000 ? 28800000 : g_nTimeHook; // 最长挂机8小时
     const fRand = 0.8 + (Math.random() / 2.5);
     const nMeasure = g_nTimeHook / 1000;
     const tmpExp = parseInt(nMeasure * fRand);
@@ -559,6 +578,12 @@ cc.Class({
   showShopDlg: function() {
     this.m_dlgShop = cc.instantiate(this.m_prefabShop);
     this.m_root.addChild(this.m_dlgShop);
+  },
+
+  // 显示演武场对话框
+  showSportDlg: function() {
+    this.m_dlgSport = cc.instantiate(this.m_prefabSport);
+    this.m_root.addChild(this.m_dlgSport);
   },
 
   // 显示属性对话框
