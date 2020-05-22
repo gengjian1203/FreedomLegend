@@ -17,6 +17,7 @@ window.g_objBagInfo = {
 // 战斗传值
 window.g_nChapters = 0;
 window.g_nBattleStory = -1;
+window.g_strSceneBack = ''; // 跳转路由
 window.g_bBattleWin = false;
 window.g_objPrize = [{
   id: "000000", 

@@ -135,7 +135,7 @@ cc.Class({
 
   // 渲染自身数据
   renderSportNumber: function() {
-    this.m_labelSportNumber.getComponent(cc.Label).string = '9999+';
+    this.m_labelSportNumber.getComponent(cc.Label).string = String(g_objMemberInfo.sportsNumber < 10000 ? g_objMemberInfo.sportsNumber : '9999+');
   },
 
   // 渲染列表数据

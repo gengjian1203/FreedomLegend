@@ -9,6 +9,7 @@
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
 let GameApi = require("../Kits/GameApi");
+let WebApi = require("../Kits/WebApi");
 
 cc.Class({
   extends: cc.Component,
@@ -58,7 +59,37 @@ cc.Class({
   // 交互事件
   //////////////////////////////////////////////////
   onBtnBattleClick: function() {
+    console.log('SportListItem onBtnBattleClick');
 
+    const param = {
+      arrMemberInfoA: [],
+      arrMemberInfoB: []
+    };
+    // 保存奖励
+    g_objPrize = [{
+      id: '000003', 
+      value: this.objSportListItemData.sportsNumber < g_objMemberInfo.sportsNumber ? this.objSportListItemData.sportsNumber : g_objMemberInfo.sportsNumber
+    }];
+    // 友军压入数组
+    param.arrMemberInfoA.push(g_objMemberInfo);
+    // 对手压入数组
+    param.arrMemberInfoB.push(this.objSportListItemData);
+    
+    console.log('SportListItem onBtnBattleClick param', param);
+    g_arrMemberInfoA = param.arrMemberInfoA;
+    g_arrMemberInfoB = param.arrMemberInfoB;
+    
+    WebApi.fetchBattleResult(param).then((res) => {
+      console.log('SportListItem onBtnBattleClick Success.', res);
+      g_bBattleWin = res.bWin;
+      g_arrBattleResult = res.arrListResult;
+      g_strSceneBack = 'Main';
+      
+      // 跳转页
+      cc.director.loadScene('Battle');
+    }).catch((err) => {
+      console.log('onBtnBattleClick Fail.', err);
+    });
   },
 
   //////////////////////////////////////////////////

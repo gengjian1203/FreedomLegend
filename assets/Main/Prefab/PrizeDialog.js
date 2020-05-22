@@ -104,13 +104,23 @@ cc.Class({
   //////////////////////////////////////////////////
   // 物品奖励的内容
   createPrizeLabel: function(objPrize, nCount) {
+    console.log('createPrizeLabel', objPrize);
     const node = new cc.Node();
     node.x = 0;
     node.y = -nCount * 40 - 10;
     node.color = GameApi.getPartsInfoColor(objPrize.id);
     const label = node.addComponent(cc.Label);
     label.fontSize = 30;
-    label.string = `${GameApi.getPartsInfoComplete(objPrize.id).name} ×${objPrize.total}`;
+    if (objPrize.id === '000003') {
+      if (objPrize.value < g_objMemberInfo.sportsNumber) {
+        label.string = `您的比武排名提升至${objPrize.value}名`;
+      } else {
+        label.string = `您的比武排名没有变化`;
+      }
+    } else {
+      label.string = `${GameApi.getPartsInfoComplete(objPrize.id).name} ×${objPrize.total}`;
+    }
+    
     this.m_rootPrize.addChild(node);
     this.m_dialog.height += 40;
   },
@@ -131,7 +141,9 @@ cc.Class({
       } else if (arrPrize[i].id === '000002') {
         // 铜钱
         g_objMemberInfo.money += arrPrize[i].total;
-
+      } else if (arrPrize[i].id === '000003') {
+        // 比武排名
+        g_objMemberInfo.sportsNumber = arrPrize[i].value;
       } else if (GameApi.getPartsInfoType(arrPrize[i].id).nType === 10) {
         // 装备
         const objEquipment = {

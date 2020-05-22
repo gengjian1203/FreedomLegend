@@ -94,7 +94,7 @@ cc.Class({
     this.node.dispatchEvent( new cc.Event.EventCustom('back-world-dlg', true) );
     // 关闭对话框
     this.onHideBackWorldDialog();
-    cc.director.loadScene('World');
+    cc.director.loadScene(g_strSceneBack);
   },
 
   // 点击取消按钮

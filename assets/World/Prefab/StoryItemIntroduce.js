@@ -81,6 +81,7 @@ cc.Class({
       console.log('onBtnBattleClick Success.', res);
       g_bBattleWin = res.bWin;
       g_arrBattleResult = res.arrListResult;
+      g_strSceneBack = 'World';
       
       // 跳转页
       cc.director.loadScene('Battle');

@@ -268,6 +268,10 @@ cc.Class({
     return new Promise((resolve, reject) => {
       WebApi.queryMemberInfo().then((res) => {
         g_objMemberInfo = res.member.data;
+        // 比武名次保护
+        if (!g_objMemberInfo.sportsNumber) {
+          g_objMemberInfo.sportsNumber = 10000;
+        }
         console.log('Login queryMemberInfo Success', g_objMemberInfo);
         resolve(res);
       }).catch((err) => {

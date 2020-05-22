@@ -137,7 +137,7 @@ cc.Class({
     console.log('Battle onHideDlg');
     // 返回战斗前的章节
     g_nChapters = Math.floor(g_nBattleStory / 10);
-    cc.director.loadScene('World');
+    cc.director.loadScene(g_strSceneBack);
   },
 
   // 点击退出战斗
