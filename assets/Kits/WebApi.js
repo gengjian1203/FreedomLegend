@@ -142,38 +142,44 @@ function queryMemberInfo(openid) {
 }
 
 //////////////////////////////////////////////////
-// updateMemberInfo
-// 更新玩家信息
-// param: 
-// objMemberInfo : Object, // 待更新的成员信息
-// isLogin : Boolean,      // 是否是登录
-// return:
-// result: Boolean      // 接口成功标识
-// timeHook: Number     // 挂机时间(只有isLogin为true时，才为合法值)
-// isNewMember: Boolean // 是否是新成员标识、决定跳转引导页还是主页面
+// updateMemeberInfo
+// 更新/创建的角色信息
+// param 
+// openid: String       openid 如果传值则查询对应id的角色信息、如果不传值则查询自身的角色信息
+// _id: String          _id 如果传值则查询对应id的角色信息、如果不传值则查询自身的角色信息（优先级高）
+// memberInfo: Object   成员信息
+// isLogin: Boolean     是否是登录相关请求
+// return
+// result: Boolean      接口成功标识
+// timeHook: Number     挂机时间(只有isLogin为true时，才为合法值)
+// isNewMember: Boolean 是否是新成员标识、决定跳转引导页还是主页面
 //////////////////////////////////////////////////
-function updateMemberInfo(memberInfo, isLogin) {
+function updateMemberInfo(param) {
   return new Promise((resolve, reject) => {
     if (cc.sys.platform === cc.sys.WECHAT_GAME) {
       wx.cloud.callFunction({
         name: 'updateMemberInfo',
         data: {
-          memberInfo,
-          isLogin
+          openid: param.openid,
+          _id: param._id,
+          memberInfo: param.memberInfo,
+          isLogin: param.isLogin
         },
         success: (res) => {
-          console.log('WebApi.updateMemberInfo', res, memberInfo, isLogin);
+          console.log('WebApi.updateMemberInfo', res);
           if (res.result) {
             console.log('WebApi.updateMemberInfo Success', res.result, res.result.timeHook);
-            if (isLogin) {
+            if (param.isLogin) {
               // 是登录则记录挂机时间
               if (res.result.timeHook) {
                 g_nTimeHook = res.result.timeHook;
               }
             }
             else {
-              // 不是登录，则存储排行榜信息
-              setUserCloudStorage(memberInfo);
+              if (!param._id) {
+                // 不是登录，则存储排行榜信息
+                setUserCloudStorage(param.memberInfo);
+              }
             }
             resolve(res);
           } else {

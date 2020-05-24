@@ -244,8 +244,11 @@ cc.Class({
     // 先反馈，刷新角色属性
     this.setMemberInfo();
 
+    const paramMemberInfo = {
+      memberInfo: g_objMemberInfo
+    };
     // 服务器更新人物属性      
-    WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
+    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
       console.log('MemberDialog updateMemberInfo.success.', res);
     }).catch((err) => {
       console.log('MemberDialog updateMemberInfo.fail.', err);

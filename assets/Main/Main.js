@@ -325,7 +325,10 @@ cc.Class({
     g_objMemberInfo.level++;
     const objMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
     
-    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+    const paramMemberInfo = {
+      memberInfo: objMemberInfo
+    };
+    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
       this.showLevelupDlg();
       this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
       this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
@@ -492,7 +495,10 @@ cc.Class({
 
     console.log('Main funComputedHook', g_nTimeHook, nMeasure, objMemberInfo);
 
-    WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+    const paramMemberInfo = {
+      memberInfo: objMemberInfo
+    };
+    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
       // 弹出离线奖励弹窗
       this.showHookDlg(nMeasure, tmpExp, tmpMoney, tmpGold);  
       
@@ -517,7 +523,10 @@ cc.Class({
       g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
 
       console.log('Main checkoutLevelup', objMemberInfo);
-      WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+      const paramMemberInfo = {
+        memberInfo: objMemberInfo
+      };
+      WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
         // 弹出升级弹窗
         this.showLevelupDlg();
         // 渲染游戏信息

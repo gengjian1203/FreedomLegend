@@ -284,8 +284,11 @@ cc.Class({
   // 创建玩家角色信息
   updateMemberInfo: function() {
     return new Promise((resolve, reject) => {
-      const isLogin = true;
-      WebApi.updateMemberInfo(g_objUserInfo, isLogin).then((res) => {
+      const paramMemberInfo = {
+        memberInfo: g_objUserInfo,
+        isLogin: true
+      };
+      WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
         console.log('Login updateMemberInfo.success.', res);
         this.isNewMember = res.result.isNewMember;
         resolve(res.result);

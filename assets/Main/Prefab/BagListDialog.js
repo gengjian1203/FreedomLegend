@@ -368,8 +368,11 @@ cc.Class({
       // 配置参数：更新人物属性全局变量
       const newMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
       g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, newMemberInfo);
-      // 服务器更新人物属性      
-      WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
+      // 服务器更新人物属性
+      const paramMemberInfo = {
+        memberInfo: g_objMemberInfo
+      };
+      WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
         console.log('BagDialog updateMemberInfo.success.', res);
       }).catch((err) => {
         console.log('BagDialog updateMemberInfo.fail.', err);

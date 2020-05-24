@@ -25,6 +25,10 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    m_sprSign: {
+      type: cc.Node,
+      default: null
+    },
     // 该挑战者的姓名
     m_labelName: {
       type: cc.Node,
@@ -73,7 +77,9 @@ cc.Class({
     // 保存奖励
     g_objPrize = [{
       id: '000003', 
-      value: this.objSportListItemData.sportsNumber < g_objMemberInfo.sportsNumber ? this.objSportListItemData.sportsNumber : g_objMemberInfo.sportsNumber
+      valueFriend: g_objMemberInfo.sportsNumber,
+      valueOpponent: this.objSportListItemData.sportsNumber,
+      _idOpponent: this.objSportListItemData._id,
     }];
     // 友军压入数组
     param.arrMemberInfoA.push(g_objMemberInfo);
@@ -105,8 +111,16 @@ cc.Class({
     console.log('setSportListItemData', objSportListItemData);
     this.objSportListItemData = objSportListItemData;
     
+    // 不显示战斗标签逻辑：自己不能战斗自己、如果自己排名超过500不能战斗前5选手
     this.m_btnBattle.active = !(objSportListItemData.sportsNumber === g_objMemberInfo.sportsNumber);
+    if (g_objMemberInfo.sportsNumber > 500 && objSportListItemData.sportsNumber <= 5) {
+      this.m_btnBattle.active = false;
+    }
     this.m_labelNumber.getComponent(cc.Label).string = `${this.objSportListItemData.sportsNumber}`;
+    if (objSportListItemData.sportsNumber <= 5) {
+      this.m_sprSign.active = true;
+      this.m_labelNumber.color = cc.color(236, 177, 172);
+    }
     this.m_labelName.getComponent(cc.Label).string = `${this.objSportListItemData.nickName}`;
     this.m_labelTaste.getComponent(cc.Label).string = `${GameApi.getTasteString(this.objSportListItemData.level)}`;
     this.m_labelTaste.color = GameApi.getTasteColor(this.objSportListItemData.level);

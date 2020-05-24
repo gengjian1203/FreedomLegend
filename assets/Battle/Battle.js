@@ -400,7 +400,10 @@ cc.Class({
       g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
 
       console.log('Battle checkoutLevelup', objMemberInfo);
-      WebApi.updateMemberInfo(objMemberInfo).then((res) => {
+      const paramMemberInfo = {
+        memberInfo: objMemberInfo
+      }
+      WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
         // 弹出升级弹窗
         this.showLevelupDlg();
       }).catch((err) => {

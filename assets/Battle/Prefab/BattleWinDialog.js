@@ -112,8 +112,8 @@ cc.Class({
     const label = node.addComponent(cc.Label);
     label.fontSize = 30;
     if (objPrize.id === '000003') {
-      if (objPrize.value < g_objMemberInfo.sportsNumber) {
-        label.string = `您的比武排名提升至${objPrize.value}名`;
+      if (objPrize.valueOpponent < g_objMemberInfo.sportsNumber) {
+        label.string = `您的比武排名提升至${objPrize.valueOpponent}名`;
       } else {
         label.string = `您的比武排名没有变化`;
       }
@@ -141,7 +141,23 @@ cc.Class({
         g_objMemberInfo.money += arrPrize[i].total;
       } else if (arrPrize[i].id === '000003') {
         // 比武排名
-        g_objMemberInfo.sportsNumber = arrPrize[i].value;
+        if (arrPrize[i].valueOpponent < g_objMemberInfo.sportsNumber) {
+          g_objMemberInfo.sportsNumber = arrPrize[i].valueOpponent;
+          // 更新对手名次
+          if (arrPrize[i]._idOpponent.startsWith('mem-')) {
+            const paramMemberInfo = {
+              _id: arrPrize[i]._idOpponent,
+              memberInfo: {
+                sportsNumber: arrPrize[i].valueFriend
+              }
+            };
+            WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
+
+            }).catch((err) => {
+              console.log('MailDialog updateMemberInfo fail', err);
+            });
+          }
+        }
       } else if (GameApi.getPartsInfoType(arrPrize[i].id).nType === 10) {
         // 装备
         const objEquipment = {
@@ -178,7 +194,10 @@ cc.Class({
     }
 
     // 刷新关卡进度、经验、铜钱、元宝。
-    WebApi.updateMemberInfo(g_objMemberInfo).then((res) => {
+    const paramMemberInfo = {
+      memberInfo: g_objMemberInfo
+    };
+    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
       // 本地发消息刷新铜钱元宝
       this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
     }).catch((err) => {
