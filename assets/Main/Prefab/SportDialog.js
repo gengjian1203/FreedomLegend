@@ -18,18 +18,7 @@ cc.Class({
     // 存储放置挑战者列表项预制体的数组
     this.arrSportListObject = [];
     // 挑战者列表mock数据
-    this.arrSportListData = [
-      {_id: "mem-0108-00", sportsNumber: 1, nickName: "豺狼首领", level: 100, hp_total: 1500, outerAttack_total: 360, innerAttack_total: 300, outerDefense_total: 20, innerDefense_total: 25, crit_total: 0, dodge_total: 0, speed_total: 10, understand_total: 0},
-      {_id: "mem-0108-01", sportsNumber: 2, nickName: "虎豹首领", level: 82, hp_total: 1800, outerAttack_total: 350, innerAttack_total: 310, outerDefense_total: 35, innerDefense_total: 5, crit_total: 0, dodge_total: 0, speed_total: 12, understand_total: 0},
-      {_id: "mem-0108-02", sportsNumber: 3, nickName: "虎豹首领", level: 32, hp_total: 1800, outerAttack_total: 350, innerAttack_total: 310, outerDefense_total: 35, innerDefense_total: 5, crit_total: 0, dodge_total: 0, speed_total: 12, understand_total: 0},
-      {_id: "mem-0108-03", sportsNumber: 23, nickName: "成年虎豹", level: 32, hp_total: 1200, outerAttack_total: 310, innerAttack_total: 210, outerDefense_total: 35, innerDefense_total: 5, crit_total: 0, dodge_total: 0, speed_total: 12, understand_total: 0},
-      {_id: "mem-0108-04", sportsNumber: 84, nickName: "成年虎豹", level: 23, hp_total: 1200, outerAttack_total: 310, innerAttack_total: 210, outerDefense_total: 35, innerDefense_total: 5, crit_total: 0, dodge_total: 0, speed_total: 12, understand_total: 0},
-      {_id: "mem-0005-00", sportsNumber: 234, nickName: "强盗精英", level: 30, hp_total: 600, outerAttack_total: 90, innerAttack_total: 40, outerDefense_total: 20, innerDefense_total: 25, crit_total: 0, dodge_total: 0, speed_total: 10, understand_total: 0},
-      {_id: "mem-0005-01", sportsNumber: 483, nickName: "土匪精英", level: 30, hp_total: 600, outerAttack_total: 100, innerAttack_total: 20, outerDefense_total: 35, innerDefense_total: 5, crit_total: 0, dodge_total: 0, speed_total: 12, understand_total: 0},
-      {_id: "mem-0005-02", sportsNumber: 1339, nickName: "强盗", level: 20, hp_total: 400, outerAttack_total: 20, innerAttack_total: 20, outerDefense_total: 20, innerDefense_total: 10, crit_total: 0, dodge_total: 0, speed_total: 5, understand_total: 0}, 
-      {_id: "mem-0005-03", sportsNumber: 5738, nickName: "土匪", level: 20, hp_total: 400, outerAttack_total: 30, innerAttack_total: 30, outerDefense_total: 20, innerDefense_total: 5, crit_total: 0, dodge_total: 0, speed_total: 3, understand_total: 0},
-      {_id: "mem-0001-01", sportsNumber: 8281, nickName: "小喽啰", level: 5, hp_total: 50, outerAttack_total: 30, innerAttack_total: 15, outerDefense_total: 0, innerDefense_total: 0, crit_total: 0, dodge_total: 0, speed_total: 0, understand_total: 0}
-    ];
+    this.arrSportListData = [];
   },
 
   properties: {
@@ -106,6 +95,7 @@ cc.Class({
   // 点击换一批按钮
   onBtnBtnChangeClick: function() {
     console.log('SportDialog onBtnBtnChangeClick.');
+    this.queryData();
   },
 
   // 关闭对话框
@@ -119,6 +109,14 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
+  // 清空比武场对手数据
+  clearSportList: function() {
+    this.arrSportListData = [];
+    this.arrSportListObject = [];
+    this.m_content.height = 0;
+    this.m_content.removeAllChildren();
+  },
+
   // 创建竞技场对手预制体
   createSportListItem: function(index) {
     let item = null;
@@ -147,16 +145,28 @@ cc.Class({
 
   // 初始化函数
   init: function() {
-    // 接口获取数据
-    // 创建演武场列表
-    this.arrSportListData.forEach((item, index) => {
-      this.createSportListItem(index);
-    });
-    // 渲染自身数据
-    this.renderSportNumber();
-    // 渲染列表数据
-    this.renderList();
+    this.queryData();
+  },
 
-    
+  queryData: function() {
+    this.clearSportList();
+    const param = {
+      sportsNumber: g_objMemberInfo.sportsNumber
+    }
+    // 接口获取数据
+    WebApi.querySportsList(param).then((res) => {
+      this.arrSportListData = res.arrSportsList;
+      // 创建演武场列表
+      this.arrSportListData.forEach((item, index) => {
+        this.createSportListItem(index);
+      });
+      // 渲染自身数据
+      this.renderSportNumber();
+      // 渲染列表数据
+      this.renderList();
+
+    }).catch((err) => {
+      console.log('SportDialog querySportsList fail', err);
+    });    
   }
 });

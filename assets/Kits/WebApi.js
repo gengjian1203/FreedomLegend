@@ -347,6 +347,43 @@ function fetchBattleResult(param) {
   });
 }
 
+//////////////////////////////////////////////////
+// querySportsList
+// 查询符合自身排名的演武场对手列表
+// param 
+// sportsNumber: Number     自身演武场排名
+// return
+// result: Boolean          接口成功标识
+// arrSportsList: Object    演武场对手列表
+//////////////////////////////////////////////////
+function querySportsList(param) {
+  return new Promise((resolve, reject) => {
+    if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+      wx.cloud.callFunction({
+        name: 'querySportsList',
+        data: {
+          sportsNumber: param.sportsNumber,
+        },
+        success: (res) => {
+          console.log('WebApi.querySportsList res', res, param);
+          if (res.result) {
+            console.log('WebApi.querySportsList Success', res.result);
+            resolve(res.result);
+          } else {
+            reject(res);
+          }
+        },
+        fail: (err) => {
+          console.log('WebApi.querySportsList Fail', err, param);
+          reject(err);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
+}
+
 export default {
   mylog,
   initWXCloud,
@@ -357,4 +394,5 @@ export default {
   updatePartsInfo,
   createRewards,
   fetchBattleResult,
+  querySportsList,
 }

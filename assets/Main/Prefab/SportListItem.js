@@ -34,6 +34,11 @@ cc.Class({
     m_labelTaste: {
       type: cc.Node,
       default: null
+    },
+    // 是否存在挑战按钮
+    m_btnBattle: {
+      type: cc.Node,
+      default: null
     }
   },
 
@@ -95,11 +100,12 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 渲染背包物品item信息
+  // 渲染比武者的item信息
   setSportListItemData: function(objSportListItemData) {
     console.log('setSportListItemData', objSportListItemData);
     this.objSportListItemData = objSportListItemData;
-
+    
+    this.m_btnBattle.active = !(objSportListItemData.sportsNumber === g_objMemberInfo.sportsNumber);
     this.m_labelNumber.getComponent(cc.Label).string = `${this.objSportListItemData.sportsNumber}`;
     this.m_labelName.getComponent(cc.Label).string = `${this.objSportListItemData.nickName}`;
     this.m_labelTaste.getComponent(cc.Label).string = `${GameApi.getTasteString(this.objSportListItemData.level)}`;
