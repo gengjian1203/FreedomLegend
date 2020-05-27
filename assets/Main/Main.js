@@ -424,11 +424,17 @@ cc.Class({
   // 自定义函数
   //////////////////////////////////////////////////
   preRun: function() {
-    // 计算挂机奖励
     if (g_nTimeHook > 0) {
+      // 计算挂机奖励
       this.funComputedHook();
       g_nTimeHook = 0;
-    } else {
+    } else if(g_nTimeHook === -1) {
+      // 渲染个人信息
+      this.setMemberInfo();
+      // 新玩家登录，开启新手教程
+      this.showTeacherModule();
+      g_nTimeHook = 0;
+    }else {
       // 渲染个人信息
       this.setMemberInfo();
     }

@@ -17,13 +17,13 @@ cc.Class({
   ctor() {
     this.nIndex = 0;
     this.arrTeacherData = [{
-      position: cc.v2(-999, -999),
+      position: cc.v2(-200, -200),
       text: '欢迎你来到《醉梦坛说》的世界，我是你的个人助理梦梦~'
     }, {
-      position: cc.v2(-999, -999),
+      position: cc.v2(-200, -200),
       text: '那么接下来，让我们来熟悉一下这个世界吧~'
     }, {
-      position: cc.v2(-999, -999),
+      position: cc.v2(-200, -200),
       text: '屏幕上方是角色信息栏。'
     }, {
       position: cc.v2(240, 1300),
@@ -38,7 +38,7 @@ cc.Class({
       position: cc.v2(56, 1060),
       text: '这里是【邮件】，如果我们收到了小礼物，就会在这里显示呢~'
     }, {
-      position: cc.v2(-999, -999),
+      position: cc.v2(-200, -200),
       text: '屏幕的中间区域是我们在城市里能看到的事物。'
     }, {
       position: cc.v2(320, 740),
@@ -50,7 +50,7 @@ cc.Class({
       position: cc.v2(596, 666),
       text: '【黑市】是一个神秘的地方，在这里可以免费领取到铜钱和元宝哦？另外可以通过元宝抽取装备，至于能得到什么装备，就要看自己的手气啦~'
     }, {
-      position: cc.v2(-999, -999),
+      position: cc.v2(-200, -200),
       text: '屏幕的下面区域是功能区。'
     }, {
       position: cc.v2(190, 70),
@@ -68,7 +68,7 @@ cc.Class({
       position: cc.v2(590, 70),
       text: '点击【金矿】，可以通过挖掘金矿来得到意外的小奖励哈~'
     }, {
-      position: cc.v2(-999, -999),
+      position: cc.v2(-200, -200),
       text: '梦梦说了好多，就先讲到这里好了，如果有什么需要我帮助的，可以随时叫我哦。我们江湖再会~白白~'
     }];
   },
