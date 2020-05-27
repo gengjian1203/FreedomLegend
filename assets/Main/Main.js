@@ -70,6 +70,11 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
+    // 预制体 - 教程模块
+    m_prefabTeacherModule: {
+      type: cc.Prefab,
+      default: null
+    },
     // 预制体 - 黑市弹窗
     m_prefabShop: {
       type: cc.Prefab,
@@ -204,6 +209,7 @@ cc.Class({
     this.node.on('hide-bag-dlg', this.onHideDialog, this);
     this.node.on('hide-member-dlg', this.onHideDialog, this);
     this.node.on('hide-sport-dlg', this.onHideDialog, this);
+    this.node.on('hide-teacher-module', this.onHideDialog, this);
     // 刷新事件
     this.node.on('hide-shop-dlg', this.onHideDialog, this);
     this.node.on('hide-mail-dlg', this.onHideDialogAndQuery, this);
@@ -221,6 +227,7 @@ cc.Class({
     this.node.off('hide-bag-dlg', this.onHideDialog, this);
     this.node.off('hide-member-dlg', this.onHideDialog, this);
     this.node.off('hide-sport-dlg', this.onHideDialog, this);
+    this.node.off('hide-teacher-module', this.onHideDialog, this);
     // 刷新事件
     this.node.off('hide-shop-dlg', this.onHideDialog, this);
     this.node.off('hide-mail-dlg', this.onHideDialogAndQuery, this);
@@ -263,6 +270,16 @@ cc.Class({
     this.bLockButton = true;
     this.showMailDlg();
     console.log('Main onBtnMailClick');    
+  },
+
+  // 点击教程
+  onBtnTeacherClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+    this.bLockButton = true;
+    this.showTeacherModule();
+    console.log('Main onBtnTeacherClick');    
   },
 
   // 聚义堂
@@ -581,6 +598,12 @@ cc.Class({
   showMailDlg: function() {
     this.m_dlgMail = cc.instantiate(this.m_prefabMail);
     this.m_root.addChild(this.m_dlgMail);
+  },
+
+  // 显示教程模块
+  showTeacherModule: function() {
+    const m_modTeacher = cc.instantiate(this.m_prefabTeacherModule);
+    this.m_root.addChild(m_modTeacher);
   },
 
   // 显示黑市对话框
