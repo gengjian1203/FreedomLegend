@@ -56,6 +56,16 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // 装备单独的图片精灵
+    m_sprEquipOnceBK: {
+      type: cc.Node,
+      default: null
+    },
+    // 装备十连的图片精灵
+    m_sprEquipTenBK: {
+      type: cc.Node,
+      default: null
+    }
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -193,7 +203,19 @@ cc.Class({
     }
     this.bLockButton = true;
     const nCount = parseInt(param);
-    const nNeedGold = nCount === 1 ? 300 : 2800;
+    let nNeedGold = 0;
+    if (nCount === 1) {
+      // 单抽
+      nNeedGold = 300;
+      this.m_sprEquipOnceBK.getComponent(cc.Animation).play('shaking');
+    } else if (nCount === 10) {
+      // 十连
+      nNeedGold = 2800;
+      this.m_sprEquipTenBK.getComponent(cc.Animation).play('shaking');
+    } else {
+      nNeedGold = 99999999999;
+    }
+
     if (g_objMemberInfo.gold < nNeedGold) {
       this.showToastDlg('抱歉，您的元宝不足。');
       this.bLockButton = false;
@@ -206,7 +228,14 @@ cc.Class({
       WebApi.createRewards(param).then((res) => {
         // 扣除元宝
         g_objMemberInfo.gold -= nNeedGold;
-        this.onShowPrizeDlg(res.prize);        
+        this.onShowPrizeDlg(res.prize);
+        // 停止动画，回归原位
+        setTimeout(() => {
+          this.m_sprEquipOnceBK.getComponent(cc.Animation).stop('shaking');
+          this.m_sprEquipTenBK.getComponent(cc.Animation).stop('shaking');
+          this.m_sprEquipOnceBK.setRotation(0);
+          this.m_sprEquipTenBK.setRotation(0);
+        }, 500);
       }).catch((err) => {
         console.log('ShopDialog updateMemberInfo fail', err);
       });
