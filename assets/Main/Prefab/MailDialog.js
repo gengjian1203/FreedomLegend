@@ -71,6 +71,11 @@ cc.Class({
     m_labelBtnSure: {
       type: cc.Node,
       default: null
+    },
+    // 空内容提示标识
+    m_sprEmptyTip: {
+      type: cc.Node,
+      default: null
     }
   },
 
@@ -223,9 +228,11 @@ cc.Class({
     if (nIndex >= g_arrMailInfo.length) {
       console.log('MailDialog Empty.');
       this.m_mailContent.active = false;
+      this.m_sprEmptyTip.active = true;
       return ;
     }
     this.m_mailContent.active = true;
+    this.m_sprEmptyTip.active = false;
     // 
     this.m_nSelectIndex = nIndex;
     // 清空礼物列表

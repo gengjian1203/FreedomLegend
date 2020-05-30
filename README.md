@@ -47,6 +47,7 @@
 23. 主页面增加游戏消息。（有公告消息、玩家抽到史诗、神器全服通告）
 24. √ 主页面增加新手操作说明。
 25. 增加装备强化系统。
+26. 优化排行榜字段。
 
 # 预览：  
 ![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result.jpg "Result")

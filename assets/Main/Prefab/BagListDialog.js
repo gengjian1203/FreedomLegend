@@ -64,6 +64,11 @@ cc.Class({
     m_bagList: {
       type: cc.Node,
       default: null
+    },
+    // 空内容提示标识
+    m_sprEmptyTip: {
+      type: cc.Node,
+      default: null
     }
   },
 
@@ -220,7 +225,11 @@ cc.Class({
     // 清空列表
     this.m_bagList.removeAllChildren();
     const arrBagInfoList = g_objBagInfo[this.arrType[this.m_nSelectIndex]];
-    if (arrBagInfoList) {
+    
+    if (arrBagInfoList && arrBagInfoList.length === 0) {
+      this.m_sprEmptyTip.active = true;
+    } else {
+      this.m_sprEmptyTip.active = false;
       // 排序
       this.sortBagListInfo(arrBagInfoList);
       // 渲染
