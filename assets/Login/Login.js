@@ -360,7 +360,7 @@ cc.Class({
           // 一定要获取到游戏信息
           if (res && res.game) {
             this.objGameDetail = res.game.data[0];
-            this.objGameDetail.strNotice = this.objGameDetail.notice.join('\n');
+            this.objGameDetail.strNotice = this.objGameDetail.strNotice;
           }
           resolve();
         } else {

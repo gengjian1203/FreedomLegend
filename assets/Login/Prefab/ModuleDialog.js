@@ -77,7 +77,10 @@ cc.Class({
     //////////////////////////////////////////////////
     // 设置公告内容
     setNoticeContent: function(strNotice) {
-      console.log('ModuleDialog setNoticeContent.', strNotice);
-      this.m_content.getComponent(cc.Label).string = strNotice;
+      // const str = decodeURIComponent(encodeURIComponent(strNotice));
+      const str = strNotice.replace(/\\n/g, "\n");
+      console.log('ModuleDialog setNoticeContent.', strNotice, str);
+      this.m_content.getComponent(cc.Label).string = str;
+      this.m_content.getComponent(cc.Label)._forceUpdateRenderData(true);
     }
 });

@@ -29,6 +29,8 @@ cc.Class({
     this.arrAttackAdj = ['张牙舞爪', '手舞足蹈', '眼疾手快', '动如脱兔', '全力以赴', '偷偷摸摸', '兔起鹘落', '轻手轻脚', '步罡踏斗', '楞手楞脚', '进退有度', '神出鬼没', '左右开弓'];
     this.arrAttackString = ['外功', '内功'];
     this.nKillCount = 0;
+    // 日志列表的高度
+    this.nLogY = 0;
     // 定时器集合
     this.arrTimer = [];
   },
@@ -277,17 +279,18 @@ cc.Class({
   },
 
   // 创建战斗日志的内容
-  createBattleLogLabel: function(objBattleResultItem, nCount) {
-    console.log('createBattleLogLabel', this.m_logContent);
+  createBattleLogLabel: function(objBattleResultItem) {
     const nLengthAdj = this.arrAttackAdj.length;
     const node = new cc.Node();
     node.x = 0;
-    node.y = -(nCount + this.nKillCount) * 40;
+    node.y = this.nLogY;
+    node.width = 680;
     node.setAnchorPoint(cc.v2(0, 1))
     // node.color = GameApi.getPartsInfoColor(objPrize.id);
     const label = node.addComponent(cc.Label);
     label.fontSize = 24;
     label.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
+    label.overflow = cc.Label.Overflow.RESIZE_HEIGHT;
     if (objBattleResultItem.nEffectDefense === 0) {
       label.string = `“${this.getMemberName(objBattleResultItem.strIDAttack)}”` + 
                      `${this.arrAttackAdj[Math.floor(Math.random() * nLengthAdj)]}` +
@@ -303,8 +306,12 @@ cc.Class({
                      `${-objBattleResultItem.nEffectDefense}` + 
                      `点伤害`;
     }
+    node.getComponent(cc.Label)._forceUpdateRenderData(true);
+    console.log('createBattleLogLabel', node);
+    // 根据文字的内容来决定下一个文字的高度
+    this.nLogY = node.y - node.height;
     this.m_logContent.addChild(node);
-    this.m_logContent.height += 40;
+    this.m_logContent.height = -this.nLogY;
     // 滚动到最下方
     this.m_logScrollView.getComponent(cc.ScrollView).scrollToBottom(0.5);
   },
@@ -315,17 +322,21 @@ cc.Class({
     this.nKillCount++;
     const node = new cc.Node();
     node.x = 0;
-    node.y = -(nCount + this.nKillCount) * 40;
+    node.y = this.nLogY;
+    node.width = 680;
     node.setAnchorPoint(cc.v2(0, 1))
     // node.color = GameApi.getPartsInfoColor(objPrize.id);
     const label = node.addComponent(cc.Label);
     label.fontSize = 24;
     label.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
+    label.overflow = cc.Label.Overflow.RESIZE_HEIGHT;
     label.string = `“${this.getMemberName(objBattleResultItem.strIDDefense)}”` + 
                    `体力不支，重伤之下已经无法战斗`;
-      
+    node.getComponent(cc.Label)._forceUpdateRenderData(true);
+    // 根据文字的内容来决定下一个文字的高度
+    this.nLogY = node.y - node.height;
     this.m_logContent.addChild(node);
-    this.m_logContent.height += 40;
+    this.m_logContent.height = -this.nLogY;
     // 滚动到最下方
     this.m_logScrollView.getComponent(cc.ScrollView).scrollToBottom(0.5);
   },
