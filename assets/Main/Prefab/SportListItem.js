@@ -69,6 +69,10 @@ cc.Class({
   //////////////////////////////////////////////////
   onBtnBattleClick: function() {
     console.log('SportListItem onBtnBattleClick');
+    if (g_bBattleBtnLock) {
+      return ;
+    }
+    g_bBattleBtnLock = true;
 
     const param = {
       arrMemberInfoA: [],
@@ -98,6 +102,7 @@ cc.Class({
       
       // 跳转页
       cc.director.loadScene('Battle');
+      g_bBattleBtnLock = false;
     }).catch((err) => {
       console.log('onBtnBattleClick Fail.', err);
     });

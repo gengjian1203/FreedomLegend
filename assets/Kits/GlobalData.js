@@ -15,10 +15,12 @@ window.g_objBagInfo = {
 }
 
 // 战斗传值
-window.g_nChapters = 0;
-window.g_nBattleStory = -1;
+window.g_bBattleBtnLock = false; // 战斗锁
+window.g_nChapters = 0; // 记录当前的大章节度
+window.g_nBattleStory = -1; // 记录当前剧情度，判断是否可以推动征战剧情
 window.g_strSceneBack = ''; // 跳转路由
-window.g_bBattleWin = false;
+window.g_bBattleWin = false;  // 记录战斗的最终结果
+// 战斗奖励mock数据
 window.g_objPrize = [{
   id: "000000", 
   total: 100
