@@ -48,6 +48,7 @@
 24. √ 主页面增加新手操作说明。
 25. 增加装备强化系统。
 26. √ 优化排行榜字段。
+27. 点击邮件列表可以切换选中列表的字体颜色。
 
 # 预览：  
 ![Result](https://raw.githubusercontent.com/gengjian1203/FreedomLegend/master/readme/result.jpg "Result")

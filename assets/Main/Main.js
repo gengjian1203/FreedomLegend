@@ -90,6 +90,11 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
+    // 预制体 - 强化弹窗
+    m_prefabGrowth: {
+      type: cc.Prefab,
+      default: null
+    },
     // 预制体 - 背包弹窗
     m_prefabBagList: {
       type: cc.Prefab,
@@ -212,6 +217,7 @@ cc.Class({
     // 刷新事件
     this.node.on('hide-shop-dlg', this.onHideDialog, this);
     this.node.on('hide-mail-dlg', this.onHideDialogAndQuery, this);
+    this.node.on('hide-growth-dlg', this.onHideDialogAndQuery, this);
     this.node.on('refresh-moneyandgold-dlg', this.checkoutLevelup, this);
   },
 
@@ -230,6 +236,7 @@ cc.Class({
     // 刷新事件
     this.node.off('hide-shop-dlg', this.onHideDialog, this);
     this.node.off('hide-mail-dlg', this.onHideDialogAndQuery, this);
+    this.node.off('hide-growth-dlg', this.onHideDialogAndQuery, this);
     this.node.off('refresh-moneyandgold-dlg', this.checkoutLevelup, this);
   },
 
@@ -279,6 +286,31 @@ cc.Class({
     this.bLockButton = true;
     this.showTeacherModule();
     console.log('Main onBtnTeacherClick');    
+  },
+
+  // 金矿
+  onBtnJinkuangClick: function() {
+    if (this.bLockButton) {
+      return;
+    }
+
+    this.bLockButton = true;
+    console.log('Main onBtnJinkuangClick');
+    g_objMemberInfo.level++;
+    const objMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
+    
+    const paramMemberInfo = {
+      memberInfo: objMemberInfo
+    };
+    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
+      this.showLevelupDlg();
+      this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
+      this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
+      console.log('Main onBtnQianghuaClick success', res);
+    }).catch((err) => {
+      console.log('Main onBtnQianghuaClick fail', err);
+      this.bLockButton = false;
+    });
   },
 
   // 聚义堂
@@ -337,22 +369,8 @@ cc.Class({
       return;
     }
     this.bLockButton = true;
-    console.log('Main onBtnQianghuaClick');
-    g_objMemberInfo.level++;
-    const objMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
-    
-    const paramMemberInfo = {
-      memberInfo: objMemberInfo
-    };
-    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
-      this.showLevelupDlg();
-      this.m_taste.getComponent(cc.Label).string = GameApi.getTasteString(g_objMemberInfo.level);
-      this.m_taste.color = GameApi.getTasteColor(g_objMemberInfo.level);
-      console.log('Main onBtnQianghuaClick success', res);
-    }).catch((err) => {
-      console.log('Main onBtnQianghuaClick fail', err);
-      this.bLockButton = false;
-    });
+    this.showGrowthDlg();
+    console.log('Main onBtnQianghuaClick');  
   },
 
   // 背包
@@ -363,17 +381,6 @@ cc.Class({
     this.bLockButton = true;
     this.showBagListDlg();
     console.log('Main onBtnBeibaoClick');
-  },
-
-  // 金矿
-  onBtnJinkuangClick: function() {
-    if (this.bLockButton) {
-      return;
-    }
-    this.bLockButton = true;
-    console.log('Main onBtnJinkuangClick');
-    const strMsg = '抱歉，该功能尚未开放';
-    this.showToastDlg(strMsg);
   },
 
   // 切换iconbar按钮
@@ -627,6 +634,12 @@ cc.Class({
   showMemberDlg: function() {
     this.m_dlgMember = cc.instantiate(this.m_prefabMember);
     this.m_root.addChild(this.m_dlgMember);
+  },
+
+  // 显示强化对话框
+  showGrowthDlg: function() {
+    const dlgGrow = cc.instantiate(this.m_prefabGrowth);
+    this.m_root.addChild(dlgGrow);
   },
 
   // 显示背包对话框

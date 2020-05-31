@@ -186,6 +186,7 @@ cc.Class({
     let item = null;
     item = cc.instantiate(this.m_prefabMailListItem);
     item.getComponent('MailListItem').setMailListItemData(index);
+    // item.getComponent('MailListItem').setMailListItemColor(index === m_nSelectIndex);
     item.x = 0;
     item.y = -(index + 1) * 90;
 
