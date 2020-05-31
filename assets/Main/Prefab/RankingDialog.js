@@ -34,13 +34,13 @@ cc.Class({
       type: cc.Node,
       default: null
     },
-    // 元宝榜文字
-    m_labelGold: {
+    // 战力榜文字
+    m_labelPower: {
       type: cc.Node,
       default: null
     },
-    // 铜钱榜文字
-    m_labelMoney: {
+    // 演武榜文字
+    m_labelSportsNumber: {
       type: cc.Node,
       default: null
     }
@@ -52,7 +52,7 @@ cc.Class({
 
   start () {
     setTimeout(() => {
-      this.m_subContextView.getComponent(cc.WXSubContextView).enabled = false;
+      this.m_subContextView.getComponent(cc.WXSubContextView).enabled = true;
     }, 1000);
     this.switchRanking(parseInt(0));
   },
@@ -140,7 +140,7 @@ cc.Class({
     const colorDesc = new cc.color(255, 255, 255, 255);
     
     this.m_labelLevel.color = type === 0 ? colorMain : colorDesc;
-    this.m_labelGold.color = type === 1 ? colorMain : colorDesc;
-    this.m_labelMoney.color = type === 2 ? colorMain : colorDesc;
+    this.m_labelPower.color = type === 1 ? colorMain : colorDesc;
+    this.m_labelSportsNumber.color = type === 2 ? colorMain : colorDesc;
   }
 });

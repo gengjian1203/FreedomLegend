@@ -179,7 +179,6 @@ cc.Class({
     
     this.preRun();
     this.Run();
-
   },
 
   onEnable () {

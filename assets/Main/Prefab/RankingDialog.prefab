@@ -1787,7 +1787,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "BtnGold",
+    "_name": "BtnPower",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -2008,8 +2008,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "元宝榜",
-    "_N$string": "元宝榜",
+    "_string": "战力榜",
+    "_N$string": "战力榜",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -2270,7 +2270,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "BtnMoney",
+    "_name": "BtnSportsNumber",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -2491,8 +2491,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "铜钱榜",
-    "_N$string": "铜钱榜",
+    "_string": "演武榜",
+    "_N$string": "演武榜",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -2781,8 +2781,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 460,
-      "height": 720
+      "width": 640,
+      "height": 1000
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2800,9 +2800,9 @@
         0,
         0,
         1,
-        1.42857,
-        1.42857,
-        1.42857
+        1,
+        1,
+        1
       ]
     },
     "_eulerAngles": {
@@ -2843,7 +2843,7 @@
     "_left": 0,
     "_right": 0,
     "_top": 400,
-    "_bottom": 562,
+    "_bottom": 50,
     "_verticalCenter": -100,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -2949,10 +2949,10 @@
     "m_labelLevel": {
       "__id__": 37
     },
-    "m_labelGold": {
+    "m_labelPower": {
       "__id__": 50
     },
-    "m_labelMoney": {
+    "m_labelSportsNumber": {
       "__id__": 63
     },
     "_id": ""

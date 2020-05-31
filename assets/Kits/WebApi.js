@@ -40,23 +40,23 @@ function setUserCloudStorage(memberInfo) {
     }
     arrData.push({ key: 'level', value: JSON.stringify(objTmp) });
   }
-  if (memberInfo.gold) {
+  if (memberInfo.sportsNumber) {
     objTmp = {
       'wxgame': {
-        'gold': memberInfo.gold,
+        'sportsNumber': memberInfo.sportsNumber,
         'update_time': Date.parse(new Date())
       }
     }
-    arrData.push({ key: 'gold', value: JSON.stringify(objTmp) });
+    arrData.push({ key: 'sportsNumber', value: JSON.stringify(objTmp) });
   }
-  if (memberInfo.money) {
+  if (memberInfo.power) {
     objTmp = {
       'wxgame': {
-        'money': memberInfo.money,
+        'power': memberInfo.power,
         'update_time': Date.parse(new Date())
       },
     }
-    arrData.push({ key: 'money', value: JSON.stringify(objTmp) });
+    arrData.push({ key: 'power', value: JSON.stringify(objTmp) });
   }
 
   wx.setUserCloudStorage({

@@ -64,6 +64,11 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    // 战力
+    m_labelPower: {
+      type: cc.Node,
+      default: null
+    },
     // 外功
     m_labelOuterAttack: {
       type: cc.Node,
@@ -327,6 +332,8 @@ cc.Class({
       // 状态栏
       // 生命
       this.m_labelHP.getComponent(cc.Label).string = g_objMemberInfo.hp_total;
+      // 战力
+      this.m_labelPower.getComponent(cc.Label).string = g_objMemberInfo.power;
       // 外功
       this.m_labelOuterAttack.getComponent(cc.Label).string = g_objMemberInfo.outerAttack_total;
       // 内功

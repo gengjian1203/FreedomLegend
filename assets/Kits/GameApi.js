@@ -175,6 +175,17 @@ function funComputedMemberInfo(level) {
     speed_total: objTempBase.speed_base + objTempEquipment.speed_equipment + objTempMedicine.speed_medicine, // 速度
     understand_total: objTempBase.understand_base + objTempEquipment.understand_equipment + objTempMedicine.understand_medicine, // 悟性
   };
+  // 战力
+  objMemberInfo.power = objMemberInfo.hp_total + 
+                        objMemberInfo.outerAttack_total + 
+                        objMemberInfo.innerAttack_total + 
+                        objMemberInfo.outerDefense_total + 
+                        objMemberInfo.innerDefense_total + 
+                        objMemberInfo.crit_total + 
+                        objMemberInfo.dodge_total + 
+                        objMemberInfo.speed_total + 
+                        objMemberInfo.understand_total;
+                        
   return objMemberInfo;
 }
 

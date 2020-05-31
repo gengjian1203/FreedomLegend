@@ -105,6 +105,7 @@ cc.Class({
       g_bBattleBtnLock = false;
     }).catch((err) => {
       console.log('onBtnBattleClick Fail.', err);
+      g_bBattleBtnLock = false;
     });
   },
 
