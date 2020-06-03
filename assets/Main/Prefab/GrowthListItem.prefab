@@ -62,8 +62,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        1.26,
+        1.26,
         1
       ]
     },
@@ -303,8 +303,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "★邮件内容(Lv.99)",
-    "_N$string": "★邮件内容(Lv.99)",
+    "_string": "★邮件内...(Lv.99)",
+    "_N$string": "★邮件内...(Lv.99)",
     "_fontSize": 20,
     "_lineHeight": 30,
     "_enableWrapText": false,
@@ -519,7 +519,7 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "6bf8blbOr1Bjqey8Aj3Ktrc",
+    "_componentId": "7a8e3sM/L9Pg4q5X3kvDROL",
     "handler": "onItemClick",
     "customEventData": ""
   },
@@ -596,7 +596,9 @@
       "__id__": 1
     },
     "_enabled": true,
-    "m_labelContent": null,
+    "m_labelContent": {
+      "__id__": 4
+    },
     "_id": ""
   },
   {

@@ -8,6 +8,8 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+let GameApi = require("../Kits/GameApi");
+
 cc.Class({
   extends: cc.Component,
 
@@ -60,15 +62,18 @@ cc.Class({
   setGrowthListItemColor: function(isSelect) {
     const color = isSelect ? new cc.color(255, 0, 0) : new cc.color(255, 255, 255);
     this.m_labelContent.color = color;
-    this.m_labelTotal.color = color;
   },
 
   // 渲染邮件列表item信息
   setGrowthListItemData: function(nIndex, objGrowth) {
     this.m_nSelectIndex = nIndex;
     this.objGrowthListItemData = objGrowth;
-    const strContent = '★西瓜东东(Lv.99)';
-    // const strContent = this.objGrowthListItemData.strContent.length > 5 ? `${this.objGrowthListItemData.strContent.slice(0, 5)}...` : this.objGrowthListItemData.strContent;
+    const strName = GameApi.getPartsInfoComplete(objGrowth.id).name;
+    const strContent = `${objGrowth.isEquip ? '★' : ''}` + 
+                       `${strName && strName.length > 4 ? strName.slice(0, 3) + '...' : strName}` + 
+                       `(Lv.` + 
+                       `${objGrowth.level}` + 
+                       `)`;
     this.m_labelContent.getComponent(cc.Label).string = strContent;
   }
 });

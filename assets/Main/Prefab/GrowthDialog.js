@@ -22,9 +22,16 @@ cc.Class({
     this.m_nSelectGrowthIndex = -1;
     // 所属种类的数组列表
     this.arrGrowthListObject = [];
+    // 所属种类的数组列表承装节点的
+    this.arrGrowthListChild = [];
   },
 
   properties: {
+    // 预制体 - List项Item
+    m_prefabGrowthListItem: {
+      type: cc.Prefab,
+      default: null
+    },
     // 模态对话框蒙板
     m_mask: {
       type: cc.Node,
@@ -77,8 +84,9 @@ cc.Class({
   // onLoad () {},
 
   start () {
+    this.cleanGrowthList();
     this.setGrowthType();
-    // this.setGrowthList();
+    this.renderGrowthList();
     // this.setGrowthContent(0);
   },
 
@@ -110,8 +118,10 @@ cc.Class({
   // 切换强化种类
   onBtnSwitchTypeClick: function(e, param) {
     console.log('GrowthDialog onBtnSwitchTypeClick', param);
+    this.cleanGrowthList();
     this.m_nSelectTypeIndex = parseInt(param);
     this.setGrowthType();
+    this.renderGrowthList();
   },
 
   // 点击收下/删除按钮
@@ -131,7 +141,7 @@ cc.Class({
     //   // 删除邮件
     //   g_arrMailInfo.splice(this.m_nSelectGrowthIndex, 1);
     //   // 刷新列表
-    //   this.setGrowthList();
+    //   this.renderGrowthList();
     //   this.setGrowthContent(0);
     // }
 
@@ -169,48 +179,94 @@ cc.Class({
   // 展示对应邮件内容
   onShowGrowthContent: function(event) {
     this.m_nSelectGrowthIndex = event.getUserData();
+    this.reanderGrowthListItemColor();
     this.setGrowthContent(this.m_nSelectGrowthIndex);
   },
 
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 显示奖励弹窗
-  onShowPrizeDlg: function(arrPrize) {
-    // this.m_dlgPrize = cc.instantiate(this.m_prefabPrize);
-    // this.m_dlgPrize.getComponent('PrizeDialog').setItemPrize(arrPrize);
-    // this.node.addChild(this.m_dlgPrize);
+  // 清空渲染列表
+  cleanGrowthList: function() {
+    // 当前选中的类型序号
+    this.m_nSelectTypeIndex = 0;
+    // 当前选中的物品序号
+    this.m_nSelectGrowthIndex = -1;
+    // 请空渲染列表
+    this.arrGrowthListObject = [];
+    this.arrGrowthListChild = [];
+    // 
+    this.m_growthList.height = 0;
+    this.m_growthList.removeAllChildren();
   },
-
-  // 创建一个邮件item
-  createGrowthListItem: function(index) {
-    let item = null;
-    item = cc.instantiate(this.m_prefabMailListItem);
-    item.getComponent('GrowthListItem').setGrowthListItemData(index, {});
-    item.x = 0;
-    item.y = -(index + 1) * 60;
-
-    this.arrGrowthListObject.push(item);
-    this.m_growthList.height += 60;
-    this.m_growthList.addChild(item);
+  
+  // 渲染强化种类按钮的颜色
+  setGrowthTypeButtonColor: function() {
+    // 按钮置为红色
+    this.m_arrGrowthTypeLabelList.forEach((item, index) => {
+      if (this.m_nSelectTypeIndex === index) {
+        item.color = cc.color(255, 0, 0);
+      } else {
+        item.color = cc.color(255, 255, 255);
+      }
+    });
   },
 
   // 渲染强化种类 
   setGrowthType: function() {
     console.log('GrowthDialog setGrowthType', this.m_nSelectTypeIndex);
+    this.setGrowthTypeButtonColor();
+    const arrTypeName = ['equipment_hat', 'equipment_shoulder', 'equipment_jacket', 'equipment_weapon', 'equipment_jewelry', 'equipment_shoes', 'null', 'null'];
+    // 先获取身上穿着的装备
+    const objEquiped = g_objMemberInfo[arrTypeName[this.m_nSelectTypeIndex]];
+    if (objEquiped && !Common.isObjectEmpty(objEquiped)) {
+      objEquiped.isEquip = true;
+      this.arrGrowthListObject.push(objEquiped);
+    }
+    // 再获取背包中的物品(同样位置的装备且为完整的)
+    for (let item of g_objBagInfo.equipment) {
+      const objInfo = GameApi.getPartsInfoType(item.id);
+      if (objInfo.nPosition === this.m_nSelectTypeIndex && objInfo.nComplete === 0) {
+        this.arrGrowthListObject.push(item);
+      }
+    }
+    // 输出该类型的装备
+    console.log('GrowthDialog setGrowthType', this.arrGrowthListObject);
+  },
+
+  // 创建一个强化装备item
+  createGrowthListItem: function(objGrowth, index) {
+    console.log('createGrowthListItem', objGrowth, index);
+    let item = null;
+    item = cc.instantiate(this.m_prefabGrowthListItem);
+    item.getComponent('GrowthListItem').setGrowthListItemData(index, objGrowth);
+    item.x = 0;
+    item.y = -(index + 1) * 76;
+
+    this.arrGrowthListChild.push(item);
+    this.m_growthList.height += 76;
+    this.m_growthList.addChild(item);
+  },
+
+  // 渲染强化装备item的颜色 
+  reanderGrowthListItemColor: function() {
+    this.arrGrowthListChild.forEach((item, index) => {
+      item.getComponent('GrowthListItem').setGrowthListItemColor(index === this.m_nSelectGrowthIndex);
+    });
   },
 
   // 渲染强化物品列表
-  setGrowthList: function() {
-    console.log('GrowthDialog setGrowthList');
-    // 请空邮件列表
-    this.arrGrowthListObject = [];
-    this.m_growthList.height = 0;
-    this.m_growthList.removeAllChildren();
+  renderGrowthList: function() {
+    console.log('GrowthDialog renderGrowthList');
     // 渲染列表
-    for(let i = 0; i < g_arrMailInfo.length; i++) {
-      this.createGrowthListItem(i);
+    this.arrGrowthListObject.forEach((item, index) => {
+      this.createGrowthListItem(item, index);
+    });
+    if (this.arrGrowthListObject.length > 0) {
+      this.m_nSelectGrowthIndex = 0;
     }
+    // 渲染颜色
+    this.reanderGrowthListItemColor();
   },
 
   // 创建一个材料item
@@ -231,7 +287,7 @@ cc.Class({
   setGrowthContent: function(nIndex) {
     console.log('GrowthDialog setGrowthContent', nIndex);
     // 判断参数是否合法
-    if (nIndex >= g_arrMailInfo.length) {
+    if (nIndex >= this.arrGrowthListObject.length) {
       console.log('GrowthDialog Empty.');
       this.m_growthContent.active = false;
       this.m_sprEmptyTip.active = true;
@@ -245,12 +301,18 @@ cc.Class({
     this.m_rootMaterial.height = 0;
     this.m_rootMaterial.removeAllChildren();
     // 开始渲染
-    const objMailSelectData = g_arrMailInfo[this.m_nSelectGrowthIndex];
-    this.isHaveGift = Boolean(objMailSelectData.arrGifts.length);
-    this.m_labelFrom.getComponent(cc.Label).string = objMailSelectData.strFrom;
-    this.m_labelContentString.getComponent(cc.Label).string = objMailSelectData.strContent;
-    for (let i = 0; i < objMailSelectData.arrGifts.length; i++) {
-      this.createGiftItem(objMailSelectData.arrGifts[i], i);
+    const objGrowthSelectData = this.arrGrowthListObject[this.m_nSelectGrowthIndex];
+
+    this.m_labelName.getComponent(cc.Label).string = objGrowthSelectData.name;
+    this.m_labelContentString.getComponent(cc.Label).string = objGrowthSelectData.introduce;
+    if (objGrowthSelectData.describe) {
+      this.m_labelContentString.getComponent(cc.Label).string += `\n${objGrowthSelectData.describe}`
     }
+    // this.isHaveGift = Boolean(objMailSelectData.arrGifts.length);
+    // this.m_labelFrom.getComponent(cc.Label).string = objMailSelectData.strFrom;
+    // this.m_labelContentString.getComponent(cc.Label).string = objMailSelectData.strContent;
+    // for (let i = 0; i < objMailSelectData.arrGifts.length; i++) {
+    //   this.createGiftItem(objMailSelectData.arrGifts[i], i);
+    // }
   }
 });
