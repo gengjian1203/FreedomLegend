@@ -19,7 +19,7 @@ cc.Class({
     // 当前选中的类型序号
     this.m_nSelectTypeIndex = 0;
     // 当前选中的物品序号
-    this.m_nSelectGrowthIndex = -1;
+    this.m_nSelectGrowthIndex = 0;
     // 所属种类的数组列表
     this.arrGrowthListObject = [];
     // 所属种类的数组列表承装节点的
@@ -87,7 +87,7 @@ cc.Class({
     this.cleanGrowthList();
     this.setGrowthType();
     this.renderGrowthList();
-    // this.setGrowthContent(0);
+    this.renderGrowthContent();
   },
 
   onEnable () {
@@ -122,6 +122,7 @@ cc.Class({
     this.m_nSelectTypeIndex = parseInt(param);
     this.setGrowthType();
     this.renderGrowthList();
+    this.renderGrowthContent();
   },
 
   // 点击收下/删除按钮
@@ -179,8 +180,8 @@ cc.Class({
   // 展示对应邮件内容
   onShowGrowthContent: function(event) {
     this.m_nSelectGrowthIndex = event.getUserData();
-    this.reanderGrowthListItemColor();
-    this.setGrowthContent(this.m_nSelectGrowthIndex);
+    this.renderGrowthListItemColor();
+    this.renderGrowthContent();
   },
 
   //////////////////////////////////////////////////
@@ -191,7 +192,7 @@ cc.Class({
     // 当前选中的类型序号
     this.m_nSelectTypeIndex = 0;
     // 当前选中的物品序号
-    this.m_nSelectGrowthIndex = -1;
+    this.m_nSelectGrowthIndex = 0;
     // 请空渲染列表
     this.arrGrowthListObject = [];
     this.arrGrowthListChild = [];
@@ -241,15 +242,15 @@ cc.Class({
     item = cc.instantiate(this.m_prefabGrowthListItem);
     item.getComponent('GrowthListItem').setGrowthListItemData(index, objGrowth);
     item.x = 0;
-    item.y = -(index + 1) * 76;
+    item.y = -(index + 1) * 84;
 
     this.arrGrowthListChild.push(item);
-    this.m_growthList.height += 76;
+    this.m_growthList.height += 84;
     this.m_growthList.addChild(item);
   },
 
   // 渲染强化装备item的颜色 
-  reanderGrowthListItemColor: function() {
+  renderGrowthListItemColor: function() {
     this.arrGrowthListChild.forEach((item, index) => {
       item.getComponent('GrowthListItem').setGrowthListItemColor(index === this.m_nSelectGrowthIndex);
     });
@@ -262,11 +263,8 @@ cc.Class({
     this.arrGrowthListObject.forEach((item, index) => {
       this.createGrowthListItem(item, index);
     });
-    if (this.arrGrowthListObject.length > 0) {
-      this.m_nSelectGrowthIndex = 0;
-    }
     // 渲染颜色
-    this.reanderGrowthListItemColor();
+    this.renderGrowthListItemColor();
   },
 
   // 创建一个材料item
@@ -284,10 +282,10 @@ cc.Class({
   },
 
   // 渲染邮件内容
-  setGrowthContent: function(nIndex) {
-    console.log('GrowthDialog setGrowthContent', nIndex);
+  renderGrowthContent: function() {
+    console.log('GrowthDialog setGrowthContent', this.m_nSelectGrowthIndex);
     // 判断参数是否合法
-    if (nIndex >= this.arrGrowthListObject.length) {
+    if (this.m_nSelectGrowthIndex >= this.arrGrowthListObject.length) {
       console.log('GrowthDialog Empty.');
       this.m_growthContent.active = false;
       this.m_sprEmptyTip.active = true;
@@ -295,19 +293,23 @@ cc.Class({
     }
     this.m_growthContent.active = true;
     this.m_sprEmptyTip.active = false;
-    // 
-    this.m_nSelectGrowthIndex = nIndex;
-    // 清空礼物列表
+    
+    // 清空材料列表
     this.m_rootMaterial.height = 0;
     this.m_rootMaterial.removeAllChildren();
-    // 开始渲染
-    const objGrowthSelectData = this.arrGrowthListObject[this.m_nSelectGrowthIndex];
 
-    this.m_labelName.getComponent(cc.Label).string = objGrowthSelectData.name;
-    this.m_labelContentString.getComponent(cc.Label).string = objGrowthSelectData.introduce;
-    if (objGrowthSelectData.describe) {
-      this.m_labelContentString.getComponent(cc.Label).string += `\n${objGrowthSelectData.describe}`
-    }
+    // 渲染物品名称
+    const objGrowth = this.arrGrowthListObject[this.m_nSelectGrowthIndex];
+    const objGrowthData = GameApi.getPartsInfoComplete(objGrowth.id);
+    this.m_labelName.getComponent(cc.Label).string = `${objGrowthData.name}(Lv.${objGrowth.level})`;
+    // 渲染物品介绍
+    this.m_labelContentString.getComponent(cc.Label).string = objGrowthData.introduce;
+    // 渲染物品引言
+    // this.m_labelName.getComponent(cc.Label).string = objGrowthData.name;
+    // this.m_labelContentString.getComponent(cc.Label).string = objGrowthData.introduce;
+    // if (objGrowthData.describe) {
+    //   this.m_labelContentString.getComponent(cc.Label).string += `\n${objGrowthData.describe}`
+    // }
     // this.isHaveGift = Boolean(objMailSelectData.arrGifts.length);
     // this.m_labelFrom.getComponent(cc.Label).string = objMailSelectData.strFrom;
     // this.m_labelContentString.getComponent(cc.Label).string = objMailSelectData.strContent;

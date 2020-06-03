@@ -62,8 +62,8 @@
         0,
         0,
         1,
-        1.26,
-        1.26,
+        1.4,
+        1.4,
         1
       ]
     },
@@ -252,7 +252,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 170,
+      "width": 180,
       "height": 40
     },
     "_anchorPoint": {
@@ -264,7 +264,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -85,
+        -90,
         0,
         0,
         0,
@@ -303,9 +303,9 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "★邮件内...(Lv.99)",
-    "_N$string": "★邮件内...(Lv.99)",
-    "_fontSize": 20,
+    "_string": "★邮件内容(Lv.99)",
+    "_N$string": "★邮件内容(Lv.99)",
+    "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": false,
     "_N$file": null,
@@ -330,8 +330,8 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 41,
-    "_left": 10,
-    "_right": 10,
+    "_left": 5,
+    "_right": 5,
     "_top": 10,
     "_bottom": 0,
     "_verticalCenter": 0,
