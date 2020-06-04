@@ -5760,7 +5760,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "jinkuang",
+    "_name": "BtnJinkuang",
     "_objFlags": 0,
     "_parent": {
       "__id__": 106
@@ -5770,7 +5770,7 @@
         "__id__": 130
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 133
@@ -5829,7 +5829,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "spr_jinkuang",
+    "_name": "Background",
     "_objFlags": 0,
     "_parent": {
       "__id__": 129
@@ -5908,7 +5908,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "be0c0c1b-725e-428c-a909-13fb3fb8fa6c"
+      "__uuid__": "1a9d77cf-6d49-4da6-92b7-b1358e5a9011"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -6044,7 +6044,7 @@
     },
     "component": "",
     "_componentId": "47483PB0cJMGJAFMpbVIoEi",
-    "handler": "onBtnJinkuangClick",
+    "handler": "onBtnTestClick",
     "customEventData": ""
   },
   {

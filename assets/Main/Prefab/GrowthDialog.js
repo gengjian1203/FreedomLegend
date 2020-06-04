@@ -303,8 +303,11 @@ cc.Class({
     const objGrowthData = GameApi.getPartsInfoComplete(objGrowth.id);
     this.m_labelName.getComponent(cc.Label).string = `${objGrowthData.name}(Lv.${objGrowth.level})`;
     // 渲染物品介绍
-    this.m_labelContentString.getComponent(cc.Label).string = objGrowthData.introduce;
-    // 渲染物品引言
+    const strContent = `${objGrowthData.introduce}`;
+                      //  `${objGrowthData.describe ? ('\n——' + objGrowthData.describe) : ''}`;
+    this.m_labelContentString.getComponent(cc.Label).string = strContent;
+    // 渲染物品升级需要材料
+
     // this.m_labelName.getComponent(cc.Label).string = objGrowthData.name;
     // this.m_labelContentString.getComponent(cc.Label).string = objGrowthData.introduce;
     // if (objGrowthData.describe) {

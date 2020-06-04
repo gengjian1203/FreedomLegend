@@ -179,35 +179,49 @@ cc.Class({
     this.showLineLoading();
     // 获取用户信息
     this.getUserInfoNew(res).then((res) => {
-      this.setLineLoading(25);
+      this.setLineLoading(15);
       // 更新/创建玩家信息
       this.updateMemberInfo().then((res) => {
-        this.setLineLoading(50);
-        console.log('Login onBtnLoginClick2', res);
-        Promise.all([this.loadingSubMain(), 
-                     this.loadingSubWorld(),
-                     this.loadingSubBattle()]).then((res) => {
-          console.log('Login onBtnLoginClick3', res);
-          this.setLineLoading(75);
-          // 查询玩家信息
-          this.queryMemberInfo().then((res) => {
-            console.log('Login onBtnLoginClick4', res);
-            this.setLineLoading(100);
-            if (this.isNewMember) {
-              // 跳转新手引导页
-              cc.director.loadScene('Preface');
-            } else {
-              // 跳转正常游戏
-              cc.director.loadScene('Main');
-            }
-            console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo);
+        this.setLineLoading(30);
+        // 加载主页面分包
+        this.loadingSubMain().then((res) => {
+          this.setLineLoading(55);
+          // 加载征战分包
+          this.loadingSubWorld().then((res) => {
+            this.setLineLoading(70);
+            // 加载战斗分包
+            this.loadingSubBattle().then((res) => {
+              console.log('Login onBtnLoginClick3', res);
+              this.setLineLoading(85);
+              // 查询玩家信息
+              this.queryMemberInfo().then((res) => {
+                console.log('Login onBtnLoginClick4', res);
+                this.setLineLoading(100);
+                if (this.isNewMember) {
+                  // 跳转新手引导页
+                  cc.director.loadScene('Preface');
+                } else {
+                  // 跳转正常游戏
+                  cc.director.loadScene('Main');
+                }
+                console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo);
+              }).catch((err) => {
+                console.log('Login loadingSubBattle Fail.', err);
+                this.hideLineLoading();
+                this.bLockLogin = false;
+              });
+            }).catch((err) => {
+              console.log('Login loadingSubWorld Fail.', err);
+              this.hideLineLoading();
+              this.bLockLogin = false;
+            });
           }).catch((err) => {
-            console.log('Login queryMemberInfo Fail.', err);
+            console.log('Login loadingSubMain Fail.', err);
             this.hideLineLoading();
             this.bLockLogin = false;
           });
         }).catch((err) => {
-          console.log('loadSubpackage Error', err);
+          console.log('Login queryMemberInfo Fail.', err);
           this.hideLineLoading();
           this.bLockLogin = false;
         });

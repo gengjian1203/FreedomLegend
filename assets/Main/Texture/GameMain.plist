@@ -202,7 +202,7 @@
             <key>iheader_5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{844,750},{74,88}}</string>
+                <string>{{754,751},{74,88}}</string>
                 <key>offset</key>
                 <string>{-3,1}</string>
                 <key>rotated</key>
@@ -215,7 +215,7 @@
             <key>iheader_6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{754,675},{86,88}}</string>
+                <string>{{845,750},{86,88}}</string>
                 <key>offset</key>
                 <string>{4,-5}</string>
                 <key>rotated</key>
@@ -224,6 +224,19 @@
                 <string>{{11,11},{86,88}}</string>
                 <key>sourceSize</key>
                 <string>{100,100}</string>
+            </dict>
+            <key>iheader_7.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{754,675},{74,89}}</string>
+                <key>offset</key>
+                <string>{0,1}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{5,9},{74,89}}</string>
+                <key>sourceSize</key>
+                <string>{84,109}</string>
             </dict>
             <key>mainIndex.jpg</key>
             <dict>
@@ -319,7 +332,7 @@
             <key>tabbar_down.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{934,774},{71,74}}</string>
+                <string>{{935,774},{71,74}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -332,7 +345,7 @@
             <key>tabbar_up.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{754,763},{73,71}}</string>
+                <string>{{754,827},{73,71}}</string>
                 <key>offset</key>
                 <string>{2,0}</string>
                 <key>rotated</key>
@@ -352,7 +365,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:51b44fada1c522feea77e3d39cb1c750:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:466e33c9bb4787ff309bdddd37dc16c2:1/1$</string>
             <key>textureFileName</key>
             <string>GameMain.png</string>
         </dict>
