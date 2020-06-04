@@ -63,12 +63,64 @@ cc.Class({
       default: null
     },
     // 物品属性根节点
-    m_rootAttribute: {
+    // 生命
+    m_labelHP: {
+      type: cc.Node,
+      default: null
+    },
+    // 外功
+    m_labelOuterAttack: {
+      type: cc.Node,
+      default: null
+    },
+    // 内功
+    m_labelInnerAttack: {
+      type: cc.Node,
+      default: null
+    },
+    // 外防
+    m_labelOuterDefense: {
+      type: cc.Node,
+      default: null
+    },
+    // 内防
+    m_labelInnerDefense: {
+      type: cc.Node,
+      default: null
+    },
+    // 暴击
+    m_labelCrit: {
+      type: cc.Node,
+      default: null
+    },
+    // 闪避
+    m_labelDodge: {
+      type: cc.Node,
+      default: null
+    },
+    // 速度
+    m_labelSpeed: {
+      type: cc.Node,
+      default: null
+    },
+    // 悟性
+    m_labelUnderstand: {
       type: cc.Node,
       default: null
     },
     // 需要的材料列表
-    m_rootMaterial: {
+    // 铜钱
+    m_labelMoney: {
+      type: cc.Node,
+      default: null
+    },
+    // 碎片
+    m_labelPart: {
+      type: cc.Node,
+      default: null
+    },
+    // 器灵
+    m_labelSoul: {
       type: cc.Node,
       default: null
     },
@@ -277,8 +329,6 @@ cc.Class({
     // const label = node.addComponent(cc.Label);
     // label.fontSize = 30;
     // label.string = `${GameApi.getPartsInfoComplete(objMaterial.id).name} ×${objMaterial.total}`;
-    // this.m_rootMaterial.addChild(node);
-    // this.m_rootMaterial.height += 40;
   },
 
   // 渲染邮件内容
@@ -293,10 +343,6 @@ cc.Class({
     }
     this.m_growthContent.active = true;
     this.m_sprEmptyTip.active = false;
-    
-    // 清空材料列表
-    this.m_rootMaterial.height = 0;
-    this.m_rootMaterial.removeAllChildren();
 
     // 渲染物品名称
     const objGrowth = this.arrGrowthListObject[this.m_nSelectGrowthIndex];
@@ -306,7 +352,68 @@ cc.Class({
     const strContent = `${objGrowthData.introduce}`;
                       //  `${objGrowthData.describe ? ('\n——' + objGrowthData.describe) : ''}`;
     this.m_labelContentString.getComponent(cc.Label).string = strContent;
+    // 渲染物品属性变化
+    objGrowthData
+    // 生命
+    this.m_labelHP.getComponent(cc.Label).string = `${objGrowthData.hp + (objGrowth.level - 1) * objGrowthData.hp_up}` + 
+                                                   ` => ` + 
+                                                   `${objGrowthData.hp + objGrowth.level * objGrowthData.hp_up}`;
+    this.m_labelHP.color = objGrowthData.hp_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 外功
+    this.m_labelOuterAttack.getComponent(cc.Label).string = `${objGrowthData.outerAttack + (objGrowth.level - 1) * objGrowthData.outerAttack_up}` + 
+                                                            ` => ` + 
+                                                            `${objGrowthData.outerAttack + objGrowth.level * objGrowthData.outerAttack_up}`;
+    this.m_labelOuterAttack.color = objGrowthData.outerAttack_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 内功
+    this.m_labelInnerAttack.getComponent(cc.Label).string = `${objGrowthData.innerAttack + (objGrowth.level - 1) * objGrowthData.innerAttack_up}` + 
+                                                            ` => ` + 
+                                                            `${objGrowthData.innerAttack + objGrowth.level * objGrowthData.innerAttack_up}`;
+    this.m_labelInnerAttack.color = objGrowthData.innerAttack_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 外防
+    this.m_labelOuterDefense.getComponent(cc.Label).string = `${objGrowthData.outerDefense + (objGrowth.level - 1) * objGrowthData.outerDefense_up}` + 
+                                                             ` => ` + 
+                                                             `${objGrowthData.outerDefense + objGrowth.level * objGrowthData.outerDefense_up}`;
+    this.m_labelOuterDefense.color = objGrowthData.outerDefense_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 内防
+    this.m_labelInnerDefense.getComponent(cc.Label).string = `${objGrowthData.innerDefense + (objGrowth.level - 1) * objGrowthData.innerDefense_up}` + 
+                                                             ` => ` + 
+                                                             `${objGrowthData.innerDefense + objGrowth.level * objGrowthData.innerDefense_up}`;
+    this.m_labelInnerDefense.color = objGrowthData.innerDefense_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 暴击
+    this.m_labelCrit.getComponent(cc.Label).string = `${objGrowthData.crit + (objGrowth.level - 1) * objGrowthData.crit_up}` + 
+                                                     ` => ` + 
+                                                     `${objGrowthData.crit + objGrowth.level * objGrowthData.crit_up}`;
+    this.m_labelCrit.color = objGrowthData.crit_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 闪避
+    this.m_labelDodge.getComponent(cc.Label).string = `${objGrowthData.dodge + (objGrowth.level - 1) * objGrowthData.dodge_up}` + 
+                                                      ` => ` + 
+                                                      `${objGrowthData.dodge + objGrowth.level * objGrowthData.dodge_up}`;
+    this.m_labelDodge.color = objGrowthData.dodge_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 速度
+    this.m_labelSpeed.getComponent(cc.Label).string = `${objGrowthData.speed + (objGrowth.level - 1) * objGrowthData.speed_up}` + 
+                                                      ` => ` + 
+                                                      `${objGrowthData.speed + objGrowth.level * objGrowthData.speed_up}`;
+    this.m_labelSpeed.color = objGrowthData.speed_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    // 悟性
+    this.m_labelUnderstand.getComponent(cc.Label).string = `${objGrowthData.understand + (objGrowth.level - 1) * objGrowthData.understand_up}` + 
+                                                           ` => ` + 
+                                                           `${objGrowthData.understand + objGrowth.level * objGrowthData.understand_up}`;
+    this.m_labelUnderstand.color = objGrowthData.understand_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
+    
     // 渲染物品升级需要材料
+    // 铜钱
+    this.m_labelMoney.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(g_objMemberInfo.money)}/${GameApi.formatLargeNumber(objGrowth.level * 10000)}`;
+    this.m_labelMoney.color = g_objMemberInfo.money >= objGrowth.level * 10000 ? cc.color(255, 255, 255) : cc.color(255, 0, 0);
+    // 碎片
+    const nIndexSelectPart = g_objBagInfo.equipment.findIndex((item) => {
+      return item.id === String(parseInt(objGrowth.id) + 1);
+    });
+    const nPartTotal = nIndexSelectPart > -1 ? g_objBagInfo.equipment[nIndexSelectPart].total : 0;
+    this.m_labelPart.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(nPartTotal)}/${GameApi.formatLargeNumber(objGrowth.level * 10)}`;  
+    this.m_labelPart.color = nPartTotal >= objGrowth.level * 10 ? cc.color(255, 255, 255) : cc.color(255, 0, 0);
+    // 器灵
+    this.m_labelSoul.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(0)}/${GameApi.formatLargeNumber(objGrowth.level * 10)}`;
+    this.m_labelSoul.color = 0 >= objGrowth.level * 10 ? cc.color(255, 255, 255) : cc.color(255, 0, 0);
 
     // this.m_labelName.getComponent(cc.Label).string = objGrowthData.name;
     // this.m_labelContentString.getComponent(cc.Label).string = objGrowthData.introduce;

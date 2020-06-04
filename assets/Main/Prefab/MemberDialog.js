@@ -75,7 +75,7 @@ cc.Class({
       default: null
     },
     // 内功
-    m_labelinnerAttack: {
+    m_labelInnerAttack: {
       type: cc.Node,
       default: null
     },
@@ -337,7 +337,7 @@ cc.Class({
       // 外功
       this.m_labelOuterAttack.getComponent(cc.Label).string = g_objMemberInfo.outerAttack_total;
       // 内功
-      this.m_labelinnerAttack.getComponent(cc.Label).string = g_objMemberInfo.innerAttack_total;
+      this.m_labelInnerAttack.getComponent(cc.Label).string = g_objMemberInfo.innerAttack_total;
       // 外防
       this.m_labelOuterDefense.getComponent(cc.Label).string = g_objMemberInfo.outerDefense_total;
       // 内防
