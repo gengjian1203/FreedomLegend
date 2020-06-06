@@ -18,7 +18,9 @@ cc.Class({
     // 游戏引语信息
     this.strIndex = 0;
     this.bFinish = false;
-    this.strContent = `这一天你打开了手机，\n` + 
+    this.strContent = `序章\n` + 
+                      `\n` + 
+                      `这一天你打开了手机，\n` + 
                       `忽然手机出现了一个漩涡，\n` + 
                       `将你吸入其中，\n` + 
                       `...\n` + 
@@ -30,7 +32,7 @@ cc.Class({
                       `如今的你，\n` + 
                       `只好随遇而安，\n` + 
                       `而这个神奇的世界，\n` + 
-                      `将会给你带来一段奇秒的旅程。\n`;
+                      `将会给你带来一段奇妙的旅程。\n`;
   },
 
   properties: {

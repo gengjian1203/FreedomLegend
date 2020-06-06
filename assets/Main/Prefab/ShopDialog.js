@@ -207,11 +207,9 @@ cc.Class({
     if (nCount === 1) {
       // 单抽
       nNeedGold = 300;
-      this.m_sprEquipOnceBK.getComponent(cc.Animation).play('shaking');
     } else if (nCount === 10) {
       // 十连
       nNeedGold = 2800;
-      this.m_sprEquipTenBK.getComponent(cc.Animation).play('shaking');
     } else {
       nNeedGold = 99999999999;
     }
@@ -220,6 +218,13 @@ cc.Class({
       this.showToastDlg('抱歉，您的元宝不足。');
       this.bLockButton = false;
     } else {
+      // 抽取动画
+      if (nCount === 1) {
+        this.m_sprEquipOnceBK.getComponent(cc.Animation).play('shaking');
+      } else if (nCount === 10) {
+        this.m_sprEquipTenBK.getComponent(cc.Animation).play('shaking');
+      } else {
+      }
       // 抽取装备
       const param = {
         type: 'box',
