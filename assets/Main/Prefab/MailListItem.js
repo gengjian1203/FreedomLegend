@@ -65,7 +65,7 @@ cc.Class({
   setMailListItemColor: function(isSelect) {
     const color = isSelect ? new cc.color(255, 0, 0) : new cc.color(255, 255, 255);
     this.m_labelContent.color = color;
-    this.m_labelTotal.color = color;
+    this.m_labelTime.color = color;
   },
 
   // 渲染邮件列表item信息

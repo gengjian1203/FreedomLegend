@@ -195,6 +195,13 @@ cc.Class({
     this.m_mailList.addChild(item);
   },
 
+  // 渲染邮件列表item的颜色 
+  renderMailListItemColor: function() {
+    this.arrMailListObject.forEach((item, index) => {
+      item.getComponent('MailListItem').setMailListItemColor(index === this.m_nSelectIndex);
+    });
+  },
+
   // 渲染邮件列表
   setMailList: function() {
     console.log('MailDialog queryMailListInfo');
@@ -236,6 +243,7 @@ cc.Class({
     this.m_sprEmptyTip.active = false;
     // 
     this.m_nSelectIndex = nIndex;
+    this.renderMailListItemColor();
     // 清空礼物列表
     this.m_rootGift.height = 0;
     this.m_rootGift.removeAllChildren();
