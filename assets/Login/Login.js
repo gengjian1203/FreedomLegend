@@ -96,6 +96,9 @@ cc.Class({
 
     // 自定义初始化函数
     this.init();
+
+    // 监听被动分享
+    this.passiveShare();
   },
 
   onEnable () {
@@ -364,6 +367,7 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
+  // 初始化
   init: function() {
     // 获取游戏的公告等信息
     WebApi.queryGameDetail().then((res) => {
@@ -398,6 +402,32 @@ cc.Class({
     GameApi.LoadDatabasePartsinfo();
     // 加载剧情数据数据到缓存中
     GameApi.LoadDatabaseStory();
+  },
+
+  // 监听被动分享
+  passiveShare: function() {
+    // 监听小程序右上角菜单的「转发」按钮
+    if (typeof wx === 'undefined') {
+      return;
+    }
+    // 显示当前页面的转发按钮
+    wx.showShareMenu({
+      success: (res) => {
+        console.log('开启被动转发成功！');
+      },
+      fail: (err) => {
+        console.log('开启被动转发失败！', err);
+      }
+    });
+    // 获取当前转发人的信息，
+    wx.onShareAppMessage(() => {
+      return {
+        title: '醉梦坛说，等你来玩~', 
+        imageUrlId: '8io3vSE1RFKdT3hm9bNIOA==',
+        imageUrl: 'https://mmocgame.qpic.cn/wechatgame/2gGBq1F0NK3s6JyIkVPYxknqibqcZql0IOX2iag0c7477lialpFGf5ru3EMapicJNiaRx/0',        // 分享图片要放在 wechatgame/res/raw-assets 路径下
+        query: `shareId=${g_objMemberInfo._id}`  // query最大长度(length)为2048
+      }
+    });
   },
 
   // 渲染用户信息
