@@ -26,33 +26,36 @@ function initWXCloud() {
 // param:
 // memberInfo     角色信息
 // return:
-// 微信云端托管数据
+// 微信云端托管数据 
+// level - 等级榜
+// power - 战力榜
+// story - 征战榜
 //////////////////////////////////////////////////
 function setUserCloudStorage(memberInfo) {
   let arrData = new Array();
   let objTmp = {};
-  if (memberInfo.level) {
+  if (g_objMemberInfo.level) {
     objTmp = {
       'wxgame': {
-        'level': memberInfo.level,
+        'level': g_objMemberInfo.level,
         'update_time': Date.parse(new Date())
       }
     }
     arrData.push({ key: 'level', value: JSON.stringify(objTmp) });
   }
-  if (memberInfo.sportsNumber) {
+  if (g_objMemberInfo.story) {
     objTmp = {
       'wxgame': {
-        'sportsNumber': memberInfo.sportsNumber,
+        'story': g_objMemberInfo.story,
         'update_time': Date.parse(new Date())
       }
     }
-    arrData.push({ key: 'sportsNumber', value: JSON.stringify(objTmp) });
+    arrData.push({ key: 'story', value: JSON.stringify(objTmp) });
   }
-  if (memberInfo.power) {
+  if (g_objMemberInfo.power) {
     objTmp = {
       'wxgame': {
-        'power': memberInfo.power,
+        'power': g_objMemberInfo.power,
         'update_time': Date.parse(new Date())
       },
     }
@@ -62,7 +65,7 @@ function setUserCloudStorage(memberInfo) {
   wx.setUserCloudStorage({
     KVDataList: arrData,
     success: (res) => {
-        console.log('setUserCloudStorage 存储记录成功', res);
+        console.log('setUserCloudStorage 存储记录成功', res, arrData);
     },
     fail: (err) => {
         console.log(err);
@@ -168,22 +171,25 @@ function updateMemberInfo(param) {
         success: (res) => {
           console.log('WebApi.updateMemberInfo', res);
           if (res.result) {
-            console.log('WebApi.updateMemberInfo Success', res.result, res.result.timeHook);
-            if (param.isLogin) {
-              // 是登录则记录挂机时间
-              if (res.result.timeHook) {
-                g_nTimeHook = res.result.timeHook;
+            // 参数如果不传_id、或者_id等于本人、才执行以下操作
+            if ((!param._id) || 
+                (param._id === g_objMemberInfo._id)) {
+              if (param.isLogin) {
+                // 是登录则记录挂机时间
+                console.log('WebApi.updateMemberInfo Success.存储挂机时间', res.result.timeHook);
+                if (res.result.timeHook) {
+                  g_nTimeHook = res.result.timeHook;
+                }
               }
-            }
-            else {
-              if (!param._id) {
+              else {
                 // 不是登录，则存储排行榜信息
+                console.log('WebApi.updateMemberInfo Success.存储缓存排行');  
                 setUserCloudStorage(param.memberInfo);
               }
+              resolve(res);
+            } else {
+              reject(res);
             }
-            resolve(res);
-          } else {
-            reject(res);
           }
         },
         fail: (err) => {

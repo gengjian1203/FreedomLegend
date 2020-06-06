@@ -204,7 +204,7 @@ cc.Class({
                   // 跳转正常游戏
                   cc.director.loadScene('Main');
                 }
-                console.log('===Login GlobalData===', g_objUserInfo, g_objMemberInfo);
+                console.log('<<<Login GlobalData>>>', g_objUserInfo, g_objMemberInfo);
               }).catch((err) => {
                 console.log('Login loadingSubBattle Fail.', err);
                 this.hideLineLoading();
