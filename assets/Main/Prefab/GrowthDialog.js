@@ -367,6 +367,7 @@ cc.Class({
     for (let item of g_objBagInfo.equipment) {
       const objInfo = GameApi.getPartsInfoType(item.id);
       if (objInfo.nPosition === this.m_nSelectTypeIndex && objInfo.nComplete === 0) {
+        item.isEquip = false;
         this.arrGrowthListObject.push(item);
       }
     }
