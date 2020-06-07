@@ -23,7 +23,7 @@ function LoadDatabasePartsinfo() {
 
 //////////////////////////////////////////////////
 // LoadDatabaseStory
-// 加载剧情数据数据到缓存中
+// 加载章节数据数据到缓存中
 // param:
 // return:
 // Boolean
@@ -37,6 +37,30 @@ function LoadDatabaseStory() {
     }
     if (object && object.json) {
       console.log('LoadDatabaseStory', object.json);
+      object.json[strKeyStory].forEach((item) => {
+        cc.sys.localStorage.setItem(`${strKeyStory}-${item.id}`, item);
+      });
+      cc.sys.localStorage.setItem(`${strKeyStory}-Length`, object.json[strKeyStory].length);
+    }
+  });
+}
+
+//////////////////////////////////////////////////
+// LoadDatabaseWork
+// 加载剧情数据数据到缓存中
+// param:
+// return:
+// Boolean
+//////////////////////////////////////////////////
+function LoadDatabaseWork() {
+  const strKeyStory = 'workinfo';
+  cc.loader.loadRes('database_workinfo.json', (err, object) => {
+    if (err) {
+      console.log('LoadDatabaseWork fail', err);
+      return;
+    }
+    if (object && object.json) {
+      console.log('LoadDatabaseWork', object.json);
       object.json[strKeyStory].forEach((item) => {
         cc.sys.localStorage.setItem(`${strKeyStory}-${item.id}`, item);
       });
@@ -393,9 +417,24 @@ function getStoryInfo(nChapters) {
   return objResult;
 }
 
+//////////////////////////////////////////////////
+// getWorkInfo
+// 通过章节号获取剧情信息
+// param:
+// nWork: Number           剧情序号
+// return:
+// Object                  返回该章节的剧情信息
+//////////////////////////////////////////////////
+function getWorkInfo(nWork) {
+  const strKeyStory = 'workinfo';
+  const arrResult = cc.sys.localStorage.getItem(`${strKeyStory}-${nWork}`);
+  return arrResult;
+}
+
 export default {
   LoadDatabasePartsinfo,
   LoadDatabaseStory,
+  LoadDatabaseWork,
   formatLargeNumber,
   funComputedMemberInfo,
   getExpMaxString,
@@ -408,4 +447,5 @@ export default {
   getPartsInfoFragments,
   getStoryLength,
   getStoryInfo,
+  getWorkInfo,
 }

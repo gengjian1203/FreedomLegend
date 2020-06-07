@@ -140,8 +140,8 @@ cc.Class({
     this.m_rootPrize.height += 40;
   },
 
-  // 渲染背包物品item信息
-  setBagListItemIntroduceData: function(objStoryInfo) {
+  // 渲染故事章节item信息
+  setStoryItemIntroduceData: function(objStoryInfo) {
     this.objStoryInfo = objStoryInfo;
 
     this.m_labelName.getComponent(cc.Label).string = `${this.objStoryInfo.title}`;

@@ -66,8 +66,18 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
+    // 预制体 - 剧情弹窗
+    m_prefabWorkModule: {
+      type: cc.Prefab,
+      default: null
+    },
     // 回合标题
     m_labelRound: {
+      type: cc.Node,
+      default: null
+    },
+    // VS标志
+    m_sprVS: {
       type: cc.Node,
       default: null
     },
@@ -96,8 +106,27 @@ cc.Class({
     console.log('Battle start');
     Common.AdapterScreen(this.m_root);
 
-    // 自定义初始化函数
-    this.init();
+    // 预处理数据数据
+    this.computedMemberInfoData();
+    console.log('Battle g_nBattleStory', g_nBattleStory);
+    console.log('Battle g_objPrize', g_objPrize);
+    console.log('Battle g_arrMemberInfoA', g_arrMemberInfoA);
+    console.log('Battle g_arrMemberInfoB', g_arrMemberInfoB);
+    console.log('Battle arrMemberInfoAll', this.arrMemberInfoAll);
+    console.log('Battle g_arrBattleResult', g_arrBattleResult)
+
+    // 演绎故事
+
+
+    // 读取剧情数据
+    const arrWorkData = GameApi.getWorkInfo(String(g_nBattleStory)).work;
+    
+
+    if (arrWorkData && arrWorkData.length) {
+      this.playWork();
+    } else {
+      this.init();
+    }
   },
 
   onEnable () {
@@ -125,6 +154,7 @@ cc.Class({
     console.log('Battle registerEvent');
     // 注册公告栏消失事件
     this.node.on('hide-prize-dlg', this.onJumpWorldPage, this);
+    this.node.on('hide-work-module', this.init, this);
   },
 
   // 注销事件
@@ -132,6 +162,7 @@ cc.Class({
     console.log('Battle CancelEvent');
     // 注销公告栏消失事件
     this.node.off('hide-prize-dlg', this.onJumpWorldPage, this);
+    this.node.off('hide-work-module', this.init, this);
   },
 
   // 退出战斗，返回征战页面
@@ -159,18 +190,15 @@ cc.Class({
   //////////////////////////////////////////////////
   // 自定义函数
   //////////////////////////////////////////////////
-  // 初始化
+  // 演绎剧本
+  playWork: function() {
+    const workModule = cc.instantiate(this.m_prefabWorkModule);
+    this.m_root.addChild(workModule);
+  },
+
+  // 开始战斗
   init: function() {
     console.log('Battle init');
-    // 预处理数据数据
-    this.computedMemberInfoData();
-    console.log('Battle g_nBattleStory', g_nBattleStory);
-    console.log('Battle g_objPrize', g_objPrize);
-    console.log('Battle g_arrMemberInfoA', g_arrMemberInfoA);
-    console.log('Battle g_arrMemberInfoB', g_arrMemberInfoB);
-    console.log('Battle arrMemberInfoAll', this.arrMemberInfoAll);
-    console.log('Battle g_arrBattleResult', g_arrBattleResult)
-
     // 战斗前的准备
     // 渲染战场角色信息
     g_arrMemberInfoA.forEach((item, index) => {
@@ -179,6 +207,8 @@ cc.Class({
     g_arrMemberInfoB.forEach((item, index) => {
       this.createOpponentPlayers(item,index);
     });
+    // 渲染VS
+    this.m_sprVS.getComponent(cc.Animation).play('FadeOutVS');
 
     // 开始战斗
     g_arrBattleResult.forEach((item, index) => {

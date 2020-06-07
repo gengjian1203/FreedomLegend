@@ -191,7 +191,7 @@ cc.Class({
   createStoryItemIntroduce: function(objItem, index) {
     let item = null;
     item = cc.instantiate(this.m_prefabStoryItemIntroduce);
-    item.getComponent('StoryItemIntroduce').setBagListItemIntroduceData(objItem);
+    item.getComponent('StoryItemIntroduce').setStoryItemIntroduceData(objItem);
     item.x = 0;
     item.y = -(index + 1) * 80;
     this.m_contentStory.addChild(item);

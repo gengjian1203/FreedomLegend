@@ -200,12 +200,18 @@ cc.Class({
               this.queryMemberInfo().then((res) => {
                 console.log('Login onBtnLoginClick4', res);
                 this.setLineLoading(100);
-                if (this.isNewMember) {
-                  // 跳转新手引导页
-                  cc.director.loadScene('Preface');
+                if (g_objMemberInfo.isDisable) {
+                  this.showDisableDly();
+                  this.hideLineLoading();
+                  this.bLockLogin = false;
                 } else {
-                  // 跳转正常游戏
-                  cc.director.loadScene('Main');
+                  if (this.isNewMember) {
+                    // 跳转新手引导页
+                    cc.director.loadScene('Preface');
+                  } else {
+                    // 跳转正常游戏
+                    cc.director.loadScene('Main');
+                  }
                 }
                 console.log('<<<Login GlobalData>>>', g_objUserInfo, g_objMemberInfo);
               }).catch((err) => {
@@ -400,8 +406,10 @@ cc.Class({
 
     // 加载游戏资料库等数据到缓存中
     GameApi.LoadDatabasePartsinfo();
-    // 加载剧情数据数据到缓存中
+    // 加载征战章节数据到缓存中
     GameApi.LoadDatabaseStory();
+    // 加载征战剧情数据到缓存中
+    GameApi.LoadDatabaseWork();
   },
 
   // 监听被动分享
@@ -449,6 +457,17 @@ cc.Class({
         });
       });
     }
+  },
+
+  // 显示封号公告
+  showDisableDly: function() {
+    if (this.btnLogin) {
+      this.btnLogin.hide();
+    }
+    this.dlgNotice = cc.instantiate(this.m_prefabDlg);
+    const strDisable = '对不起，经过仔细校对您的游戏行为，我们发现了一些非法违规行为。\n非常遗憾，我们将对你的账号进行封停，如有疑问可以联系客服，感谢您的配合和支持。';
+    this.dlgNotice.getComponent('ModuleDialog').setNoticeContent(strDisable);
+    this.m_canvas.addChild(this.dlgNotice);
   },
 
   // 显示公告对话框 

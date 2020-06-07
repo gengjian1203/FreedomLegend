@@ -20,11 +20,11 @@
             <key>hp_max.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{862,9},{80,5}}</string>
+                <string>{{1016,2},{80,5}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{80,5}}</string>
                 <key>sourceSize</key>
@@ -33,7 +33,7 @@
             <key>hp_now.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{862,2},{80,5}}</string>
+                <string>{{934,2},{80,5}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>seat.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{944,2},{74,34}}</string>
+                <string>{{934,9},{74,34}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -56,10 +56,23 @@
                 <key>sourceSize</key>
                 <string>{74,34}</string>
             </dict>
+            <key>talk.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{754,2},{178,138}}</string>
+                <key>offset</key>
+                <string>{-1,1}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{10,20},{178,138}}</string>
+                <key>sourceSize</key>
+                <string>{200,180}</string>
+            </dict>
             <key>vs.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{754,2},{106,100}}</string>
+                <string>{{754,142},{106,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -79,7 +92,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:03ec84cc63c98b811f259a5d407b782d:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:17433395d86fc6b8a34cc021f974cc6d:1/1$</string>
             <key>textureFileName</key>
             <string>BattleMain.png</string>
         </dict>

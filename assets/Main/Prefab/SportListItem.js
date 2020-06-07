@@ -99,6 +99,7 @@ cc.Class({
       g_bBattleWin = res.bWin;
       g_arrBattleResult = res.arrListResult;
       g_strSceneBack = 'Main';
+      g_nBattleStory = -999;
       
       // 跳转页
       cc.director.loadScene('Battle');

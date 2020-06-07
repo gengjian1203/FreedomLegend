@@ -174,7 +174,7 @@
       "array": [
         0,
         0,
-        641.7248242042691,
+        1155.2778886484411,
         0,
         0,
         0,
@@ -1418,7 +1418,7 @@
         "__uuid__": "ac14e9dd-6e83-4cd4-809c-41ec4069622a"
       }
     ],
-    "playOnLoad": true,
+    "playOnLoad": false,
     "_id": "ad0XRztf9EE7kowvDot/5N"
   },
   {
@@ -9065,8 +9065,14 @@
     "m_prefabLevelup": {
       "__uuid__": "f63d7f1e-df94-4d3a-8f85-b158f8872e2a"
     },
+    "m_prefabWorkModule": {
+      "__uuid__": "9994d875-6c61-47f1-a74c-8096bed8d9bc"
+    },
     "m_labelRound": {
       "__id__": 12
+    },
+    "m_sprVS": {
+      "__id__": 29
     },
     "m_logScrollView": {
       "__id__": 17
