@@ -8,15 +8,15 @@
     {"_id":"100301","name":"青铜头盔·碎片","introduce":"用于合成青铜头盔"},
     {"_id":"100310","name":"青铜护肩","introduce":"大陆上常见的青铜护肩","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":10,"innerDefense_up":2,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"100311","name":"青铜护肩·碎片","introduce":"用于合成青铜护肩"},
-    {"_id":"100320","name":"青铜战甲","introduce":"大陆上常见的青铜战甲","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":10,"innerDefense":2,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
+    {"_id":"100320","name":"青铜战甲","introduce":"大陆上常见的青铜战甲","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":2,"outerDefense_up":1,"innerDefense":2,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"100321","name":"青铜战甲·碎片","introduce":"用于合成青铜战甲"},
     {"_id":"100330","name":"青铜剑","introduce":"大陆上常见的青铜剑","describe":"","hp":0,"hp_up":0,"outerAttack":20,"outerAttack_up":4,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"100331","name":"青铜剑·碎片","introduce":"用于合成青铜剑"},
     {"_id":"100340","name":"青铜坠","introduce":"大陆上常见的青铜坠","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":20,"innerAttack_up":4,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"100341","name":"青铜坠·碎片","introduce":"用于合成青铜坠"},
-    {"_id":"100350","name":"青铜战靴","introduce":"大陆上常见的青铜战靴","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":1,"speed_up":0.5,"understand":0,"understand_up":0},
+    {"_id":"100350","name":"青铜战靴","introduce":"大陆上常见的青铜战靴","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":1,"speed_up":1,"understand":0,"understand_up":0},
     {"_id":"100351","name":"青铜战靴·碎片","introduce":"用于合成青铜战靴"},
-    {"_id":"100600","name":"白银头盔","introduce":"大陆上常见的白银头盔","describe":"我戴的是梦想！ ——菜鸟","hp":200,"hp_up":20,"outerAttack":0,"outerAttack_up":0,"innerAttack":10,"innerAttack_up":1,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":21,"understand_up":3.4},
+    {"_id":"100600","name":"白银头盔","introduce":"大陆上常见的白银头盔","describe":"我戴的是梦想！ ——菜鸟","hp":200,"hp_up":20,"outerAttack":0,"outerAttack_up":0,"innerAttack":10,"innerAttack_up":1,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":21,"understand_up":3},
     {"_id":"100601","name":"白银头盔·碎片","introduce":"用于合成白银头盔"},
     {"_id":"100610","name":"白银护肩","introduce":"大陆上常见的白银护肩","describe":"","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":20,"innerDefense_up":4,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"100611","name":"白银护肩·碎片","introduce":"用于合成白银护肩"},
@@ -60,9 +60,10 @@
     {"_id":"101521","name":"星耀战甲·碎片","introduce":"用于合成星耀战甲"},
     {"_id":"101530","name":"星耀剑","introduce":"大陆上史诗的星耀剑","describe":"对手可能在这阵星光中永远醒不过来","hp":0,"hp_up":0,"outerAttack":320,"outerAttack_up":64,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":0,"speed_up":0,"understand":0,"understand_up":0},
     {"_id":"101531","name":"星耀剑·碎片","introduce":"用于合成星耀剑"},
-    {"_id":"101540","name":"星耀坠","introduce":"大陆上史诗的星耀坠","describe":"李小特不小心遗失的挂坠","hp":100,"hp_up":10,"outerAttack":100,"outerAttack_up":10,"innerAttack":320,"innerAttack_up":64,"outerDefense":10,"outerDefense_up":10,"innerDefense":12,"innerDefense_up":5,"crit":9,"crit_up":1,"dodge":8,"dodge_up":2,"speed":1,"speed_up":1,"understand":23,"understand_up":0.3},
+    {"_id":"101540","name":"星耀坠","introduce":"大陆上史诗的星耀坠","describe":"李小特不小心遗失的挂坠","hp":100,"hp_up":10,"outerAttack":100,"outerAttack_up":10,"innerAttack":320,"innerAttack_up":64,"outerDefense":10,"outerDefense_up":10,"innerDefense":12,"innerDefense_up":5,"crit":9,"crit_up":1,"dodge":8,"dodge_up":2,"speed":1,"speed_up":1,"understand":23,"understand_up":1},
     {"_id":"101541","name":"星耀坠·碎片","introduce":"用于合成星耀坠"},
     {"_id":"101550","name":"星耀战靴","introduce":"大陆上史诗的星耀战靴","describe":"如果是我的话更希望有一双运动鞋","hp":0,"hp_up":0,"outerAttack":0,"outerAttack_up":0,"innerAttack":0,"innerAttack_up":0,"outerDefense":0,"outerDefense_up":0,"innerDefense":0,"innerDefense_up":0,"crit":0,"crit_up":0,"dodge":0,"dodge_up":0,"speed":16,"speed_up":8,"understand":0,"understand_up":0},
-    {"_id":"101551","name":"星耀战靴·碎片","introduce":"用于合成星耀战靴"}
+    {"_id":"101551","name":"星耀战靴·碎片","introduce":"用于合成星耀战靴"},
+    {"_id":"400000","name":"器灵","introduce":"可以用于升级强化装备"}
   ]
 }

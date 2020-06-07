@@ -24,6 +24,8 @@ cc.Class({
     this.arrGrowthListObject = [];
     // 所属种类的数组列表承装节点的
     this.arrGrowthListChild = [];
+    // 是否满足可以强化的条件
+    this.isGrowthOK = false;
   },
 
   properties: {
@@ -109,13 +111,28 @@ cc.Class({
       default: null
     },
     // 需要的材料列表
+    // 铜钱节点
+    m_rootMoney: {
+      type: cc.Node,
+      default: null
+    },
     // 铜钱
     m_labelMoney: {
       type: cc.Node,
       default: null
     },
+    // 碎片节点
+    m_rootPart: {
+      type: cc.Node,
+      default: null
+    },
     // 碎片
     m_labelPart: {
+      type: cc.Node,
+      default: null
+    },
+    // 器灵节点
+    m_rootSoul: {
       type: cc.Node,
       default: null
     },
@@ -177,36 +194,106 @@ cc.Class({
     this.renderGrowthContent();
   },
 
-  // 点击收下/删除按钮
-  onBtnSureClick: function() {
-    // if (this.isHaveGift) {
-    //   // 收下礼物
-    //   const arrGifts = g_arrMailInfo[this.m_nSelectGrowthIndex].arrGifts;
-    //   arrGifts.forEach((item) => {
-    //     item._id = Common.getUUID();
-    //     item.time = new Date().getTime();
+  // 点击强化按钮
+  onBtnGrowthClick: function() {
+    if (!this.isGrowthOK) {
+      console.log('onBtnGrowthClick.');
+      return ;
+    }
+
+    // 查找到对应装备，并升级
+    const objGrowth = this.arrGrowthListObject[this.m_nSelectGrowthIndex];
+    const nLevel = objGrowth.level;
+    console.log('onBtnGrowthClick', objGrowth, objGrowth._id);
+    if (objGrowth.isEquip) {
+      // 去身上调整装备等级
+      const arrTypeName = ['equipment_hat', 'equipment_shoulder', 'equipment_jacket', 'equipment_weapon', 'equipment_jewelry', 'equipment_shoes', 'null', 'null'];
+      // 先获取身上穿着的装备
+      const objEquiped = g_objMemberInfo[arrTypeName[GameApi.getPartsInfoType(objGrowth.id).nPosition]];
+      if (objEquiped._id === objGrowth._id) {
+        g_objMemberInfo[arrTypeName[GameApi.getPartsInfoType(objGrowth.id).nPosition]].level++;
+      }
+    } else {
+      // 去背包调整装备等级
+      const nIndex = g_objBagInfo.equipment.findIndex((item) => {
+        return item._id === objGrowth._id;
+      });
+      if (nIndex > -1) {
+        g_objBagInfo.equipment[nIndex].level++;
+      }
+    }
+
+    // 扣除所需的材料
+    if (nLevel > 0) {
+      const nMoneyNeed = nLevel * 2000;
+      g_objMemberInfo.money -= nMoneyNeed;
+    } 
+    if (nLevel > 10) {
+      const nPartNeed = (nLevel - 10) * 2;
+      const nIndexSelectPart = g_objBagInfo.equipment.findIndex((item) => {
+        return item.id === String(parseInt(objGrowth.id) + 1);
+      });
+      g_objBagInfo.equipment[nIndexSelectPart].total -= nPartNeed;
+      if (g_objBagInfo.equipment[nIndexSelectPart].total <= 0) {
+        g_objBagInfo.equipment.splice(nIndexSelectPart, 1);
+      }
+    }
+    // if (nLevel > 20) {
+    //   const nSoulNeed = (nLevel - 20) * 2;
+    //   const nIndexSelectSoul = g_objBagInfo.consumables.findIndex((item) => {
+    //     return item.id === '400000';
     //   });
-    //   this.onShowPrizeDlg(arrGifts);
-    //   g_arrMailInfo[this.m_nSelectGrowthIndex].arrGifts = {};
-    //   this.setGrowthContent(this.m_nSelectGrowthIndex);
-      
-    // } else {
-    //   // 删除邮件
-    //   g_arrMailInfo.splice(this.m_nSelectGrowthIndex, 1);
-    //   // 刷新列表
-    //   this.renderGrowthList();
-    //   this.setGrowthContent(0);
+    //   g_objBagInfo.consumables[nIndexSelectSoul].total -= nPartNeed;
+    //   if (g_objBagInfo.consumables[nIndexSelectSoul].total <= 0) {
+    //     g_objBagInfo.consumables.splice(nIndexSelectSoul, 1);
+    //   }
+
+    //   const paramConsumables = {
+    //     partsInfo: g_objBagInfo.consumables,
+    //     partsType: 'consumables'
+    //   };
+    //   // 服务器更新背包列表
+    //   WebApi.updatePartsInfo(paramConsumables).then((res) => {
+    //   }).catch((err) => {
+    //     console.log('onBtnGrowthClick updatePartsInfo Fail.', err);
+    //   });
     // }
 
-    // // 服务器更新邮件列表
-    // const param = {
-    //   partsInfo: g_arrMailInfo,
-    //   partsType: 'mail'
-    // };
-    // WebApi.updatePartsInfo(param).then((res) => {
-    // }).catch((err) => {
-    //   console.log('MailDialog updatePartsInfo Fail.', err);
-    // });
+    // 刷新页面
+    // 请空渲染列表
+    const tmpSelectGrowthIndex = this.m_nSelectGrowthIndex;
+    const tmpSelectTypeIndex = this.m_nSelectTypeIndex;
+    this.cleanGrowthList();
+    this.m_nSelectGrowthIndex = tmpSelectGrowthIndex;
+    this.m_nSelectTypeIndex = tmpSelectTypeIndex;
+    this.setGrowthType();
+    this.renderGrowthList();
+    this.renderGrowthContent();
+
+    // 本地发消息刷新铜钱元宝
+    this.node.dispatchEvent( new cc.Event.EventCustom('refresh-moneyandgold-dlg', true) );
+
+    // 服务器通讯
+    // 配置参数：更新背包列表
+    const paramEquipment = {
+      partsInfo: g_objBagInfo.equipment,
+      partsType: 'equipment'
+    };
+    WebApi.updatePartsInfo(paramEquipment).then((res) => {
+    }).catch((err) => {
+      console.log('onBtnGrowthClick updatePartsInfo Fail.', err);
+    });
+    // 配置参数：更新人物信息
+    const objMemberInfo = GameApi.funComputedMemberInfo(g_objMemberInfo.level);
+    g_objMemberInfo = Common.destructuringAssignment(g_objMemberInfo, objMemberInfo);
+    const paramMemberInfo = {
+      memberInfo: g_objMemberInfo
+    };
+    WebApi.updateMemberInfo(paramMemberInfo).then((res) => {
+      console.log('onBtnGrowthClick updateMemberInfo.success.', res);
+    }).catch((err) => {
+      console.log('onBtnGrowthClick updateMemberInfo.fail.', err);
+    });
   },
   
   // 注册事件
@@ -319,18 +406,6 @@ cc.Class({
     this.renderGrowthListItemColor();
   },
 
-  // 创建一个材料item
-  createMaterialItem: function(objMaterial, nIndex) {
-    console.log('GrowthDialog createMaterialItem', objMaterial);
-    // const node = new cc.Node();
-    // node.x = 0;
-    // node.y = -nIndex * 40;
-    // node.color = GameApi.getPartsInfoColor(objMaterial.id);
-    // const label = node.addComponent(cc.Label);
-    // label.fontSize = 30;
-    // label.string = `${GameApi.getPartsInfoComplete(objMaterial.id).name} ×${objMaterial.total}`;
-  },
-
   // 渲染邮件内容
   renderGrowthContent: function() {
     console.log('GrowthDialog setGrowthContent', this.m_nSelectGrowthIndex);
@@ -347,7 +422,8 @@ cc.Class({
     // 渲染物品名称
     const objGrowth = this.arrGrowthListObject[this.m_nSelectGrowthIndex];
     const objGrowthData = GameApi.getPartsInfoComplete(objGrowth.id);
-    this.m_labelName.getComponent(cc.Label).string = `${objGrowthData.name}(Lv.${objGrowth.level})`;
+    this.m_labelName.getComponent(cc.Label).string = `${objGrowthData.name}(Lv.${objGrowth.level})` + 
+                                                     `${objGrowth.isEquip ? '【已装备】' : ''}`;
     // 渲染物品介绍
     const strContent = `${objGrowthData.introduce}`;
                       //  `${objGrowthData.describe ? ('\n——' + objGrowthData.describe) : ''}`;
@@ -401,30 +477,64 @@ cc.Class({
     this.m_labelUnderstand.color = objGrowthData.understand_up > 0 ? cc.color(0, 255, 0) : cc.color(255, 255, 255);
     
     // 渲染物品升级需要材料
-    // 铜钱
-    this.m_labelMoney.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(g_objMemberInfo.money)}/${GameApi.formatLargeNumber(objGrowth.level * 10000)}`;
-    this.m_labelMoney.color = g_objMemberInfo.money >= objGrowth.level * 10000 ? cc.color(255, 255, 255) : cc.color(255, 0, 0);
-    // 碎片
-    const nIndexSelectPart = g_objBagInfo.equipment.findIndex((item) => {
-      return item.id === String(parseInt(objGrowth.id) + 1);
-    });
-    const nPartTotal = nIndexSelectPart > -1 ? g_objBagInfo.equipment[nIndexSelectPart].total : 0;
-    this.m_labelPart.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(nPartTotal)}/${GameApi.formatLargeNumber(objGrowth.level * 10)}`;  
-    this.m_labelPart.color = nPartTotal >= objGrowth.level * 10 ? cc.color(255, 255, 255) : cc.color(255, 0, 0);
-    // 器灵
-    this.m_labelSoul.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(0)}/${GameApi.formatLargeNumber(objGrowth.level * 10)}`;
-    this.m_labelSoul.color = 0 >= objGrowth.level * 10 ? cc.color(255, 255, 255) : cc.color(255, 0, 0);
+    let bMoneyOK = false;
+    let bPartOK = false;
+    let bSoulOK = true;
+    // 铜钱校验
+    if (objGrowth.level > 0) {
+      this.m_rootMoney.active = true;
+      const nMoneyNeed = objGrowth.level * 2000;
+      this.m_labelMoney.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(g_objMemberInfo.money)}/${GameApi.formatLargeNumber(nMoneyNeed)}`;
+      if (g_objMemberInfo.money >= nMoneyNeed) {
+        this.m_labelMoney.color = cc.color(255, 255, 255);
+        bMoneyOK = true;
+      } else {
+        this.m_labelMoney.color = cc.color(255, 0, 0);
+        bMoneyOK = false;
+      }
+    } else {
+      this.m_rootMoney.active = false;
+      bMoneyOK = true;
+    }
+    // 碎片校验
+    if (objGrowth.level > 10) {
+      this.m_rootPart.active = true;
+      const nIndexSelectPart = g_objBagInfo.equipment.findIndex((item) => {
+        return item.id === String(parseInt(objGrowth.id) + 1);
+      });
+      const nPartTotal = nIndexSelectPart > -1 ? g_objBagInfo.equipment[nIndexSelectPart].total : 0;
+      const nPartNeed = (objGrowth.level - 10) * 2;
+      this.m_labelPart.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(nPartTotal)}/${GameApi.formatLargeNumber(nPartNeed)}`;  
+      if (nPartTotal >= nPartNeed) {
+        this.m_labelPart.color = cc.color(255, 255, 255);
+        bPartOK = true;
+      } else {
+        this.m_labelPart.color = cc.color(255, 0, 0);
+        bPartOK = false;
+      }
+    } else {
+      this.m_rootPart.active = false;
+      bPartOK = true;
+    }
+    // 器灵校验
+    this.m_rootSoul.active = false;
+    // if (objGrowth.level > 20) {
+    //   this.m_rootSoul.active = true;
+    //   const nSoulNeed = (objGrowth.level - 20) * 2;
+    //   this.m_labelSoul.getComponent(cc.Label).string = `${GameApi.formatLargeNumber(0)}/${GameApi.formatLargeNumber(nSoulNeed)}`;
+    //   if (0 >= nSoulNeed) {
+    //     this.m_labelSoul.color = cc.color(255, 255, 255);
+    //     bSoulOK = true;
+    //   } else {
+    //     this.m_labelSoul.color = cc.color(255, 0, 0);
+    //     bSoulOK = false;
+    //   }
+    // } else {
+    //   this.m_rootSoul.active = false;
+    //   bSoulOK = true;
+    // }
 
-    // this.m_labelName.getComponent(cc.Label).string = objGrowthData.name;
-    // this.m_labelContentString.getComponent(cc.Label).string = objGrowthData.introduce;
-    // if (objGrowthData.describe) {
-    //   this.m_labelContentString.getComponent(cc.Label).string += `\n${objGrowthData.describe}`
-    // }
-    // this.isHaveGift = Boolean(objMailSelectData.arrGifts.length);
-    // this.m_labelFrom.getComponent(cc.Label).string = objMailSelectData.strFrom;
-    // this.m_labelContentString.getComponent(cc.Label).string = objMailSelectData.strContent;
-    // for (let i = 0; i < objMailSelectData.arrGifts.length; i++) {
-    //   this.createGiftItem(objMailSelectData.arrGifts[i], i);
-    // }
+    // 最后决定是否可以强化
+    this.isGrowthOK = bMoneyOK && bPartOK && bSoulOK;  
   }
 });

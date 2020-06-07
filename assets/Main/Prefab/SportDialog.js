@@ -133,7 +133,12 @@ cc.Class({
 
   // 渲染自身数据
   renderSportNumber: function() {
-    this.m_labelSportNumber.getComponent(cc.Label).string = String(g_objMemberInfo.sportsNumber < 10000 ? g_objMemberInfo.sportsNumber : '9999+');
+    const arrStrLevel = ['传奇', '王者', '星耀', '钻石', '铂金', '黄金'];
+    if (g_objMemberInfo.sportsNumber <= 5) {
+      this.m_labelSportNumber.getComponent(cc.Label).string = `${arrStrLevel[g_objMemberInfo.sportsNumber]}`;
+    } else {
+      this.m_labelSportNumber.getComponent(cc.Label).string = String(g_objMemberInfo.sportsNumber < 10000 ? g_objMemberInfo.sportsNumber : '9999+');
+    }
   },
 
   // 渲染列表数据

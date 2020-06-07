@@ -9863,8 +9863,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "装备碎片",
-    "_N$string": "装备碎片",
+    "_string": "碎片",
+    "_N$string": "碎片",
     "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -10509,7 +10509,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "BtnSure",
+    "_name": "BtnGrowth",
     "_objFlags": 0,
     "_parent": {
       "__id__": 138
@@ -10918,8 +10918,8 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "7fd25pqYlRKLqKyoXcQZHQC",
-    "handler": "onBtnSureClick",
+    "_componentId": "59a06Nbm6VCjpQe/lnmsNWa",
+    "handler": "onBtnGrowthClick",
     "customEventData": ""
   },
   {
@@ -11313,11 +11313,20 @@
     "m_labelUnderstand": {
       "__id__": 248
     },
+    "m_rootMoney": {
+      "__id__": 257
+    },
     "m_labelMoney": {
       "__id__": 262
     },
+    "m_rootPart": {
+      "__id__": 268
+    },
     "m_labelPart": {
       "__id__": 273
+    },
+    "m_rootSoul": {
+      "__id__": 279
     },
     "m_labelSoul": {
       "__id__": 284

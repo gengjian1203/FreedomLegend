@@ -114,6 +114,7 @@ cc.Class({
   //////////////////////////////////////////////////
   // 渲染比武者的item信息
   setSportListItemData: function(objSportListItemData) {
+    const arrStrLevel = ['传奇', '王者', '星耀', '钻石', '铂金', '黄金'];
     console.log('setSportListItemData', objSportListItemData);
     this.objSportListItemData = objSportListItemData;
     
@@ -122,11 +123,15 @@ cc.Class({
     if (g_objMemberInfo.sportsNumber > 500 && objSportListItemData.sportsNumber <= 5) {
       this.m_btnBattle.active = false;
     }
-    this.m_labelNumber.getComponent(cc.Label).string = `${this.objSportListItemData.sportsNumber}`;
+    
     if (objSportListItemData.sportsNumber <= 5) {
       this.m_sprSign.active = true;
+      this.m_labelNumber.getComponent(cc.Label).string = `${arrStrLevel[this.objSportListItemData.sportsNumber]}`;
       this.m_labelNumber.color = cc.color(236, 177, 172);
+    } else {
+      this.m_labelNumber.getComponent(cc.Label).string = `${this.objSportListItemData.sportsNumber}`;
     }
+    
     this.m_labelName.getComponent(cc.Label).string = `${this.objSportListItemData.nickName}`;
     this.m_labelTaste.getComponent(cc.Label).string = `${GameApi.getTasteString(this.objSportListItemData.level)}`;
     this.m_labelTaste.color = GameApi.getTasteColor(this.objSportListItemData.level);

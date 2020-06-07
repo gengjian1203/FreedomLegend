@@ -109,15 +109,15 @@ function funComputedMemberInfo(level) {
   };
   // 装备属性临时存储器
   const objTempEquipment = {
-    hp_equipment: objEquipmentHat.hp + objEquipmentShoulder.hp + objEquipmentJacket.hp + objEquipmentWeapon.hp + objEquipmentJewelry.hp + objEquipmentShoes.hp,
-    outerAttack_equipment: objEquipmentHat.outerAttack + objEquipmentShoulder.outerAttack + objEquipmentJacket.outerAttack + objEquipmentWeapon.outerAttack + objEquipmentJewelry.outerAttack + objEquipmentShoes.outerAttack,
-    innerAttack_equipment: objEquipmentHat.innerAttack + objEquipmentShoulder.innerAttack + objEquipmentJacket.innerAttack + objEquipmentWeapon.innerAttack + objEquipmentJewelry.innerAttack + objEquipmentShoes.innerAttack,
-    outerDefense_equipment: objEquipmentHat.outerDefense + objEquipmentShoulder.outerDefense + objEquipmentJacket.outerDefense + objEquipmentWeapon.outerDefense + objEquipmentJewelry.outerDefense + objEquipmentShoes.outerDefense,
-    innerDefense_equipment: objEquipmentHat.innerDefense + objEquipmentShoulder.innerDefense + objEquipmentJacket.innerDefense + objEquipmentWeapon.innerDefense + objEquipmentJewelry.innerDefense + objEquipmentShoes.innerDefense,
-    crit_equipment: objEquipmentHat.crit + objEquipmentShoulder.crit + objEquipmentJacket.crit + objEquipmentWeapon.crit + objEquipmentJewelry.crit + objEquipmentShoes.crit,
-    dodge_equipment: objEquipmentHat.dodge + objEquipmentShoulder.dodge + objEquipmentJacket.dodge + objEquipmentWeapon.dodge + objEquipmentJewelry.dodge + objEquipmentShoes.dodge,
-    speed_equipment: objEquipmentHat.speed + objEquipmentShoulder.speed + objEquipmentJacket.speed + objEquipmentWeapon.speed + objEquipmentJewelry.speed + objEquipmentShoes.speed,
-    understand_equipment: objEquipmentHat.understand + objEquipmentShoulder.understand + objEquipmentJacket.understand + objEquipmentWeapon.understand + objEquipmentJewelry.understand + objEquipmentShoes.understand,
+    hp_equipment:           objEquipmentHat.hp +            objEquipmentShoulder.hp +           objEquipmentJacket.hp +           objEquipmentWeapon.hp +           objEquipmentJewelry.hp +            objEquipmentShoes.hp,
+    outerAttack_equipment:  objEquipmentHat.outerAttack +   objEquipmentShoulder.outerAttack +  objEquipmentJacket.outerAttack +  objEquipmentWeapon.outerAttack +  objEquipmentJewelry.outerAttack +   objEquipmentShoes.outerAttack,
+    innerAttack_equipment:  objEquipmentHat.innerAttack +   objEquipmentShoulder.innerAttack +  objEquipmentJacket.innerAttack +  objEquipmentWeapon.innerAttack +  objEquipmentJewelry.innerAttack +   objEquipmentShoes.innerAttack,
+    outerDefense_equipment: objEquipmentHat.outerDefense +  objEquipmentShoulder.outerDefense + objEquipmentJacket.outerDefense + objEquipmentWeapon.outerDefense + objEquipmentJewelry.outerDefense +  objEquipmentShoes.outerDefense,
+    innerDefense_equipment: objEquipmentHat.innerDefense +  objEquipmentShoulder.innerDefense + objEquipmentJacket.innerDefense + objEquipmentWeapon.innerDefense + objEquipmentJewelry.innerDefense +  objEquipmentShoes.innerDefense,
+    crit_equipment:         objEquipmentHat.crit +          objEquipmentShoulder.crit +         objEquipmentJacket.crit +         objEquipmentWeapon.crit +         objEquipmentJewelry.crit +          objEquipmentShoes.crit,
+    dodge_equipment:        objEquipmentHat.dodge +         objEquipmentShoulder.dodge +        objEquipmentJacket.dodge +        objEquipmentWeapon.dodge +        objEquipmentJewelry.dodge +         objEquipmentShoes.dodge,
+    speed_equipment:        objEquipmentHat.speed +         objEquipmentShoulder.speed +        objEquipmentJacket.speed +        objEquipmentWeapon.speed +        objEquipmentJewelry.speed +         objEquipmentShoes.speed,
+    understand_equipment:   objEquipmentHat.understand +    objEquipmentShoulder.understand +   objEquipmentJacket.understand +   objEquipmentWeapon.understand +   objEquipmentJewelry.understand +    objEquipmentShoes.understand,
   };
   // 丹药属性临时存储器
   const objTempMedicine = {

@@ -270,7 +270,7 @@ cc.Class({
       const nInnerDefense = objBagListItemComplete.innerDefense + objBagListItemComplete.innerDefense_up * (objBagListItemComplete.level - 1);
       if (nInnerDefense > 0) {
         nCount++;
-        const strAttr = `外防 + ${nInnerDefense}`;
+        const strAttr = `内防 + ${nInnerDefense}`;
         this.createAttributeLabel(strAttr, nCount);
       }
       // 暴击

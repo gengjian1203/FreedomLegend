@@ -24,14 +24,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 61
+        "__id__": 59
       },
       {
-        "__id__": 62
+        "__id__": 60
       }
     ],
     "_prefab": {
-      "__id__": 63
+      "__id__": 61
     },
     "_opacity": 255,
     "_color": {
@@ -95,23 +95,23 @@
         "__id__": 7
       },
       {
-        "__id__": 26
+        "__id__": 25
       },
       {
-        "__id__": 45
+        "__id__": 43
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 58
+        "__id__": 56
       },
       {
-        "__id__": 59
+        "__id__": 57
       }
     ],
     "_prefab": {
-      "__id__": 60
+      "__id__": 58
     },
     "_opacity": 255,
     "_color": {
@@ -313,11 +313,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 24
+        "__id__": 23
       }
     ],
     "_prefab": {
-      "__id__": 25
+      "__id__": 24
     },
     "_opacity": 255,
     "_color": {
@@ -503,7 +503,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ScrollOpponent",
+    "_name": "ViewOpponent",
     "_objFlags": 0,
     "_parent": {
       "__id__": 7
@@ -520,13 +520,10 @@
       },
       {
         "__id__": 21
-      },
-      {
-        "__id__": 22
       }
     ],
     "_prefab": {
-      "__id__": 23
+      "__id__": 22
     },
     "_opacity": 255,
     "_color": {
@@ -837,32 +834,6 @@
     "_id": ""
   },
   {
-    "__type__": "cc.ScrollView",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 12
-    },
-    "_enabled": true,
-    "horizontal": false,
-    "vertical": true,
-    "inertia": true,
-    "brake": 0.75,
-    "elastic": true,
-    "bounceDuration": 0.23,
-    "scrollEvents": [],
-    "cancelInnerEvents": true,
-    "_N$content": {
-      "__id__": 14
-    },
-    "content": {
-      "__id__": 14
-    },
-    "_N$horizontalScrollBar": null,
-    "_N$verticalScrollBar": null,
-    "_id": ""
-  },
-  {
     "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
@@ -947,20 +918,20 @@
     },
     "_children": [
       {
-        "__id__": 27
+        "__id__": 26
       },
       {
-        "__id__": 31
+        "__id__": 30
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 43
+        "__id__": 41
       }
     ],
     "_prefab": {
-      "__id__": 44
+      "__id__": 42
     },
     "_opacity": 255,
     "_color": {
@@ -1014,20 +985,20 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 26
+      "__id__": 25
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 28
+        "__id__": 27
       },
       {
-        "__id__": 29
+        "__id__": 28
       }
     ],
     "_prefab": {
-      "__id__": 30
+      "__id__": 29
     },
     "_opacity": 255,
     "_color": {
@@ -1081,7 +1052,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 27
+      "__id__": 26
     },
     "_enabled": true,
     "_materials": [
@@ -1111,7 +1082,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 27
+      "__id__": 26
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1146,30 +1117,27 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ScrollPrize",
+    "_name": "ViewPrize",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 26
+      "__id__": 25
     },
     "_children": [
       {
-        "__id__": 32
+        "__id__": 31
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 38
+      },
+      {
         "__id__": 39
-      },
-      {
-        "__id__": 40
-      },
-      {
-        "__id__": 41
       }
     ],
     "_prefab": {
-      "__id__": 42
+      "__id__": 40
     },
     "_opacity": 255,
     "_color": {
@@ -1223,24 +1191,24 @@
     "_name": "Mask",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 31
+      "__id__": 30
     },
     "_children": [
       {
-        "__id__": 33
+        "__id__": 32
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 36
+        "__id__": 35
       },
       {
-        "__id__": 37
+        "__id__": 36
       }
     ],
     "_prefab": {
-      "__id__": 38
+      "__id__": 37
     },
     "_opacity": 255,
     "_color": {
@@ -1294,17 +1262,17 @@
     "_name": "content",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 32
+      "__id__": 31
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 34
+        "__id__": 33
       }
     ],
     "_prefab": {
-      "__id__": 35
+      "__id__": 34
     },
     "_opacity": 255,
     "_color": {
@@ -1358,7 +1326,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 33
+      "__id__": 32
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1396,7 +1364,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 32
+      "__id__": 31
     },
     "_enabled": true,
     "_materials": [
@@ -1416,7 +1384,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 32
+      "__id__": 31
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1454,7 +1422,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 31
+      "__id__": 30
     },
     "_enabled": true,
     "_materials": [
@@ -1480,37 +1448,11 @@
     "_id": ""
   },
   {
-    "__type__": "cc.ScrollView",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 31
-    },
-    "_enabled": true,
-    "horizontal": false,
-    "vertical": true,
-    "inertia": true,
-    "brake": 0.75,
-    "elastic": true,
-    "bounceDuration": 0.23,
-    "scrollEvents": [],
-    "cancelInnerEvents": true,
-    "_N$content": {
-      "__id__": 33
-    },
-    "content": {
-      "__id__": 33
-    },
-    "_N$horizontalScrollBar": null,
-    "_N$verticalScrollBar": null,
-    "_id": ""
-  },
-  {
     "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 31
+      "__id__": 30
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1548,7 +1490,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 26
+      "__id__": 25
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1590,20 +1532,20 @@
     },
     "_children": [
       {
-        "__id__": 46
+        "__id__": 44
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 54
+        "__id__": 52
       },
       {
-        "__id__": 56
+        "__id__": 54
       }
     ],
     "_prefab": {
-      "__id__": 57
+      "__id__": 55
     },
     "_opacity": 255,
     "_color": {
@@ -1657,24 +1599,24 @@
     "_name": "Background",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 45
+      "__id__": 43
     },
     "_children": [
       {
-        "__id__": 47
+        "__id__": 45
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 51
+        "__id__": 49
       },
       {
-        "__id__": 52
+        "__id__": 50
       }
     ],
     "_prefab": {
-      "__id__": 53
+      "__id__": 51
     },
     "_opacity": 255,
     "_color": {
@@ -1728,20 +1670,20 @@
     "_name": "Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 46
+      "__id__": 44
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 48
+        "__id__": 46
       },
       {
-        "__id__": 49
+        "__id__": 47
       }
     ],
     "_prefab": {
-      "__id__": 50
+      "__id__": 48
     },
     "_opacity": 255,
     "_color": {
@@ -1795,7 +1737,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 47
+      "__id__": 45
     },
     "_enabled": true,
     "_materials": [
@@ -1825,7 +1767,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 47
+      "__id__": 45
     },
     "_enabled": true,
     "alignMode": 1,
@@ -1863,7 +1805,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 46
+      "__id__": 44
     },
     "_enabled": true,
     "_materials": [
@@ -1895,7 +1837,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 46
+      "__id__": 44
     },
     "_enabled": true,
     "alignMode": 0,
@@ -1933,7 +1875,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 45
+      "__id__": 43
     },
     "_enabled": true,
     "_normalMaterial": {
@@ -1944,7 +1886,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 55
+        "__id__": 53
       }
     ],
     "_N$interactable": true,
@@ -2012,7 +1954,7 @@
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
     },
     "_N$target": {
-      "__id__": 46
+      "__id__": 44
     },
     "_id": ""
   },
@@ -2031,7 +1973,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 45
+      "__id__": 43
     },
     "_enabled": true,
     "alignMode": 1,
@@ -2176,7 +2118,7 @@
       "__id__": 14
     },
     "m_rootPrize": {
-      "__id__": 33
+      "__id__": 32
     },
     "_id": ""
   },
