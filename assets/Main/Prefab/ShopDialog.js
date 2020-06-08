@@ -21,6 +21,8 @@ cc.Class({
     this.m_dlgPrize = null;
     // 按钮锁
     this.bLockButton = false;
+    // 广告索引值
+    this.nSelectAd = -1;
 
     // 免费铜钱/元宝 剩余时间计时基数
     this.m_nLimitTimeTotal = 300; //   300s  5分钟
@@ -73,6 +75,9 @@ cc.Class({
   // onLoad () {},
 
   start () {
+    // 监听广告结束回调
+    this.initVideoAd();
+    
   },
 
   onEnable () {
@@ -162,17 +167,23 @@ cc.Class({
       return;
     }
     this.bLockButton = true;
-    const arrMoney = [188, 988, 3888, 5888, 18888];
-    const nRandom = Math.floor(Math.random() * 5);
+    this.nSelectAd = 2;
 
-    const arrPrize = [{
-      id: '000002',
-      total: arrMoney[nRandom]
-    }];
-    this.onShowPrizeDlg(arrPrize);
+    // 用户触发广告后，显示激励视频广告
+    g_videoAd.show().then((res) => {
+      this.bLockButton = false;
+    }).catch(() => {
+      // 失败重试
+      g_videoAd.load()
+      .then(() => {
+        g_videoAd.show();
+        this.bLockButton = false;
+      }).catch((err) => {
+        this.showToastDlg('广告显示失败了，请稍后再试~');
+        this.bLockButton = false;
+      });
+    });
 
-    cc.sys.localStorage.setItem('time-limit-money', new Date().getTime());
-    this.funComputedLimitTime();
   },
 
   // 免费获取元宝
@@ -182,17 +193,23 @@ cc.Class({
       return;
     }
     this.bLockButton = true;
-    const arrGold = [6, 98, 188, 348, 648];
-    const nRandom = Math.floor(Math.random() * 5);
+    this.nSelectAd = 1;
 
-    const arrPrize = [{
-      id: '000001',
-      total: arrGold[nRandom]
-    }];
-    this.onShowPrizeDlg(arrPrize);
+    // 用户触发广告后，显示激励视频广告
+    g_videoAd.show().then((res) => {
+      this.bLockButton = false;
+    }).catch(() => {
+      // 失败重试
+      g_videoAd.load()
+      .then(() => {
+        g_videoAd.show();
+        this.bLockButton = false;
+      }).catch((err) => {
+        this.showToastDlg('广告显示失败了，请稍后再试~');
+        this.bLockButton = false;
+      });
+    });
 
-    cc.sys.localStorage.setItem('time-limit-gold', new Date().getTime());
-    this.funComputedLimitTime();
   },
 
   // 抽取装备
@@ -314,4 +331,48 @@ cc.Class({
     this.m_dlgToast.getComponent('ToastDialog').setToastContent(strMsg);
     this.node.addChild(this.m_dlgToast);
   },
+
+  // 
+  initVideoAd: function() {
+    // 广告监听
+    g_videoAd.onClose(res => {
+      // 用户点击了【关闭广告】按钮
+      // 小于 2.1.0 的基础库版本，res 是一个 undefined
+      if (res && res.isEnded || res === undefined) {
+        // 正常播放结束，可以下发游戏奖励
+        // 发放获取随机元宝奖励
+        if (this.nSelectAd === 1) {
+          const arrGold = [98, 188, 328, 648, 648];
+          const nRandom = Math.floor(Math.random() * 5);
+  
+          const arrPrize = [{
+            id: '000001',
+            total: arrGold[nRandom]
+          }];
+          this.onShowPrizeDlg(arrPrize);
+  
+          cc.sys.localStorage.setItem('time-limit-gold', new Date().getTime());
+          this.funComputedLimitTime();
+        }
+        // 发放获取随机铜钱奖励
+        if (this.nSelectAd === 2) {
+          const arrMoney = [1888, 9888, 38888, 58888, 68888];
+          const nRandom = Math.floor(Math.random() * 5);
+
+          const arrPrize = [{
+            id: '000002',
+            total: arrMoney[nRandom]
+          }];
+          this.onShowPrizeDlg(arrPrize);
+
+          cc.sys.localStorage.setItem('time-limit-money', new Date().getTime());
+          this.funComputedLimitTime();
+        }
+      }
+      else {
+        // 播放中途退出，不下发游戏奖励
+        this.showToastDlg('中途关闭视频是没有奖励的哦~');
+      }
+    });
+  }
 });

@@ -181,9 +181,12 @@ cc.Class({
   start () {
     console.log('Main start');
     Common.AdapterScreen(this.m_root);
+    // 隐藏Banner广告
+    this.hideBannerAdvertisement();
     
     this.preRun();
     this.Run();
+
   },
 
   onEnable () {
@@ -646,5 +649,14 @@ cc.Class({
   showBagListDlg: function() {
     this.m_dlgBagList = cc.instantiate(this.m_prefabBagList);
     this.m_root.addChild(this.m_dlgBagList);
+  },
+
+  // 隐藏Banner广告
+  hideBannerAdvertisement: function() {
+    // 在适合的场景隐藏 Banner 广告
+    g_bannerAd.hide().then(() => {
+    }).catch((err) => {
+      console.log('g_bannerAd Error.', err);
+    });
   }
 });

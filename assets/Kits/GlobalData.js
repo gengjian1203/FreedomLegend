@@ -14,6 +14,10 @@ window.g_objBagInfo = {
   pets: [],                       // 宠物蛋列表 - 背包纬度
 }
 
+// 全局广告变量
+window.g_bannerAd = null;         // banner广告
+window.g_videoAd = null;          // 激励广告
+
 // 战斗传值
 window.g_bBattleBtnLock = false; // 战斗锁
 window.g_nChapters = 0; // 记录当前的大章节度

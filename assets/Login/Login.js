@@ -99,6 +99,10 @@ cc.Class({
 
     // 监听被动分享
     this.passiveShare();
+
+    // 初始化广告
+    this.initBannerAdvertisement();
+    this.initRewardedVideoAd();
   },
 
   onEnable () {
@@ -498,5 +502,43 @@ cc.Class({
   hideLineLoading: function() {
     this.lineLoading.destroy();
   },
+
+  // 渲染Banner广告
+  initBannerAdvertisement: function() {
+    // 创建 Banner 广告实例，提前初始化
+    const objSysInfo = wx.getSystemInfoSync();
+    g_bannerAd = wx.createBannerAd({
+      adUnitId: 'adunit-61387ad57cb82dd3',
+      adIntervals: 30, // 自动刷新频率不能小于30秒
+      style: {
+        top: objSysInfo.screenHeight,
+        left: 0,
+        width: objSysInfo.screenWidth
+      }
+    });    
+    // bannerAd 异常
+    g_bannerAd.onError(err => {
+      console.log('g_bannerAd Create Error.', err)
+    })
+
+    // 在适合的场景隐藏 Banner 广告
+    g_bannerAd.hide().then(() => {
+      const nHeight = (g_bannerAd.style.realHeight * objSysInfo.screenWidth) / g_bannerAd.style.realWidth;
+      g_bannerAd.style.top = objSysInfo.screenHeight - nHeight;
+    }).catch((err) => {
+      console.log('g_bannerAd Error.', err);
+    });
+  },
+
+  // 渲染激励广告(元宝)
+  initRewardedVideoAd: function() {
+    g_videoAd = wx.createRewardedVideoAd({
+      adUnitId: 'adunit-cd2bedce51088ecb'
+    });
+    // g_videoAd 异常
+    g_videoAd.onError(err => {
+      console.log('g_videoAd Create Error.', err)
+    })
+  }
 });
 

@@ -289,10 +289,10 @@
       "id": "0201",
       "title": "小有名气1",
       "opponent": [
-        {"_id": "mem-0201-00", "nickName": "江湖宵小", "level": 299, "hp_total": 999999, "outerAttack_total": 999999, "innerAttack_total": 999999, "outerDefense_total": 0, "innerDefense_total": 0, "crit_total": 0, "dodge_total": 0, "speed_total": 0, "understand_total": 0}
+        {"_id": "mem-0201-00", "nickName": "江湖宵小", "level": 299, "hp_total": 9999999999, "outerAttack_total": 9999999999, "innerAttack_total": 9999999999, "outerDefense_total": 9999999999, "innerDefense_total": 9999999999, "crit_total": 9999999999, "dodge_total": 9999999999, "speed_total": 0, "understand_total": 9999999999}
       ],
       "prize": [
-        {"id": "000000", "total": 400}, 
+        {"id": "000000", "total": 500}, 
         {"id": "000002", "total": 100}
       ]
     }]

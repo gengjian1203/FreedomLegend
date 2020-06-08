@@ -65,12 +65,11 @@ cc.Class({
   start () {
     console.log('Preface start');
     Common.AdapterScreen(this.m_root);
+    // 隐藏Banner广告
+    this.hideBannerAdvertisement()
     
     // 文字引导
     this.run();
-
-    // 注册账号
-    // this.createMember();
 
   },
 
@@ -150,6 +149,15 @@ cc.Class({
   run: function() {
     this.m_content.getComponent(cc.Label).string = '';
     this.schedule(this.showContent, 0.2);
+  },
+
+  // 隐藏Banner广告
+  hideBannerAdvertisement: function() {
+    // 在适合的场景隐藏 Banner 广告
+    g_bannerAd.hide().then(() => {
+    }).catch((err) => {
+      console.log('g_bannerAd Error.', err);
+    });
   }
 
 });

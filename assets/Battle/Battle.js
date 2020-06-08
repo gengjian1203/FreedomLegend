@@ -21,9 +21,9 @@ cc.Class({
     this.arrMemberInfoAll = [];
     this.arrPrefabPlayerAll = [];
     // 友方位置信息
-    this.arrFriendsPosition = [cc.v2(-220, -310), cc.v2(-110, -205), cc.v2(-110, -430), cc.v2(-275, -140), cc.v2(-275, -500)];
+    this.arrFriendsPosition = [cc.v2(-220, -210), cc.v2(-110, -105), cc.v2(-110, -330), cc.v2(-275, -40), cc.v2(-275, -400)];
     // 敌方位置信息
-    this.arrOpponentPosition = [cc.v2(220, -310), cc.v2(110, -205), cc.v2(110, -430), cc.v2(275, -140), cc.v2(275, -500)];
+    this.arrOpponentPosition = [cc.v2(220, -210), cc.v2(110, -105), cc.v2(110, -330), cc.v2(275, -40), cc.v2(275, -400)];
     this.arrRoundName = ['阳之阵', '阴之阵'];
     this.arrRoundColor = [cc.color(255, 0, 0), cc.color(0, 0, 255)];
     this.arrAttackAdj = ['张牙舞爪', '手舞足蹈', '眼疾手快', '动如脱兔', '全力以赴', '偷偷摸摸', '兔起鹘落', '轻手轻脚', '步罡踏斗', '楞手楞脚', '进退有度', '神出鬼没', '左右开弓'];
@@ -105,6 +105,9 @@ cc.Class({
   start () {
     console.log('Battle start');
     Common.AdapterScreen(this.m_root);
+    // 展示Banner广告
+    this.showBannerAdvertisement()
+
 
     // 预处理数据数据
     this.computedMemberInfoData();
@@ -463,4 +466,13 @@ cc.Class({
     this.m_root.addChild(dlgLevelup);
     console.log('Battle showLevelupDlg', dlgLevelup, this.m_root);
   },
+
+  // 展示Banner广告
+  showBannerAdvertisement: function() {
+    // 在适合的场景展示 Banner 广告
+    g_bannerAd.show().then(() => {
+    }).catch((err) => {
+      console.log('g_bannerAd Error.', err);
+    });
+  }
 });

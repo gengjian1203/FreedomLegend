@@ -62,6 +62,8 @@ cc.Class({
   start () {
     console.log('World start');
     Common.AdapterScreen(this.m_root);
+    // 展示Banner广告
+    this.showBannerAdvertisement();
 
     // 自定义初始化函数
     this.init();
@@ -232,7 +234,15 @@ cc.Class({
 
     // 渲染该章节的子项数据
     this.renderStoryInfo();
-  }
+  },
 
+  // 展示Banner广告
+  showBannerAdvertisement: function() {
+    // 在适合的场景展示 Banner 广告
+    g_bannerAd.show().then(() => {
+    }).catch((err) => {
+      console.log('g_bannerAd Error.', err);
+    });
+  }
 });
 

@@ -1317,7 +1317,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -280,
+        -130,
         0,
         0,
         0,
@@ -1390,7 +1390,7 @@
     "_right": 0,
     "_top": 150,
     "_bottom": 0,
-    "_verticalCenter": -280,
+    "_verticalCenter": -130,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -1462,8 +1462,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 750,
-      "height": 1334
+      "width": 0,
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1475,7 +1475,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        150,
         0,
         0,
         0,
@@ -4809,12 +4809,12 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 45,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
+    "_alignFlags": 18,
+    "_left": 375,
+    "_right": 375,
+    "_top": 667,
+    "_bottom": 667,
+    "_verticalCenter": 150,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -4867,8 +4867,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 750,
-      "height": 1334
+      "width": 0,
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4880,7 +4880,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        150,
         0,
         0,
         0,
@@ -8214,12 +8214,12 @@
     "_enabled": true,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 45,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
+    "_alignFlags": 18,
+    "_left": 375,
+    "_right": 375,
+    "_top": 667,
+    "_bottom": 667,
+    "_verticalCenter": 150,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
     "_isAbsRight": true,
@@ -8596,7 +8596,7 @@
       "ctor": "Float64Array",
       "array": [
         245,
-        -607,
+        143,
         0,
         0,
         0,
@@ -8982,7 +8982,7 @@
     "_left": 0,
     "_right": 30,
     "_top": 0,
-    "_bottom": 30,
+    "_bottom": 780,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
